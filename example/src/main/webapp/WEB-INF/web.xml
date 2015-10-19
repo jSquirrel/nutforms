@@ -12,6 +12,10 @@
         <servlet-name>LayoutServlet</servlet-name>
         <servlet-class>cz.cvut.fel.nutforms.layout.LayoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdaptiveApiServlet</servlet-name>
+        <servlet-class>cz.cvut.fel.nutforms.example.AdaptiveApiServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>MetadataServlet</servlet-name>
@@ -21,4 +25,13 @@
         <servlet-name>LayoutServlet</servlet-name>
         <url-pattern>/layout/*</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdaptiveApiServlet</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>cz.cvut.fel.nutforms.example.ApplicationContextListener</listener-class>
+    </listener>
+
 </web-app>

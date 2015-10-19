@@ -12,16 +12,92 @@
     <artifactId>example</artifactId>
 
     <dependencies>
+
+        <!-- Other project modules -->
         <dependency>
             <groupId>nutforms</groupId>
             <artifactId>meta</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>nutforms</groupId>
             <artifactId>layout</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <!-- Adaptive RESTful API -->
+        <dependency>
+            <groupId>cz.cvut.fel</groupId>
+            <artifactId>adaptive-restful-api-caching</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cz.cvut.fel</groupId>
+            <artifactId>adaptive-restful-api-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cz.cvut.fel</groupId>
+            <artifactId>adaptive-restful-api-data</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cz.cvut.fel</groupId>
+            <artifactId>adaptive-restful-api-servlet</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cz.cvut.fel</groupId>
+            <artifactId>adaptive-restful-api-security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cz.cvut.fel</groupId>
+            <artifactId>adaptive-restful-api-serialization</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JPA (via Hibernate) -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
+
+        <!-- Hibernate stuff -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>4.3.4.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>4.0.1.Final</version>
+        </dependency>
+
+        <!-- Derby -->
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.10.2.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>
