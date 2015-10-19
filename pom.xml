@@ -8,11 +8,27 @@
     <artifactId>nutforms</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
+    <developers>
+        <developer>
+            <id>klimesf</id>
+            <name>Filip Klimeš</name>
+            <email>filip@filipklimes.cz</email>
+            <url>http://www.filipklimes.cz/</url>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/Prague</timezone>
+        </developer>
+    </developers>
+
     <modules>
         <module>adaptive-api</module>
         <module>meta</module>
         <module>layout</module>
         <module>rule</module>
+        <module>example</module>
     </modules>
 
 
