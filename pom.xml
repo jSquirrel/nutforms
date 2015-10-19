@@ -24,7 +24,6 @@
     </developers>
 
     <modules>
-        <module>adaptive-api</module>
         <module>meta</module>
         <module>layout</module>
         <module>rule</module>
