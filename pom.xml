@@ -33,6 +33,7 @@
         <module>layout</module>
         <module>rule</module>
         <module>example</module>
+        <module>client</module>
     </modules>
 
     <dependencies>
