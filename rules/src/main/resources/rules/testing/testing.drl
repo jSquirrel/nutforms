@@ -1,4 +1,4 @@
-package rules.testing;
+package testing;
 dialect  "mvel"
 
 rule "testing"

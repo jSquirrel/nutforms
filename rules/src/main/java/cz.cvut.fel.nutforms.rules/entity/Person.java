@@ -1,23 +1,23 @@
 package cz.cvut.fel.nutforms.rules.entity;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * An entity representing {@link Account} owner.
  */
-@Entity
+//@Entity
 public class Person {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String firstName;
     private String lastName;
     private int age;
     private String sex;
-    @OneToMany(mappedBy = "owner")
+//    @OneToMany(mappedBy = "owner")
     private Set<Account> accounts = new HashSet<>();
 
     public Long getId() {

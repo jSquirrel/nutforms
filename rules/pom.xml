@@ -17,13 +17,6 @@
     </properties>
 
     <dependencies>
-        <!--JPA-->
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
-            <version>1.0.2</version>
-        </dependency>
-
         <!-- Java Servlet API-->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -51,11 +44,19 @@
             <version>${kie.version}</version>
         </dependency>
 
+        <!-- Gson-->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>1.7.1</version>
+        </dependency>
+
         <!--JUnit-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
