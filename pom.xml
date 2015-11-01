@@ -26,6 +26,15 @@
             </roles>
             <timezone>Europe/Prague</timezone>
         </developer>
+        <developer>
+            <name>Ondřej Kratochvíl</name>
+            <email>kratoon1@fel.cvut.cz</email>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/Prague</timezone>
+        </developer>
     </developers>
 
     <modules>
