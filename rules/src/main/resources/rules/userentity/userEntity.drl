@@ -1,0 +1,34 @@
+// namespace declaration, not related to folders in any way
+package rules.userentity
+
+import cz.cvut.fel.nutforms.rules.entity.UserEntity
+
+// allows using direct access to properties instead of getters/setters
+dialect "mvel"
+
+// global variable
+global String $status;
+
+// password length is between 5 and 20 characters
+rule "Is adult"
+    no-loop
+    when
+        $user : UserEntity(age >= 18)
+    then
+        $user.setValid(true);
+end
+
+rule "Password is long enough"
+    no-loop
+    when
+        $user : UserEntity(password.length() > 5 && password.length() < 20)
+    then
+        $user.setValid(true);
+end
+
+rule "Is verified"
+    no-loop
+    when
+        eval($status == "verified")
+    then
+end

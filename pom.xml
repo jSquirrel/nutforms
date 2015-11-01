@@ -40,7 +40,7 @@
     <modules>
         <module>meta</module>
         <module>layout</module>
-        <module>rule</module>
+        <module>rules</module>
         <module>example</module>
     </modules>
 

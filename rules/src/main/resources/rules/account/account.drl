@@ -1,0 +1,58 @@
+package rules.account
+
+import cz.cvut.fel.nutforms.rules.entity.Account
+import cz.cvut.fel.nutforms.rules.entity.Person
+
+import function cz.cvut.fel.nutforms.rules.functions.GeneralFunctions.isNull
+
+dialect "mvel"
+
+// definition of globally effective constraints which has to
+// be satisfied to the entity be valid in general use-case
+rule "[Account] Validation"
+    when
+        Account(!isNull(owner), yearOfCreation >= 1970, yearOfCreation < 2100)
+    then
+end
+
+// account has not negative current balance
+rule "[Account] In Black"
+    ruleflow-group "single rules"
+    when
+        Account(balance > 0)
+    then
+end
+
+// account has negative current balance
+rule "[Account] In Red"
+    ruleflow-group "single rules"
+    when
+        Account($balance : balance)
+        eval ($balance < 0)
+    then
+end
+
+// account balance is highly positive, the owner is eligible for a bonus
+rule "[Account] Eligible for bonus"
+    ruleflow-group "single rules"
+    when
+        Account(balance >= 1000)
+    then
+end
+
+// accounts created before 2000
+rule "[Account] Deprecated Accounts"
+    ruleflow-group "single rules"
+    when
+        Account(yearOfCreation < 2000)
+    then
+end
+
+// Example 5.52. Return Value Restriction
+rule "[Person] Male age by two years than some woman"
+    ruleflow-group "single rules"
+    when
+        Person( $girlAge : age, sex == "F" )
+        Person( age == ( $girlAge + 2), sex == 'M' )
+    then
+end

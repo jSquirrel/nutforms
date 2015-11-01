@@ -1,4 +1,4 @@
-package cz.cvut.fel.nutforms.rule;
+package cz.cvut.fel.nutforms.rules.servlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

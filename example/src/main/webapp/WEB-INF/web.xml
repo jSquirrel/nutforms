@@ -14,7 +14,7 @@
     </servlet>
     <servlet>
         <servlet-name>RuleServlet</servlet-name>
-        <servlet-class>cz.cvut.fel.nutforms.rule.RuleServlet</servlet-class>
+        <servlet-class>cz.cvut.fel.nutforms.rules.servlet.RuleServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AdaptiveApiServlet</servlet-name>
@@ -31,7 +31,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RuleServlet</servlet-name>
-        <url-pattern>/rule/*</url-pattern>
+        <url-pattern>/rules/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AdaptiveApiServlet</servlet-name>

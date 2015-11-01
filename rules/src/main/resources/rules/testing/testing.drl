@@ -1,0 +1,7 @@
+package rules.testing;
+dialect  "mvel"
+
+rule "testing"
+    when
+    then
+end
