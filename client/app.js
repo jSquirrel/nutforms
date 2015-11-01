@@ -8,4 +8,3 @@ React.render(
     <EntityForm metadata={metadata} />,
     document.getElementById('form')
 );
-
