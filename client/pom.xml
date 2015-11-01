@@ -12,4 +12,6 @@
 
     <artifactId>client</artifactId>
 
+    <!-- TODO: run gulp to build project files into src/main/resources -->
+
 </project>
