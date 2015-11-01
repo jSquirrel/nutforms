@@ -26,12 +26,21 @@
             </roles>
             <timezone>Europe/Prague</timezone>
         </developer>
+        <developer>
+            <name>Ondřej Kratochvíl</name>
+            <email>kratoon1@fel.cvut.cz</email>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/Prague</timezone>
+        </developer>
     </developers>
 
     <modules>
         <module>meta</module>
         <module>layout</module>
-        <module>rule</module>
+        <module>rules</module>
         <module>example</module>
         <module>client</module>
     </modules>
