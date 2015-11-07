@@ -36,7 +36,7 @@ gulp.task('deploy', function () {
 // It will start watching for changes in every .js file.
 // If there's a change, the task 'scripts' defined above will fire.
 gulp.task('default', function () {
-    gulp.watch(['./**/*.js', '!./src/main/resources/*.js'], ['scripts']);
+    gulp.watch(['./**/*.js', '!./src/main/webapp/*.js'], ['scripts']);
 });
 
 // Private Functions
@@ -62,7 +62,7 @@ function bundleApp(isProduction) {
             .bundle()
             .on('error', gutil.log)
             .pipe(source('vendors.js'))
-            .pipe(gulp.dest('./src/main/resources/js/'));
+            .pipe(gulp.dest('./src/main/webapp/js/'));
     }
     if (!isProduction) {
         // make the dependencies external so they dont get bundled by the
@@ -79,8 +79,8 @@ function bundleApp(isProduction) {
         .bundle()
         .on('error', gutil.log)
         .pipe(source('bundle.js'))
-        .pipe(gulp.dest('./src/main/resources/js/'));
+        .pipe(gulp.dest('./src/main/webapp/js/'));
 
-    // Copy index.html to src/main/resources
-    gulp.src('index.html').pipe(gulp.dest('./src/main/resources/'));
+    // Copy index.html to src/main/webapp
+    gulp.src('index.html').pipe(gulp.dest('./src/main/webapp/'));
 }
