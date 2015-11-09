@@ -6,6 +6,11 @@ import NumberInput from './NumberInput.js';
 
 export default class EntityForm extends React.Component {
 
+    /**
+     * EntityForm constructor.
+     *
+     * @param {object} props
+     */
     constructor(props) {
         super(props);
         this.state = {data: {}, sections: []};
@@ -106,3 +111,12 @@ export default class EntityForm extends React.Component {
     }
 
 }
+
+/**
+ * Property types definition for EntityForm.
+ *
+ * @type {object}
+ */
+EntityForm.propTypes = {
+    entityMetadata: React.PropTypes.object.isRequired
+};
