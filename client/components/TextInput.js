@@ -6,7 +6,7 @@ export default class TextInput extends React.Component {
     constructor(props) {
         super(props);
         // TODO: load field value from EntityMetadata
-        // this.state = {value: 'Hello!'};
+        this.state = {value: null};
         this.handleChange = this.handleChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
     }
