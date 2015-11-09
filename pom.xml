@@ -42,6 +42,7 @@
         <module>layout</module>
         <module>rules</module>
         <module>example</module>
+        <module>client</module>
     </modules>
 
     <dependencies>
