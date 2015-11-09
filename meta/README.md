@@ -1,4 +1,13 @@
-export const metadata = {
+# nutforms/meta
+
+Provides MetadataServlet, which serves entity metadata.
+
+## Example
+
+```GET localhost:8080/meta/class/cz.cvut.fel.nutforms.example.model.Bug```
+
+```
+{
     "attributes": [
         {
             "name": "description",
@@ -28,4 +37,5 @@ export const metadata = {
             "target_entity": "cz.cvut.fel.nutforms.example.model.Project"
         }
     ]
-};
+}
+```
