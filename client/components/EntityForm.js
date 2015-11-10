@@ -70,7 +70,7 @@ export default class EntityForm extends React.Component {
         let sections = {};
 
         /** @var {EntityMetadata} metadata */
-        let metadata = this.props.metadata;
+        let metadata = this.props.model.getEntityMetadata();
 
         metadata.getFields().forEach((attribute) => {
 
@@ -118,5 +118,5 @@ export default class EntityForm extends React.Component {
  * @type {object}
  */
 EntityForm.propTypes = {
-    entityMetadata: React.PropTypes.object.isRequired
+    model: React.PropTypes.object.isRequired
 };
