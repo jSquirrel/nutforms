@@ -1,17 +1,17 @@
 package cz.cvut.fel.nutforms.rules.entity;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 
 /**
  * An entity representing a bank account.
  */
-@Entity
+//@Entity
 public class Account {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
+//    @ManyToOne
     private Person owner;
     private int balance;
     private int yearOfCreation;

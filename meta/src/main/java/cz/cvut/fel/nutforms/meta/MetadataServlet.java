@@ -31,7 +31,7 @@ public class MetadataServlet extends HttpServlet {
         if (entity == null) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             resp.setHeader("Content-type", "text/plain");
-            resp.getWriter().print("Entity with given name does not exist.");
+            resp.getWriter().print("Entity with name " + metadataRouter.getEntityName() + " does not exist.");
             return;
         }
 

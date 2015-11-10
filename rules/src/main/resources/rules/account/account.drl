@@ -1,4 +1,4 @@
-package rules.account
+package account
 
 import cz.cvut.fel.nutforms.rules.entity.Account
 import cz.cvut.fel.nutforms.rules.entity.Person

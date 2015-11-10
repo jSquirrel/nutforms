@@ -1,5 +1,5 @@
 // namespace declaration, not related to folders in any way
-package rules.userentity
+package userentity
 
 import cz.cvut.fel.nutforms.rules.entity.UserEntity
 
