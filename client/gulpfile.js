@@ -48,7 +48,7 @@ function bundleApp(isProduction) {
     var appBundler = browserify({
         entries: 'app.js',
         debug: true
-    })
+    });
 
     // If it's not for production, a separate vendors.js file will be created
     // so that we don't have to rebundle things like react everytime there's a

@@ -28,7 +28,7 @@
 
         <dependency>
             <groupId>nutforms</groupId>
-            <artifactId>rule</artifactId>
+            <artifactId>rules</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 

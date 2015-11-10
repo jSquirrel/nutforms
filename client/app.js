@@ -1,8 +1,10 @@
 import fetch from 'node-fetch';
 import React from 'react';
-import EntityMetadataFactory from './model/EntityMetadataFactory.js';
+import EntityMetadataFactory from './model/entity/EntityMetadataFactory.js';
 import EntityForm from './components/EntityForm.js';
-
+/**
+ * @jsx React.DOM
+ */
 // TODO: parametrize the entity name
 let entityName = "cz.cvut.fel.nutforms.example.model.Bug";
 

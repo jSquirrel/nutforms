@@ -20,6 +20,10 @@
         <servlet-name>AdaptiveApiServlet</servlet-name>
         <servlet-class>cz.cvut.fel.nutforms.example.AdaptiveApiServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RuleServlet</servlet-name>
+        <servlet-class>cz.cvut.fel.nutforms.rules.servlet.RuleServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>MetadataServlet</servlet-name>
@@ -32,6 +36,10 @@
     <servlet-mapping>
         <servlet-name>AdaptiveApiServlet</servlet-name>
         <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RuleServlet</servlet-name>
+        <url-pattern>/rules/*</url-pattern>
     </servlet-mapping>
 
     <listener>
