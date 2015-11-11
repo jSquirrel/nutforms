@@ -3,13 +3,22 @@ import React from 'react';
 import EntityMetadataFactory from './model/entity/EntityMetadataFactory.js';
 import ContextFactory from './model/context/ContextFactory.js';
 import Model from './model/Model.js';
-import EntityForm from './components/EntityForm.js';
+//import EntityForm from './components/EntityForm.js';
+import Observable from './model/Observable';
+
+let observable = new Observable();
+let observer = {
+    update: () => {
+        var args = Array.prototype.slice.call( arguments, 0 );
+        console.log("update() called on observer with parameters", args);
+    }
+};
 
 // TODO: parametrize the entity name
 let entityName = "cz.cvut.fel.nutforms.example.model.Bug";
 let contextLocation = "account";
 
-function renderComponent(entity, contextPath) {
+(function (entity, contextPath) {
 
     let entityMetadata = EntityMetadataFactory.create(entity);
     let context = ContextFactory.create(contextPath);
@@ -23,6 +32,4 @@ function renderComponent(entity, contextPath) {
 
 
         })
-}
-
-renderComponent(entityName, contextLocation);
+})(entityName, contextLocation);
