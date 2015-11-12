@@ -65,5 +65,19 @@ describe('model.Observable', function () {
             assert.equal("value", observerFuncCalledWith[1]);
             assert.equal(1, observerFuncCalledTimes);
         });
+
+        it('should update observer registered to all when any event is triggered', function () {
+            let observable = new Observable();
+            let observer = new ObserverMock();
+            observable.listen("all", observer);
+            observable.trigger("field_changed", "field_name", "value");
+
+            // When subscribed to "all", the event name is passed as first argument
+            assert.equal("field_changed", observer.calledWith[0]);
+            assert.equal("field_name", observer.calledWith[1]);
+            assert.equal("value", observer.calledWith[2]);
+            assert.equal(1, observer.calledTimes);
+        });
+
     });
 });

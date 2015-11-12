@@ -4,7 +4,9 @@ export default class Observable {
      * Observable constructor.
      */
     constructor() {
-        this._observers = {};
+        this._observers = {
+            "all": []
+        };
     }
 
     /**
@@ -43,7 +45,22 @@ export default class Observable {
      */
     trigger(event, argument) {
         let args = Array.prototype.slice.call(arguments, 1);
-        this._observers[event].forEach((observer) => {
+        if (event !== "all" && this._observers.hasOwnProperty(event)) {
+            this._invokeObservers(event, args);
+        }
+        args.unshift(event);
+        this._invokeObservers("all", args);
+    }
+
+    /**
+     * Invokes all observers subscribed to given event name.
+     *
+     * @param {string} eventName
+     * @param {Array} args
+     * @private
+     */
+    _invokeObservers(eventName, args) {
+        this._observers[eventName].forEach((observer) => {
             if (typeof observer === 'object') {
                 observer.update(...args);
             } else {
