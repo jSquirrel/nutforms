@@ -1,13 +1,15 @@
-export default class Observable {
+/**
+ * Observable trait.
+ * Allows object decorated with this trait to be listened to by observers.
+ * It also allows to trigger events upon the Observable object.
+ *
+ * @property {Array} _observers
+ */
+let Observable = {
 
-    /**
-     * Observable constructor.
-     */
-    constructor() {
-        this._observers = {
-            "all": []
-        };
-    }
+    _observers: {
+        "all": []
+    },
 
     /**
      * Subscribes an observer object or function to an event of the Observable.
@@ -20,7 +22,7 @@ export default class Observable {
             this._observers[event] = [];
         }
         this._observers[event].push(observer);
-    }
+    },
 
     /**
      * Unsubscribes an observer object or function from an event of the Observable.
@@ -35,7 +37,7 @@ export default class Observable {
         this._observers[event] = this._observers[event].filter((i) => {
             return i !== observer;
         });
-    }
+    },
 
     /**
      * Triggers an event with given name and with given parameters on the Observable.
@@ -50,7 +52,7 @@ export default class Observable {
         }
         args.unshift(event);
         this._invokeObservers("all", args);
-    }
+    },
 
     /**
      * Invokes all observers subscribed to given event name.
@@ -69,4 +71,6 @@ export default class Observable {
         });
     }
 
-}
+};
+
+export default Observable;

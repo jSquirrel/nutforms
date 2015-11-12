@@ -1,24 +1,24 @@
-/**
- * Created by Ondřej Kratochvíl on 10.11.15.
- */
+import reactMixin from 'react-mixin';
+import Observable from './Observable.js';
+
+
 export default class Model {
 
     /**
-     * Model constructor
+     * Model constructor.
      *
-     * @param {EntityMetadata} entityMetadata
-     * @param {Context} context
+     * @param {string} className
+     * @param {string} context
+     * @param {*} id
+     * @param {Attribute[]} attributes
      */
-    constructor(entityMetadata, context) {
-        this._entityMetadata = entityMetadata;
-        this._context = context;
+    constructor(className, context, id, attributes) {
+        this.className = className;
+        this.context = context;
+        this.id = id;
+        this.attributes = attributes;
     }
 
-    getEntityMetadata() {
-        return this._entityMetadata;
-    }
-
-    getContext() {
-        return this._context;
-    }
 }
+
+reactMixin(Model.prototype, Observable);
