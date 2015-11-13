@@ -4,7 +4,7 @@
   "description": "Rich Client of Nutforms.",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --compilers js:mocha-babel $(find test -name '*.js')"
   },
   "keywords": [
     "jsx",
@@ -14,15 +14,22 @@
   "author": "Filip Klimeš <filip@filipklimes.cz>",
   "license": "MIT",
   "devDependencies": {
+    "babel": "^6.0.15",
+    "babel-core": "^6.1.4",
+    "babel-runtime": "^6.1.4",
     "babelify": "^6.1.2",
     "browserify": "^10.2.4",
+    "chai": "^3.4.1",
     "gulp": "^3.9.0",
     "gulp-util": "^3.0.6",
+    "mocha": "^2.3.3",
+    "mocha-babel": "^3.0.0",
     "reactify": "^1.1.1",
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
     "node-fetch": "^1.3.3",
-    "react": "^0.13.3"
+    "react": "^0.13.3",
+    "react-mixin": "^2.0.2"
   }
 }
