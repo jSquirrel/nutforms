@@ -53,12 +53,15 @@ describe('model.Observable', function () {
             observable.listen("field_changed", observer);
             observable.trigger("field_changed", "field_name", "value");
 
-            assert.equal("field_name", observer.calledWith[0]);
-            assert.equal("value", observer.calledWith[1]);
+            // The event name is always passed as first argument to observer objects
+            assert.equal("field_changed", observer.calledWith[0]);
+            assert.equal("field_name", observer.calledWith[1]);
+            assert.equal("value", observer.calledWith[2]);
             assert.equal(1, observer.calledTimes);
         });
 
         it('should update observer function when called', function () {
+            observerFuncCalledTimes = 0;
             let observable = new Observable();
             observable.listen("field_changed", observerFunc);
             observable.trigger("field_changed", "field_name", "value");
@@ -69,16 +72,16 @@ describe('model.Observable', function () {
         });
 
         it('should update observer registered to all when any event is triggered', function () {
+            observerFuncCalledTimes = 0;
             let observable = new Observable();
             let observer = new ObserverMock();
-            observable.listen("all", observer);
+            observable.listen("all", observerFunc);
             observable.trigger("field_changed", "field_name", "value");
 
-            // When subscribed to "all", the event name is passed as first argument
-            assert.equal("field_changed", observer.calledWith[0]);
-            assert.equal("field_name", observer.calledWith[1]);
-            assert.equal("value", observer.calledWith[2]);
-            assert.equal(1, observer.calledTimes);
+            assert.equal("field_changed", observerFuncCalledWith[0]);
+            assert.equal("field_name", observerFuncCalledWith[1]);
+            assert.equal("value", observerFuncCalledWith[2]);
+            assert.equal(1, observerFuncCalledTimes);
         });
 
     });

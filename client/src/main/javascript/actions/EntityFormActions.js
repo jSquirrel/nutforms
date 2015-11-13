@@ -1,3 +1,6 @@
+import * as AttributeActions from './../constants/AttributeActions.js';
+
+
 export default class EntityFormActions {
 
     /**
@@ -7,9 +10,19 @@ export default class EntityFormActions {
      * @param {string} value
      */
     static fieldChanged(attribute, name, value) {
-        // TODO: this one could be used for e.g. characters remaining validation
-        //console.log(`EntityFormActions.fieldChanged(${name}, ${value})`);
+
         attribute.setValue(value);
+
+        // TODO: remove, this is only temporary
+        let remaining = 150 - value.length;
+        attribute.trigger(AttributeActions.ATTRIBUTE_VALIDATED, {
+            validation: {
+                errors: [],
+                info: [
+                    `${remaining} characters remaining`
+                ]
+            }
+        });
     }
 
     /**
@@ -24,7 +37,7 @@ export default class EntityFormActions {
         attribute.setValue(value);
     }
 
-    static formSubmitted(attribute, values) {
+    static formSubmitted(model, values) {
         console.log(`EntityFormActions.formSubmitted(${values})`);
         // TODO: set values
     }

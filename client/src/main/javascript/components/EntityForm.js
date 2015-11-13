@@ -17,6 +17,8 @@ export default class EntityForm extends React.Component {
         this.model = props.model;
         this.state = {data: {}, sections: []};
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onAttributeChanged = this.onAttributeChanged.bind(this);
+        this.onAttributeValidated = this.onAttributeValidated.bind(this);
     }
 
     /**
@@ -28,7 +30,6 @@ export default class EntityForm extends React.Component {
      * @param {*} value
      */
     onFieldChange(attribute, name, value) {
-        console.log("onFieldChange this", this);
         EntityFormActions.fieldChanged(attribute, name, value);
     }
 
@@ -41,7 +42,6 @@ export default class EntityForm extends React.Component {
      * @param {*} value
      */
     onFieldSave(attribute, name, value) {
-        console.log("onFieldSave this", this);
         EntityFormActions.fieldSaved(attribute, name, value);
     }
 
@@ -59,9 +59,27 @@ export default class EntityForm extends React.Component {
             values[key] = this.refs[key].state.value;
         });
 
-        console.log('EntityForm submitted with values: ', values);
+        //console.log('EntityForm submitted with values: ', values);
 
         EntityFormActions.formSubmitted(this.model, values);
+    }
+
+    /**
+     * Callback for when attribute changes.
+     *
+     * @param {Attribute} attribute
+     */
+    onAttributeChanged(attribute) {
+        //console.log(`EntityForm.onAttributeChanged() called`, attribute);
+    }
+
+    /**
+     * Callback for when attribute is validated.
+     *
+     * @param {Attribute} attribute
+     */
+    onAttributeValidated(attribute) {
+        //console.log(`EntityForm.onAttributeValidated() called`, attribute);
     }
 
     /**
@@ -74,7 +92,6 @@ export default class EntityForm extends React.Component {
         let sections = {};
         Object.keys(this.model.attributes).forEach((key) => {
             let attribute = this.model.attributes[key];
-            attribute.listen(AttributeActions.FIELD_CHANGED, this.onAttributeChanged);
 
             switch (attribute.type) {
                 case "java.lang.String":
@@ -113,15 +130,6 @@ export default class EntityForm extends React.Component {
                 <button type="submit" className="btn btn-default" onClick={this.handleSubmit}>Submit</button>
             </form>
         );
-    }
-
-    /**
-     * Callback for when attribute changes.
-     *
-     * @param {Attribute} attribute
-     */
-    onAttributeChanged(attribute) {
-        console.log(`EntityForm.onAttributeChanged() called`, attribute);
     }
 
 }

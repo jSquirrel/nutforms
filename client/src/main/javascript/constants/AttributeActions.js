@@ -1,1 +1,2 @@
-export const FIELD_CHANGED = 'field-changed';
+export const VALUE_CHANGED = 'value-changed';
+export const ATTRIBUTE_VALIDATED = 'attribute-validated';

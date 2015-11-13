@@ -59,9 +59,9 @@ export default class Observable {
     _invokeObservers(eventName, args) {
         this._observers[eventName].forEach((observer) => {
             if (typeof observer === 'object') {
-                observer.update(...args);
+                observer.update.apply(observer, [eventName, ...args]);
             } else {
-                observer(...args);
+                observer.apply(observer, args);
             }
         });
     }

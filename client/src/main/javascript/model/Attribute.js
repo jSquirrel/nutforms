@@ -24,7 +24,7 @@ export default class Attribute extends Observable {
      */
     setValue(value) {
         this.value = value;
-        this.trigger(AttributeActions.FIELD_CHANGED, this);
+        this.trigger(AttributeActions.VALUE_CHANGED, this);
     }
 
 }
