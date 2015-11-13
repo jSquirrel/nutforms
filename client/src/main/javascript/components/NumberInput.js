@@ -10,8 +10,7 @@ export default class NumberInput extends React.Component {
      */
     constructor(props) {
         super(props);
-        // TODO: load field value from EntityMetadata
-        this.state = {value: null};
+        this.state = {value: this.props.attribute.value};
         this.handleChange = this.handleChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
     }
