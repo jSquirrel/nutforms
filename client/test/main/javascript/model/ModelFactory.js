@@ -1,5 +1,4 @@
 import assert from 'assert';
-import reactMixin from 'react-mixin';
 import ModelFactory from '../../../../src/main/javascript/model/ModelFactory.js';
 
 let className = "cz.cvut.fel.nutforms.example.model.Bug";

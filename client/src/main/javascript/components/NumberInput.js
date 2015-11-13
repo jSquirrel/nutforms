@@ -23,7 +23,7 @@ export default class NumberInput extends React.Component {
      */
     handleChange(event) {
         console.log(`NumberInput (${this.props.name}) value changed to: ${event.target.value}`);
-        this.props.onChange(this.props.name, event.target.value);
+        this.props.onChange(this.props.attribute, this.props.name, event.target.value);
         this.setState({value: event.target.value});
     }
 
@@ -34,7 +34,7 @@ export default class NumberInput extends React.Component {
      */
     handleSave(event) {
         console.log(`NumberInput (${this.props.name}) value saved to: ${event.target.value}`);
-        this.props.onSave(this.props.name, event.target.value);
+        this.props.onSave(this.props.attribute, this.props.name, event.target.value);
         this.setState({value: event.target.value});
     }
 
@@ -66,7 +66,8 @@ export default class NumberInput extends React.Component {
  * @type {object}
  */
 NumberInput.propTypes = {
-    name: React.PropTypes.string.isRequired
+    attribute: React.PropTypes.object.isRequired
+    , name: React.PropTypes.string.isRequired
     , value: React.PropTypes.number
     , onChange: React.PropTypes.func.isRequired
     , onSave: React.PropTypes.func.isRequired

@@ -1,8 +1,7 @@
-import reactMixin from 'react-mixin';
 import Observable from './Observable.js';
 
 
-export default class Model {
+export default class Model extends Observable {
 
     /**
      * Model constructor.
@@ -14,6 +13,7 @@ export default class Model {
      * @param {Relation[]} relations
      */
     constructor(className, context, id, attributes, relations) {
+        super();
         this.className = className;
         this.context = context;
         this.id = id;
@@ -70,5 +70,3 @@ export default class Model {
     }
 
 }
-
-reactMixin(Model.prototype, Observable);

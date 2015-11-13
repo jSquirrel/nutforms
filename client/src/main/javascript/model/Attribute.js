@@ -1,8 +1,7 @@
-import reactMixin from 'react-mixin';
 import Observable from './Observable.js';
+import * as AttributeActions from './../constants/AttributeActions.js';
 
-
-export default class Attribute {
+export default class Attribute extends Observable {
 
     /**
      * Attribute constructor.
@@ -12,11 +11,20 @@ export default class Attribute {
      * @param {*} value
      */
     constructor(name, type, value) {
+        super();
         this.name = name;
         this.type = type;
         this.value = value;
     }
 
-}
+    /**
+     * Sets value to given value and triggers AttributeActions.FIELD_CHANGED event.
+     *
+     * @param {*} value
+     */
+    setValue(value) {
+        this.value = value;
+        this.trigger(AttributeActions.FIELD_CHANGED, this);
+    }
 
-reactMixin(Attribute.prototype, Observable);
+}

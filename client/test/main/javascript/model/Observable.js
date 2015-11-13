@@ -1,10 +1,5 @@
 import assert from 'assert';
-import reactMixin from 'react-mixin';
 import Observable from '../../../../src/main/javascript/model/Observable.js';
-
-
-class ObservableMock {}
-reactMixin(ObservableMock.prototype, Observable);
 
 class ObserverMock {
     constructor() {
@@ -31,7 +26,7 @@ function observerFunc() {
 describe('model.Observable', function () {
     describe('#listen()', function () {
         it('should save observer to inner list when called', function () {
-            let observable = new ObservableMock();
+            let observable = new Observable();
             let observer = {};
             observable.listen("change", observer);
             assert.equal(observer, observable._observers["change"][0]);
@@ -40,7 +35,7 @@ describe('model.Observable', function () {
 
     describe('#unsubscribe()', function () {
         it('should remove observer from inner list when called', function () {
-            let observable = new ObservableMock();
+            let observable = new Observable();
             let observer = {};
             observable.listen("change", observer);
             observable.unsubscribe("change", observer);
@@ -54,7 +49,7 @@ describe('model.Observable', function () {
 
             let observer = new ObserverMock();
 
-            let observable = new ObservableMock();
+            let observable = new Observable();
             observable.listen("field_changed", observer);
             observable.trigger("field_changed", "field_name", "value");
 
@@ -64,7 +59,7 @@ describe('model.Observable', function () {
         });
 
         it('should update observer function when called', function () {
-            let observable = new ObservableMock();
+            let observable = new Observable();
             observable.listen("field_changed", observerFunc);
             observable.trigger("field_changed", "field_name", "value");
 
@@ -74,7 +69,7 @@ describe('model.Observable', function () {
         });
 
         it('should update observer registered to all when any event is triggered', function () {
-            let observable = new ObservableMock();
+            let observable = new Observable();
             let observer = new ObserverMock();
             observable.listen("all", observer);
             observable.trigger("field_changed", "field_name", "value");

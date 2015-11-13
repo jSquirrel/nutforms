@@ -1,22 +1,32 @@
 export default class EntityFormActions {
 
-    static fieldChanged(name, value) {
-        // TODO: on field changed
-        // TODO: add action dispatching
+    /**
+     *
+     * @param {Attribute} attribute
+     * @param {string} name
+     * @param {string} value
+     */
+    static fieldChanged(attribute, name, value) {
         // TODO: this one could be used for e.g. characters remaining validation
-        console.log(`EntityFormActions.fieldChanged(${name}, ${value})`);
+        //console.log(`EntityFormActions.fieldChanged(${name}, ${value})`);
+        attribute.setValue(value);
     }
 
-    static fieldSaved(name, value) {
-        // TODO: on field saved
-        // TODO: add action dispatching
+    /**
+     *
+     * @param {Attribute} attribute
+     * @param {string} name
+     * @param {string} value
+     */
+    static fieldSaved(attribute, name, value) {
         // TODO: this one could be used for e.g. email address validation
-        console.log(`EntityFormActions.fieldSaved(${name}, ${value})`);
+        //console.log(`EntityFormActions.fieldSaved(${name}, ${value})`);
+        attribute.setValue(value);
     }
 
-    static formSubmitted(values) {
-        // TODO: on form submitted
-        // TODO: add action dispatching
+    static formSubmitted(attribute, values) {
+        console.log(`EntityFormActions.formSubmitted(${values})`);
+        // TODO: set values
     }
 
 }

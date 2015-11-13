@@ -29,7 +29,6 @@
   },
   "dependencies": {
     "node-fetch": "^1.3.3",
-    "react": "^0.13.3",
-    "react-mixin": "^2.0.2"
+    "react": "^0.13.3"
   }
 }
