@@ -69,36 +69,38 @@ export default class EntityForm extends React.Component {
 
         let sections = {};
 
-        /** @var {EntityMetadata} metadata */
-        let metadata = this.props.model.getEntityMetadata();
+        /** @var {Model} model */
+        let model = this.props.model;
 
-        metadata.getFields().forEach((attribute) => {
-
-            switch (attribute.getType()) {
+        console.log(model);
+        Object.keys(model.attributes).forEach((key) => {
+            let attribute = model.attributes[key];
+            switch (attribute.type) {
                 case "java.lang.String":
-                    sections[attribute.getName()] =
+                    sections[attribute.name] =
                         <TextInput
-                            name={attribute.getName()}
-                            key={attribute.getName()}
+                            name={attribute.name}
+                            key={attribute.name}
                             onChange={this.onFieldChange}
                             onSave={this.onFieldSave}
-                            ref={attribute.getName()}
+                            ref={attribute.name}
                         />;
                     return;
 
                 case "java.lang.Long":
-                    sections[attribute.getName()] =
+                    sections[attribute.name] =
                         <NumberInput
-                            name={attribute.getName()}
-                            key={attribute.getName()}
+                            name={attribute.name}
+                            key={attribute.name}
                             onChange={this.onFieldChange}
                             onSave={this.onFieldSave}
-                            ref={attribute.getName()}
+                            ref={attribute.name}
                         />;
                     return;
             }
-
         });
+
+        // TODO: relations
 
         this.sections = sections;
 

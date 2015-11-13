@@ -1,26 +1,59 @@
 import fetch from 'node-fetch';
 import React from 'react';
-//import EntityMetadataFactory from './model/entity/EntityMetadataFactory.js';
-//import ContextFactory from './model/context/ContextFactory.js';
 import Model from './model/Model.js';
-//import EntityForm from './components/EntityForm.js';
+import EntityForm from './components/EntityForm.js';
+import ModelFactory from './model/ModelFactory.js';
 
-// TODO: parametrize the entity name
-//let entityName = "cz.cvut.fel.nutforms.example.model.Bug";
-//let contextLocation = "account";
-//
-//(function (entity, contextPath) {
-//
-//    let entityMetadata = EntityMetadataFactory.create(entity);
-//    let context = ContextFactory.create(contextPath);
-//    Promise.all([entityMetadata, context])
-//        .then(function (values) {
-//            // toDo: ensure that return values are ordered correctly
-//            React.render(
-//                <EntityForm model={new Model(values[0], values[1])}/>,
-//                document.getElementById('form')
-//            );
-//
-//
-//        })
-//})(entityName, contextLocation);
+// TODO: load from API
+let id = 1;
+let className = "cz.cvut.fel.nutforms.example.model.Bug";
+let metadata = {
+    "attributes": [
+        {
+            "name": "description",
+            "type": "java.lang.String",
+            "is_primary": false
+        },
+        {
+            "name": "log",
+            "type": "java.lang.String",
+            "is_primary": false
+        },
+        {
+            "name": "id",
+            "type": "java.lang.Long",
+            "is_primary": true
+        },
+        {
+            "name": "localizedDescription",
+            "type": "java.lang.String",
+            "is_primary": false
+        }
+    ],
+    "relationships": [
+        {
+            "name": "project",
+            "type": "ToOne",
+            "target_entity": "cz.cvut.fel.nutforms.example.model.Project"
+        }
+    ]
+};
+let entityName = "cz.cvut.fel.nutforms.example.model.Bug";
+let data = {
+    "description": "Lorem Ipsum",
+    "log": "Lorem Ipsum",
+    "id": 1,
+    "localizedDescription": "Lorem Ipsum",
+    "project": 1
+};
+let contextLocation = "account";
+
+(function (entity, contextPath) {
+
+    let modelFactory = new ModelFactory();
+    let model = modelFactory.create(className, id, metadata, data);
+    React.render(
+        <EntityForm model={model}/>,
+        document.getElementById('form')
+    );
+})(entityName, contextLocation);
