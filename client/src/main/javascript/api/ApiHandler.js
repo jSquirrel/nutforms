@@ -51,13 +51,17 @@ export default class ApiHandler {
      */
     fetchDataFor(className, id) {
 
-        return Promise.resolve(fetch(this._buildUrl('api/' + className.split(".").pop() + '/' + id), {
-                headers: {
-                    Authorization: "Basic " + Base64.encode(this.apiUser + ":" + this.apiPassword)
-                    , Accept: "application/json;charset=UTF-8"
-                    , "Content-type": "application/json;charset=UTF-8"
-                }
-            }))
+        if (id === null) {
+            return Promise.resolve({});
+        }
+
+        return fetch(this._buildUrl('api/' + className.split(".").pop() + '/' + id), {
+            headers: {
+                Authorization: "Basic " + Base64.encode(this.apiUser + ":" + this.apiPassword)
+                , Accept: "application/json;charset=UTF-8"
+                , "Content-type": "application/json;charset=UTF-8"
+            }
+        })
             .then(this._toJson)
             .then(this._logResponse("Entity data loaded from API"));
     }
