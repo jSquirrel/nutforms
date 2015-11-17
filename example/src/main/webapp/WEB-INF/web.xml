@@ -39,7 +39,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AdaptiveApiServlet</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
     <listener>

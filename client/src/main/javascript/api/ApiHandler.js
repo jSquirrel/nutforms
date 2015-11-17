@@ -51,7 +51,7 @@ export default class ApiHandler {
      */
     fetchDataFor(className, id) {
 
-        return Promise.resolve(fetch(this._buildUrl('' + className.split(".").pop() + '/' + id), {
+        return Promise.resolve(fetch(this._buildUrl('api/' + className.split(".").pop() + '/' + id), {
                 headers: {
                     Authorization: "Basic " + Base64.encode(this.apiUser + ":" + this.apiPassword)
                     , Accept: "application/json;charset=UTF-8"
