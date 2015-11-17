@@ -4,7 +4,7 @@ Provides LocalizationServlet, which serves localization messages.
 
 ## Example
 
-```GET localhost:8080/localization/cs_CZ/Bug/edit```
+```GET localhost:8080/localization/cs_CZ/cz.cvut.fel.nutforms.example.model.Bug/edit```
 
 ```
 {
@@ -19,7 +19,7 @@ Provides LocalizationServlet, which serves localization messages.
 ```
 
 
-```GET localhost:8080/localization/cs_CZ/Bug/edit/form.description.label```
+```GET localhost:8080/localization/cs_CZ/cz.cvut.fel.nutforms.example.model.Bug/edit/form.description.label```
 
 ```
 Popis
