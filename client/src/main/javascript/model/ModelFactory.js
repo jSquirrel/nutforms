@@ -1,31 +1,52 @@
 import Model from './Model.js';
 import Attribute from './Attribute.js';
 import Relation from './Relation.js';
+import AttributeLocalization from './AttributeLocalization.js';
+import ModelLocalization from './ModelLocalization.js';
 
 
 export default class ModelFactory {
 
-    create(className, id, entityMetadata = {}, values = {}) {
-        let attributes = this.createAttributes(entityMetadata, values);
-        let relations = this.createRelations(entityMetadata, values);
-        return new Model(className, "", id, attributes, relations);
+    create(className, id, entityMetadata = {}, localization = {}, values = {}) {
+        let attributes = this.createAttributes(entityMetadata, localization, values);
+        let relations = this.createRelations(entityMetadata, localization, values);
+        let modelLocalization = new ModelLocalization(localization["form.label"], localization["form.submit.value"])
+        console.log("model localization", modelLocalization);
+
+        return new Model(
+            className,
+            "",
+            id,
+            attributes,
+            relations,
+            modelLocalization
+        );
     }
 
     /**
      * Creates object with Attributes based on given data.
      *
      * @param {{}} entityMetadata
+     * @param {{}} localization
      * @param {{}} values
      * @returns {{}}
      */
-    createAttributes(entityMetadata, values) {
+    createAttributes(entityMetadata, localization, values) {
         let attributes = {};
+
         if (entityMetadata.hasOwnProperty("attributes")) {
             entityMetadata.attributes.forEach((attribute) => {
                 let value = values.hasOwnProperty(attribute.name) ? values[attribute.name] : null;
-                attributes[attribute.name] = new Attribute(attribute.name, attribute.type, value);
+                let attributeLocalization = new AttributeLocalization(localization[`form.${attribute.name}.label`]);
+                attributes[attribute.name] = new Attribute(
+                    attribute.name,
+                    attribute.type,
+                    value,
+                    attributeLocalization
+                );
             });
         }
+
         return attributes;
     }
 
@@ -33,17 +54,25 @@ export default class ModelFactory {
      * Creates object with Relations based on given data.
      *
      * @param {{}} entityMetadata
+     * @param {{}} localization
      * @param {{}} values
      * @returns {{}}
      */
-    createRelations(entityMetadata, values) {
+    createRelations(entityMetadata, localization, values) {
         let relations = {};
+
         if (entityMetadata.hasOwnProperty("relationships")) {
             entityMetadata.relationships.forEach((relation) => {
                 let value = values.hasOwnProperty(relation.name) ? values[relation.name] : null;
-                relations[relation.name] = new Relation(relation.name, relation.type, value, relation["target_entity"]);
+                relations[relation.name] = new Relation(
+                    relation.name,
+                    relation.type,
+                    value, relation["target_entity"],
+                    new AttributeLocalization(localization[`form.${relation.name}.label`])
+                );
             });
         }
+
         return relations;
     }
 

@@ -9,12 +9,14 @@ export default class Attribute extends Observable {
      * @param {string} name
      * @param {string} type
      * @param {*} value
+     * @param {AttributeLocalization} localization
      */
-    constructor(name, type, value) {
+    constructor(name, type, value, localization) {
         super();
         this.name = name;
         this.type = type;
         this.value = value;
+        this.localization = localization;
     }
 
     /**
@@ -25,6 +27,15 @@ export default class Attribute extends Observable {
     setValue(value) {
         this.value = value;
         this.trigger(AttributeActions.VALUE_CHANGED, this);
+    }
+
+    /**
+     * Returns localized form label for this Attribute.
+     *
+     * @returns {string}
+     */
+    getFormLabel() {
+        return this.localization.formLabel;
     }
 
 }

@@ -31,16 +31,21 @@ export default class ApiHandler {
     /**
      * Fetches metadata for given class.
      *
-     * @param className
+     * @param {string} className
+     * @param {string} context
+     * @param {string} locale
      */
-    fetchMetadataFor(className) {
+    fetchMetadataFor(className, context, locale) {
 
         let classMetadataPromise = fetch(this._buildUrl('meta/class/' + className))
             .then(this._toJson)
             .then(this._logResponse("Class metadata loaded from API"));
+        let localizationPromise = fetch(this._buildUrl('localization/' + locale + '/' + className + '/' + context))
+            .then(this._toJson)
+            .then(this._logResponse("Localization data loaded from API"));
         // TODO: more metadata
 
-        return Promise.all([classMetadataPromise]);
+        return Promise.all([classMetadataPromise, localizationPromise]);
     }
 
     /**
