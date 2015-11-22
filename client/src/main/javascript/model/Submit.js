@@ -50,8 +50,6 @@ export default class Submit {
         //    map[key] = relations[key].value;
         //});
 
-        delete map.localizedDescription; // TODO: Fuck you API, fuck you Java getters!
-
         return map;
     }
 
