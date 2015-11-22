@@ -22,7 +22,7 @@ export default class NumberInput extends FormInput {
     render() {
         return (
             <div className="form-group">
-                <label htmlFor={this.props.name}>{this.props.name}</label>
+                <label htmlFor={this.props.name}>{this.props.attribute.getFormLabel()}</label>
                 <input type="number"
                        className="form-control"
                        name={this.props.name}

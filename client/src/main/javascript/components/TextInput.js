@@ -35,9 +35,10 @@ export default class TextInput extends FormInput {
             ));
         });
 
+        console.log("prd", this.props.attribute.localization);
         return (
             <div className="form-group">
-                <label htmlFor={this.props.name}>{this.props.name}</label>
+                <label htmlFor={this.props.name}>{this.props.attribute.getFormLabel()}</label>
                 <input type="text"
                        className="form-control"
                        name={this.props.name}

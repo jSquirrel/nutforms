@@ -11,14 +11,16 @@ export default class Model extends Observable {
      * @param {*} id
      * @param {Attribute[]} attributes
      * @param {Relation[]} relations
+     * @param {ModelLocalization} localization
      */
-    constructor(className, context, id, attributes, relations) {
+    constructor(className, context, id, attributes, relations, localization) {
         super();
         this.className = className;
         this.context = context;
         this.id = id;
         this.attributes = attributes;
         this.relations = relations;
+        this.localization = localization;
     }
 
     /**
@@ -67,6 +69,24 @@ export default class Model extends Observable {
             throw `This model does not contain Relation with name ${name}.`;
         }
         return this.relations[name];
+    }
+
+    /**
+     * Returns form label of this model.
+     *
+     * @returns {string}
+     */
+    getFormLabel() {
+        return this.localization.formLabel;
+    }
+
+    /**
+     * Returns submit value of this model.
+     *
+     * @returns {string}
+     */
+    getSubmitValue() {
+        return this.localization.submitValue;
     }
 
 }

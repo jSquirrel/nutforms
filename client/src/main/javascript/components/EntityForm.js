@@ -123,11 +123,12 @@ export default class EntityForm extends React.Component {
         // TODO: relations
 
         this.sections = sections;
-
+console.log("prd", this.props.model.localization);
         return (
             <form role="form">
+                <h1>{this.props.model.getFormLabel()}</h1>
                 {sections}
-                <button type="submit" className="btn btn-default" onClick={this.handleSubmit}>Submit</button>
+                <button type="submit" className="btn btn-default" onClick={this.handleSubmit}>{this.props.model.getSubmitValue()}</button>
             </form>
         );
     }
