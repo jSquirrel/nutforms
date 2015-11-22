@@ -10,8 +10,7 @@ export default class ModelFactory {
     create(className, id, entityMetadata = {}, localization = {}, values = {}) {
         let attributes = this.createAttributes(entityMetadata, localization, values);
         let relations = this.createRelations(entityMetadata, localization, values);
-        let modelLocalization = new ModelLocalization(localization["form.label"], localization["form.submit.value"])
-        console.log("model localization", modelLocalization);
+        let modelLocalization = new ModelLocalization(localization["form.label"], localization["form.submit.value"]);
 
         return new Model(
             className,

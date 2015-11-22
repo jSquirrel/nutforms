@@ -35,7 +35,6 @@ export default class FormInput extends React.Component {
      * @param {object} event
      */
     handleSave(event) {
-        console.log("Handle save this", this);
         //console.log(`TextInput (${this.props.name}) value saved to: ${event.target.value}`);
         this.props.onSave(this.props.attribute, this.props.name, event.target.value);
         this.setState({value: event.target.value});
@@ -67,7 +66,6 @@ export default class FormInput extends React.Component {
      * @param {Attribute} attribute
      */
     onAttributeValueChanged(attribute) {
-        console.log("onAttributeValueChanged this", this);
         this.setState({value: attribute.value});
     }
 
