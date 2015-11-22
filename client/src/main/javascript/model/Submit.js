@@ -23,7 +23,11 @@ export default class Submit {
         }
         this.apiHandler.submit(model.className, this.asMap(model), this.getMethod(model), model.id)
             .then((result) => {
-                model.trigger(ModelActions.SUBMIT_SUCCEEDED, model, result);
+                if (result.status >= 200 && result.status < 300) {
+                    model.trigger(ModelActions.SUBMIT_SUCCEEDED, model, result);
+                } else {
+                    model.trigger(ModelActions.SUBMIT_FAILED, model, result);
+                }
             })
             .catch(() => {
                 model.trigger(ModelActions.SUBMIT_FAILED, model);
