@@ -3,14 +3,27 @@ import Attribute from './Attribute.js';
 import Relation from './Relation.js';
 import AttributeLocalization from './AttributeLocalization.js';
 import ModelLocalization from './ModelLocalization.js';
+import Submit from './Submit.js';
 
 
 export default class ModelFactory {
 
-    create(className, id, entityMetadata = {}, localization = {}, values = {}) {
+    /**
+     * Creates model with given parameters.
+     *
+     * @param {string} className
+     * @param {*} id
+     * @param {object} entityMetadata
+     * @param {object} localization
+     * @param {object} values
+     * @param {ApiHandler} apiHandler
+     * @returns {Model}
+     */
+    create(className, id, entityMetadata = {}, localization = {}, values = {}, apiHandler) {
         let attributes = this.createAttributes(entityMetadata, localization, values);
         let relations = this.createRelations(entityMetadata, localization, values);
         let modelLocalization = new ModelLocalization(localization["form.label"], localization["form.submit.value"]);
+        let submit = new Submit(apiHandler);
 
         return new Model(
             className,
@@ -18,7 +31,8 @@ export default class ModelFactory {
             id,
             attributes,
             relations,
-            modelLocalization
+            modelLocalization,
+            submit
         );
     }
 
@@ -41,7 +55,8 @@ export default class ModelFactory {
                     attribute.name,
                     attribute.type,
                     value,
-                    attributeLocalization
+                    attributeLocalization,
+                    attribute.is_primary
                 );
             });
         }

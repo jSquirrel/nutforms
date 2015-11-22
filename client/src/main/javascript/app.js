@@ -6,10 +6,12 @@ import EntityForm from './components/EntityForm.js';
 import ModelFactory from './model/ModelFactory.js';
 
 let className = "cz.cvut.fel.nutforms.example.model.Bug";
-let context = "edit";
+//let context = "edit";
+let context = "create";
 let localeParam = getQueryParameter("locale");
 let locale = localeParam !== "Not found" ? localeParam : "cs_CZ";
-let id = 1;
+//let id = 1;
+let id = null;
 let bindElementId = 'form';
 
 // TODO: move this to a library function
@@ -23,7 +25,7 @@ let bindElementId = 'form';
         let localization = results[1];
 
         apiHandler.fetchDataFor(className, entityId).then((data) => {
-            let model = modelFactory.create(className, entityId, metadata, localization, data);
+            let model = modelFactory.create(className, entityId, metadata, localization, data, apiHandler);
 
             React.render(
                 <EntityForm model={model}/>,

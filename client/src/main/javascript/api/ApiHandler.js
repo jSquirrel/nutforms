@@ -75,11 +75,24 @@ export default class ApiHandler {
      * Submits given model to the API using given method.
      *
      * @param {string} className
-     * @param {Model} model
+     * @param {object} data
      * @param {string} method
      */
-    submit(className, model, method) {
-        // TODO: submit data
+    submit(className, data, method, id) {
+        let url = this._buildUrl('api/' + className.split(".").pop());
+        if (id !== null) {
+            url += '/' + id;
+        }
+        return fetch(url, {
+            method: method,
+            headers: {
+                Authorization: "Basic " + Base64.encode(this.apiUser + ":" + this.apiPassword)
+                , Accept: "application/json;charset=UTF-8"
+                , "Content-type": "application/json;charset=UTF-8"
+            },
+            body: JSON.stringify(data)
+        })
+            .then(this._logResponse(`Submitted data to API via ${method} method.`));
     }
 
     /**
