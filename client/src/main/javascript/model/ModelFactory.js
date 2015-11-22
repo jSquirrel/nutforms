@@ -22,7 +22,11 @@ export default class ModelFactory {
     create(className, id, entityMetadata = {}, localization = {}, values = {}, apiHandler) {
         let attributes = this.createAttributes(entityMetadata, localization, values);
         let relations = this.createRelations(entityMetadata, localization, values);
-        let modelLocalization = new ModelLocalization(localization["form.label"], localization["form.submit.value"]);
+        let modelLocalization = new ModelLocalization(
+            localization["form.label"]
+            , localization["form.submit.value"]
+            , localization["form.submit.succeeded_value"]
+            , localization["form.submit.failed_value"]);
         let submit = new Submit(apiHandler);
 
         return new Model(

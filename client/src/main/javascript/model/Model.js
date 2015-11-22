@@ -125,4 +125,22 @@ export default class Model extends Observable {
         return this.localization.submitValue;
     }
 
+    /**
+     * Returns submit succeeded value of this model.
+     *
+     * @returns {string}
+     */
+    getSubmitSucceededValue() {
+        return this.localization.submitSucceededValue;
+    }
+
+    /**
+     * Returns submit failed value of this model.
+     *
+     * @returns {string}
+     */
+    getSubmitFailedValue() {
+        return this.localization.submitFailedValue;
+    }
+
 }
