@@ -41,6 +41,7 @@ export default class Submit {
      */
     asMap(model) {
         let map = {};
+
         let attributes = model.attributes;
         Object.keys(attributes).forEach((key) => {
             // We don't want to send primary attributes
@@ -48,11 +49,11 @@ export default class Submit {
                 map[key] = attributes[key].value;
             }
         });
-        // TODO: send relations
-        //let relations = model.relations;
-        //Object.keys(relations).forEach((key) => {
-        //    map[key] = relations[key].value;
-        //});
+
+        let relations = model.relations;
+        Object.keys(relations).forEach((key) => {
+            map[key] = relations[key].value;
+        });
 
         return map;
     }
