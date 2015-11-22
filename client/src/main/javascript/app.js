@@ -8,7 +8,7 @@ import ModelFactory from './model/ModelFactory.js';
 let className = "cz.cvut.fel.nutforms.example.model.Bug";
 let context = "edit";
 let localeParam = getQueryParameter("locale");
-let locale = localeParam ? localeParam : "cs_CZ";
+let locale = localeParam !== "Not found" ? localeParam : "cs_CZ";
 let id = 1;
 let bindElementId = 'form';
 
