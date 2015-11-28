@@ -1,0 +1,15 @@
+cz/cvut/fel/nutforms/example/model/Bug.class
+cz/cvut/fel/nutforms/example/ModelListener.class
+cz/cvut/fel/nutforms/example/model/Issue.class
+cz/cvut/fel/nutforms/example/ApplicationContextListener.class
+cz/cvut/fel/nutforms/example/AdaptiveApiServlet.class
+cz/cvut/fel/nutforms/example/security/SimpleAuthentication.class
+cz/cvut/fel/nutforms/example/ConfigurationListener.class
+cz/cvut/fel/nutforms/example/model/Employee.class
+cz/cvut/fel/nutforms/example/model/Project.class
+cz/cvut/fel/nutforms/example/security/SimpleAuthorization.class
+cz/cvut/fel/nutforms/example/model/Task.class
+cz/cvut/fel/nutforms/example/security/MethodAuthorization.class
+cz/cvut/fel/nutforms/example/ExampleData.class
+cz/cvut/fel/nutforms/example/security/Users.class
+cz/cvut/fel/nutforms/example/PersistenceContext.class

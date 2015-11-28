@@ -38,12 +38,8 @@
     </developers>
 
     <modules>
-        <module>meta</module>
-        <module>layout</module>
-        <module>localization</module>
-        <module>rules</module>
-        <module>example</module>
         <module>client</module>
+        <module>server</module>
     </modules>
 
     <dependencies>
