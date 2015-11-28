@@ -5,6 +5,7 @@ import cz.cvut.fel.nutforms.rules.metamodel.*;
 import cz.cvut.fel.nutforms.rules.metamodel.Declaration;
 import cz.cvut.fel.nutforms.rules.metamodel.condition.*;
 import cz.cvut.fel.nutforms.rules.metamodel.condition.Pattern;
+import org.apache.commons.lang3.StringUtils;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.impl.KnowledgeBaseImpl;
@@ -18,10 +19,7 @@ import org.kie.api.definition.KiePackage;
 import org.kie.api.runtime.KieContainer;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Inspects Drools rules and creates {@link Rule} objects from them.
@@ -68,30 +66,34 @@ public class Inspector {
         }
 
         // create Conditions
-        ExpressionInterpreter interpreter = new ExpressionInterpreter();
+        GroupElement.Type type = droolsRule.getLhs().getType();
+        StringJoiner joiner = new StringJoiner(String.format(" %s ", type));
         for (RuleConditionElement conditionElement : droolsRule.getLhs().getChildren()) {
             //toDo: create a factory for this
-            Condition condition = null;
+            StringBuilder conditionBuilder = new StringBuilder();
             if (conditionElement instanceof org.drools.core.rule.Pattern) {
                 if (((org.drools.core.rule.Pattern) conditionElement).getConstraints().size() > 0) {
-                    condition = new Pattern();
+                    StringJoiner subJoiner = new StringJoiner(" AND ");
                     for (Constraint constraint : ((org.drools.core.rule.Pattern) conditionElement).getConstraints()) {
                         if (constraint instanceof MvelConstraint) {
-                            ((Pattern) condition).getConstraints().add(interpreter.interpret(((MvelConstraint) constraint).getExpression()));
+                            subJoiner.add(((MvelConstraint) constraint).getExpression());
                         } else {
                             throw new IllegalArgumentException("Constraint type not supported: " +
                                     constraint.getClass().getName());
                         }
                     }
+                    if (subJoiner.length() > 0) {
+                        conditionBuilder.append('(').append(subJoiner.toString()).append(')');
+                    }
                 }
             } else if (conditionElement instanceof EvalCondition) {
-                condition = new Eval(((EvalCondition) conditionElement).getEvalExpression().toString());
+                conditionBuilder.append(((EvalCondition) conditionElement).getEvalExpression().toString());
             } else {
                 throw new IllegalArgumentException("Condition class not supported: " +
                         conditionElement.getClass().getName());
             }
-            if (condition != null) {
-                rule.getConditions().add(condition);
+            if (conditionBuilder.length() > 0) {
+                joiner.add('(' + conditionBuilder.toString() + ')');
             }
 
             // add Declarations
@@ -117,6 +119,7 @@ public class Inspector {
                 rule.getDeclarations().put(declaration.getIdentifier(), varDeclaration);
             }
         }
+        rule.setCondition(joiner.toString());
         return rule;
     }
 

@@ -1,7 +1,5 @@
 package cz.cvut.fel.nutforms.rules.metamodel;
 
-import cz.cvut.fel.nutforms.rules.metamodel.condition.Condition;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -16,8 +14,7 @@ public class Rule {
     private String pckg;
     private Set<String> functions = new HashSet<>();
     private Map<String, Declaration> globals = new HashMap<>();
-    // toDo: replace with Group in root
-    private Set<Condition> conditions = new HashSet<>();
+    private String condition;
     private Map<String, Declaration> declarations = new HashMap<>();
 
     public String getName() {
@@ -36,12 +33,12 @@ public class Rule {
         this.pckg = pckg;
     }
 
-    public Set<Condition> getConditions() {
-        return conditions;
+    public String getCondition() {
+        return condition;
     }
 
-    public void setConditions(Set<Condition> conditions) {
-        this.conditions = conditions;
+    public void setCondition(String condition) {
+        this.condition = condition;
     }
 
     public Map<String, Declaration> getGlobals() {
