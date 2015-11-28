@@ -16,6 +16,7 @@ function renderComponent(entity, contextPath) {
     Promise.all([entityMetadata, context])
         .then(function (values) {
             // toDo: ensure that return values are ordered correctly
+            console.log(values);
             React.render(
                 <EntityForm model={new Model(values[0], values[1])}/>,
                 document.getElementById('form')

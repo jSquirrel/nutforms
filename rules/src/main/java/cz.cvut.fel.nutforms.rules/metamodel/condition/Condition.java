@@ -6,7 +6,6 @@ package cz.cvut.fel.nutforms.rules.metamodel.condition;
  */
 public abstract class Condition {
 
-    //toDo: implement visitor for parsing into JSON
     boolean negated = false;
 
     public boolean isNegated() {
