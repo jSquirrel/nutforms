@@ -76,14 +76,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- Servlet -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- JPA (via Hibernate) -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
@@ -110,7 +102,5 @@
             <artifactId>derby</artifactId>
             <version>10.10.2.0</version>
         </dependency>
-
     </dependencies>
-
 </project>
