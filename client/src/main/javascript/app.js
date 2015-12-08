@@ -6,12 +6,12 @@ import EntityForm from './components/EntityForm.js';
 import ModelFactory from './model/ModelFactory.js';
 
 let className = "cz.cvut.fel.nutforms.example.model.Bug";
-//let context = "edit";
-let context = "create";
+let contextParam = getQueryParameter("context");
+let context = contextParam !== "Not found" ? contextParam : "create";
 let localeParam = getQueryParameter("locale");
 let locale = localeParam !== "Not found" ? localeParam : "cs_CZ";
-//let id = 1;
-let id = null;
+let idParam = getQueryParameter("id");
+let id = idParam !== "Not found" ? idParam : null;
 let bindElementId = 'form';
 
 // TODO: move this to a library function
