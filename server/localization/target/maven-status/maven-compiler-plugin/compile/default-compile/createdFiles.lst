@@ -1,9 +1,0 @@
-cz/cvut/fel/nutforms/localization/LocalizationServlet.class
-cz/cvut/fel/nutforms/localization/MessageFinder.class
-cz/cvut/fel/nutforms/localization/exception/BadRequest.class
-cz/cvut/fel/nutforms/localization/LocalizationRouter.class
-cz/cvut/fel/nutforms/localization/MessageQuery.class
-cz/cvut/fel/nutforms/localization/exception/BundleNotFound.class
-cz/cvut/fel/nutforms/localization/exception/ClassNotFound.class
-cz/cvut/fel/nutforms/localization/exception/MessageNotFound.class
-cz/cvut/fel/nutforms/localization/exception/ContextNotFound.class

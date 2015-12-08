@@ -1,9 +1,0 @@
-/home/ondra/projects/school/bp/nutforms/server/localization/src/main/java/cz/cvut/fel/nutforms/localization/exception/ClassNotFound.java
-/home/ondra/projects/school/bp/nutforms/server/localization/src/main/java/cz/cvut/fel/nutforms/localization/exception/BundleNotFound.java
-/home/ondra/projects/school/bp/nutforms/server/localization/src/main/java/cz/cvut/fel/nutforms/localization/LocalizationRouter.java
-/home/ondra/projects/school/bp/nutforms/server/localization/src/main/java/cz/cvut/fel/nutforms/localization/exception/ContextNotFound.java
-/home/ondra/projects/school/bp/nutforms/server/localization/src/main/java/cz/cvut/fel/nutforms/localization/exception/BadRequest.java
-/home/ondra/projects/school/bp/nutforms/server/localization/src/main/java/cz/cvut/fel/nutforms/localization/MessageQuery.java
-/home/ondra/projects/school/bp/nutforms/server/localization/src/main/java/cz/cvut/fel/nutforms/localization/MessageFinder.java
-/home/ondra/projects/school/bp/nutforms/server/localization/src/main/java/cz/cvut/fel/nutforms/localization/LocalizationServlet.java
-/home/ondra/projects/school/bp/nutforms/server/localization/src/main/java/cz/cvut/fel/nutforms/localization/exception/MessageNotFound.java
