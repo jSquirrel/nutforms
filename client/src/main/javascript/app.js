@@ -6,7 +6,7 @@ import EntityForm from './components/EntityForm.js';
 import ModelFactory from './model/ModelFactory.js';
 
 let className = "cz.cvut.fel.nutforms.example.model.Bug";
-let context = "edit";
+let context = "bug/edit";
 let localeParam = getQueryParameter("locale");
 let locale = localeParam !== "Not found" ? localeParam : "cs_CZ";
 let id = 1;
@@ -21,6 +21,7 @@ let bindElementId = 'form';
     apiHandler.fetchMetadataFor(className, context, locale).then((results) => {
         let metadata = results[0];
         let localization = results[1];
+        let rules = results[2];
 
         apiHandler.fetchDataFor(className, entityId).then((data) => {
             let model = modelFactory.create(className, entityId, metadata, localization, data);
