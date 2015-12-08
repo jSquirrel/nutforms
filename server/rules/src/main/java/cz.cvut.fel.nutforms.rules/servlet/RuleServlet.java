@@ -3,6 +3,7 @@ package cz.cvut.fel.nutforms.rules.servlet;
 import com.google.gson.Gson;
 import cz.cvut.fel.nutforms.rules.inspection.Inspector;
 import cz.cvut.fel.nutforms.rules.metamodel.Rule;
+import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.StatelessKieSession;
@@ -22,26 +23,24 @@ import java.util.Set;
  */
 public class RuleServlet extends HttpServlet {
 
-    private final Inspector inspector;
-    private final KieServices kieServices;
-    private final StatelessKieSession kieSession;
+    private final Map<String, Set<Rule>> rules;
 
     public RuleServlet() {
-        this.inspector = new Inspector();
-        this.kieServices = KieServices.Factory.get();
-        // toDo: temporal hardcoded session name (bound to Drools)
-        this.kieSession = kieServices.getKieClasspathContainer().newStatelessKieSession("globalsession");
+        Inspector inspector = new Inspector();
+        KieServices kieServices = KieServices.Factory.get();
+        // returns default session
+        StatelessKieSession kieSession = kieServices.getKieClasspathContainer().newStatelessKieSession();
+        KieBase kieBase = kieSession.getKieBase();
+        this.rules = inspector.inspectBase(kieBase);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String context = req.getPathInfo();
-        if (context == null) {
-            resp.getWriter().write("Please specify a package.");
+        if (context == null || context.isEmpty()) {
+            resp.getWriter().write("Please specify a package/context.");
         } else {
-            // toDo: make this more effective
-            Map<String, Set<Rule>> baseRules = inspector.inspectBase(kieSession.getKieBase());
-            Set<Rule> requestedRules = baseRules.get(context.substring(1).replaceAll("/", "."));
+            Set<Rule> requestedRules = rules.get(context.substring(1).replaceAll("/", "."));
             resp.getWriter().write(requestedRules == null ?
                     String.format("No rules found in package %s", context) : new Gson().toJson(requestedRules));
         }
