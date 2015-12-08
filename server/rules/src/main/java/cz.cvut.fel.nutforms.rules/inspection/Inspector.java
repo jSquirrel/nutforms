@@ -82,7 +82,8 @@ public class Inspector {
                         }
                     }
                     if (subJoiner.length() > 0) {
-                        conditionBuilder.append('(').append(subJoiner.toString()).append(')');
+//                        conditionBuilder.append('(').append(subJoiner.toString()).append(')');
+                        conditionBuilder.append(subJoiner.toString());
                     }
                 }
             } else if (conditionElement instanceof EvalCondition) {
@@ -92,7 +93,8 @@ public class Inspector {
                         conditionElement.getClass().getName());
             }
             if (conditionBuilder.length() > 0) {
-                joiner.add('(' + conditionBuilder.toString() + ')');
+//                joiner.add('(' + conditionBuilder.toString() + ')');
+                joiner.add(conditionBuilder.toString());
             }
 
             // add Declarations
