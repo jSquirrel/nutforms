@@ -1,4 +1,4 @@
-package employee.edit;
+package cz.cvut.fel.nutforms.example.model.Employee.edit;
 dialect  "mvel"
 
 rule "edit"

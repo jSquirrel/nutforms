@@ -1,4 +1,4 @@
-package bug.new;
+package cz.cvut.fel.nutforms.example.model.Bug.new;
 
 import cz.cvut.fel.nutforms.example.model.Bug;
 

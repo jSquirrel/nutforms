@@ -6,7 +6,7 @@ import EntityForm from './components/EntityForm.js';
 import ModelFactory from './model/ModelFactory.js';
 
 let className = "cz.cvut.fel.nutforms.example.model.Bug";
-let context = "bug/edit";
+let context = "edit";
 let localeParam = getQueryParameter("locale");
 let locale = localeParam !== "Not found" ? localeParam : "cs_CZ";
 let id = 1;
