@@ -25,7 +25,6 @@ export default class ApiHandler {
                 return response
             };
         };
-
     }
 
     /**
@@ -34,6 +33,7 @@ export default class ApiHandler {
      * @param {string} className
      * @param {string} context
      * @param {string} locale
+     * @returns {Promise.<T>}
      */
     fetchMetadataFor(className, context, locale) {
 
@@ -53,6 +53,7 @@ export default class ApiHandler {
      *
      * @param {string} className
      * @param {*} id
+     * @returns {Promise.<T>}
      */
     fetchDataFor(className, id) {
 
@@ -72,11 +73,30 @@ export default class ApiHandler {
     }
 
     /**
+     * Fetches all entites of given class and lists their from given attributes.
+     *
+     * @param {string} className
+     * @returns {Promise.<T>}
+     */
+    fetchList(className) {
+        return fetch(this._buildUrl('api/' + className.split(".").pop()), {
+            headers: {
+                Authorization: "Basic " + Base64.encode(this.apiUser + ":" + this.apiPassword)
+                , Accept: "application/json;charset=UTF-8"
+                , "Content-type": "application/json;charset=UTF-8"
+            }
+        })
+            .then(this._toJson)
+            .then(this._logResponse("List data loaded from API"));
+    }
+
+    /**
      * Submits given model to the API using given method.
      *
      * @param {string} className
      * @param {object} data
      * @param {string} method
+     * @param {number} id
      */
     submit(className, data, method, id) {
         let url = this._buildUrl('api/' + className.split(".").pop());
