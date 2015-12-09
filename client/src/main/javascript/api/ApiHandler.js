@@ -43,9 +43,12 @@ export default class ApiHandler {
         let localizationPromise = fetch(this._buildUrl('localization/' + locale + '/' + className + '/' + context))
             .then(this._toJson)
             .then(this._logResponse("Localization data loaded from API"));
+        let rulesPromise = fetch(this._buildUrl('rules/' + className + '/' + context))
+            .then(this._toJson)
+            .then(this._logResponse("Context rules loaded from API"));
         // TODO: more metadata
 
-        return Promise.all([classMetadataPromise, localizationPromise]);
+        return Promise.all([classMetadataPromise, localizationPromise, rulesPromise]);
     }
 
     /**

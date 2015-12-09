@@ -12,6 +12,11 @@
     <artifactId>example</artifactId>
     <packaging>war</packaging>
 
+    <properties>
+        <drools.version>6.1.0.Final</drools.version>
+        <kie.version>6.1.0.Final</kie.version>
+    </properties>
+
     <dependencies>
 
         <!-- Other project modules -->
@@ -101,6 +106,25 @@
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
             <version>10.10.2.0</version>
+        </dependency>
+
+        <!--Drools-->
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+
+        <!--KIE (Knowledge is everything)-->
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>named-kiesession</artifactId>
+            <version>${kie.version}</version>
         </dependency>
     </dependencies>
 </project>

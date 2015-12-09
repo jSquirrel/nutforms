@@ -1,0 +1,7 @@
+package cz.cvut.fel.nutforms.example.model.Employee.edit;
+dialect  "mvel"
+
+rule "edit"
+    when
+    then
+end

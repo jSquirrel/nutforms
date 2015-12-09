@@ -1,15 +1,14 @@
 package cz.cvut.fel.nutforms.rules.inspection;
 
-import cz.cvut.fel.nutforms.rules.inspection.interpreter.ExpressionInterpreter;
-import cz.cvut.fel.nutforms.rules.metamodel.*;
 import cz.cvut.fel.nutforms.rules.metamodel.Declaration;
-import cz.cvut.fel.nutforms.rules.metamodel.condition.*;
-import cz.cvut.fel.nutforms.rules.metamodel.condition.Pattern;
-import org.apache.commons.lang3.StringUtils;
+import cz.cvut.fel.nutforms.rules.metamodel.Rule;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.impl.KnowledgeBaseImpl;
-import org.drools.core.rule.*;
+import org.drools.core.rule.EvalCondition;
+import org.drools.core.rule.Function;
+import org.drools.core.rule.GroupElement;
+import org.drools.core.rule.RuleConditionElement;
 import org.drools.core.rule.constraint.MvelConstraint;
 import org.drools.core.spi.Constraint;
 import org.drools.core.spi.InternalReadAccessor;
@@ -83,7 +82,7 @@ public class Inspector {
                         }
                     }
                     if (subJoiner.length() > 0) {
-                        conditionBuilder.append('(').append(subJoiner.toString()).append(')');
+                        conditionBuilder.append(subJoiner.toString());
                     }
                 }
             } else if (conditionElement instanceof EvalCondition) {
@@ -93,7 +92,7 @@ public class Inspector {
                         conditionElement.getClass().getName());
             }
             if (conditionBuilder.length() > 0) {
-                joiner.add('(' + conditionBuilder.toString() + ')');
+                joiner.add(conditionBuilder.toString());
             }
 
             // add Declarations

@@ -1,0 +1,7 @@
+package cz.cvut.fel.nutforms.example.model.Employee.new;
+dialect  "mvel"
+
+rule "new"
+    when
+    then
+end
