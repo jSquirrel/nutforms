@@ -26,7 +26,7 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Task> tasks;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Employee manager;
 
     public Project() {

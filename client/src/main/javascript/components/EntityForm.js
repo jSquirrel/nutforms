@@ -3,6 +3,7 @@ import EntityFormActions from './../actions/EntityFormActions.js';
 import TextInput from './TextInput.js';
 import NumberInput from './NumberInput.js';
 import * as AttributeActions from './../constants/AttributeActions.js';
+import * as ModelActions from './../constants/ModelActions.js';
 
 
 export default class EntityForm extends React.Component {
@@ -14,8 +15,10 @@ export default class EntityForm extends React.Component {
      */
     constructor(props) {
         super(props);
+        this.props.model.listen(ModelActions.SUBMIT_SUCCEEDED, this);
+        this.props.model.listen(ModelActions.SUBMIT_FAILED, this);
         this.model = props.model;
-        this.state = {data: {}, sections: []};
+        this.state = {data: {}, sections: [], submitValue: this.model.getSubmitValue()};
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onAttributeChanged = this.onAttributeChanged.bind(this);
         this.onAttributeValidated = this.onAttributeValidated.bind(this);
@@ -83,6 +86,41 @@ export default class EntityForm extends React.Component {
     }
 
     /**
+     * Observer update function implementation.
+     *
+     * @param {string} eventName
+     * @param {model} model
+     */
+    update(eventName, model) {
+        console.log("EntityForm.update() called", eventName, model);
+        switch (eventName) {
+            case ModelActions.SUBMIT_SUCCEEDED:
+                this.onSubmitSucceeded();
+                break;
+
+            case ModelActions.SUBMIT_FAILED:
+                this.onSubmitFailed();
+                break;
+
+            default:
+        }
+    }
+
+    /**
+     * Callback for ModelActions.SUBMIT_SUCCEEDED.
+     */
+    onSubmitSucceeded() {
+        this.setState({submitValue: this.props.model.getSubmitSucceededValue()});
+    }
+
+    /**
+     * Callback for ModelActions.SUBMIT_FAILED.
+     */
+    onSubmitFailed() {
+        this.setState({submitValue: this.props.model.getSubmitFailedValue()});
+    }
+
+    /**
      * Renders the component.
      *
      * @returns {XML}
@@ -127,7 +165,8 @@ export default class EntityForm extends React.Component {
             <form role="form">
                 <h1>{this.props.model.getFormLabel()}</h1>
                 {sections}
-                <button type="submit" className="btn btn-default" onClick={this.handleSubmit}>{this.props.model.getSubmitValue()}</button>
+                <button type="submit" className="btn btn-default"
+                        onClick={this.handleSubmit}>{this.state.submitValue}</button>
             </form>
         );
     }

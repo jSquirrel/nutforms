@@ -1,4 +1,5 @@
 import Observable from './Observable.js';
+import * as ModelActions from './../constants/ModelActions.js';
 
 
 export default class Model extends Observable {
@@ -12,8 +13,9 @@ export default class Model extends Observable {
      * @param {Attribute[]} attributes
      * @param {Relation[]} relations
      * @param {ModelLocalization} localization
+     * @param {Submit} submit
      */
-    constructor(className, context, id, attributes, relations, localization) {
+    constructor(className, context, id, attributes, relations, localization, submit) {
         super();
         this.className = className;
         this.context = context;
@@ -21,6 +23,7 @@ export default class Model extends Observable {
         this.attributes = attributes;
         this.relations = relations;
         this.localization = localization;
+        this.submit = submit.bind(this);
     }
 
     /**
@@ -71,6 +74,39 @@ export default class Model extends Observable {
         return this.relations[name];
     }
 
+    /**** Submit ******************************************************************************************************/
+
+    /**
+     * Set values to each attribute.
+     *
+     * @param {object} values Object with Attribute names as keys and Attribute values as values.
+     * @throws Will throw an error if Attribute with given name does not exist.
+     */
+    formSubmitted(values) {
+        Object.keys(values).forEach((key) => {
+            this.getAttribute(key).setValue(values[key]);
+        });
+        this.trigger(ModelActions.SUBMITTED, this);
+        // TODO: add validation
+        // TODO: the line below should be done by Validation
+        this.trigger(ModelActions.VALIDATED, this)
+    }
+
+    /**** Validation **************************************************************************************************/
+
+    /**
+     * Returns true if the model has validation errors, false if there are none.
+     *
+     * @returns {boolean}
+     */
+    hasErrors() {
+        return false;
+        // TODO:
+        // return this.validation.hasErrors();
+    }
+
+    /**** Localization ************************************************************************************************/
+
     /**
      * Returns form label of this model.
      *
@@ -87,6 +123,24 @@ export default class Model extends Observable {
      */
     getSubmitValue() {
         return this.localization.submitValue;
+    }
+
+    /**
+     * Returns submit succeeded value of this model.
+     *
+     * @returns {string}
+     */
+    getSubmitSucceededValue() {
+        return this.localization.submitSucceededValue;
+    }
+
+    /**
+     * Returns submit failed value of this model.
+     *
+     * @returns {string}
+     */
+    getSubmitFailedValue() {
+        return this.localization.submitFailedValue;
     }
 
 }
