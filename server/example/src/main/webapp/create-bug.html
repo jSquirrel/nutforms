@@ -5,8 +5,11 @@
     <title>jSquirrel Nutforms Client</title>
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
 </head>
 <body style="padding: 20px auto">;
 
@@ -32,12 +35,30 @@
     </nav>
 </div>
 
-<div class="container" id="form"></div>
+<div class="container">
+    <div class="col-md-6">
+        <div id="form"></div>
+    </div>
+    <div class="col-md-6">
+        <pre style="margin-top: 60px;"><code class="html">&lt;div id="form"&gt;&lt;/div&gt;
+&lt;script type="application/javascript"&gt;
+// Binds form to HTML element with id "form"
+nutforms.bindForm(
+    "cz.cvut.fel.nutforms.example.model.Bug", // Entity class
+    "create", // Context
+    "en_US", // Locale
+    null, // Id - null in this case
+    "form" // Id of the HTML element to bind to
+);
+&lt;/script&gt;</code></pre>
+    </div>
+</div>
 
 <script src="js/vendors.js"></script>
 <script src="js/bundle.js"></script>
 <script type="application/javascript">
     nutforms.bindForm("cz.cvut.fel.nutforms.example.model.Bug", "create", "en_US", null, "form");
+    hljs.initHighlighting();
 </script>
 </body>
 </html>

@@ -5,8 +5,11 @@
     <title>jSquirrel Nutforms Client</title>
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
 </head>
 <body style="padding: 20px auto">;
 
@@ -32,7 +35,24 @@
     </nav>
 </div>
 
-<div class="container" id="list"></div>
+<div class="container">
+    <div class="col-md-6">
+        <h1>Bugs list</h1>
+        <div id="list"></div>
+    </div>
+    <div class="col-md-6">
+        <pre style="margin-top: 60px;"><code class="html">&lt;div id="list"&gt;&lt;/div&gt;
+&lt;script type="application/javascript"&gt;
+// Binds Bug list to element with id "list"
+nutforms.bindList("cz.cvut.fel.nutforms.example.model.Bug", {
+    id: {label: "ID", href: "/edit-bug.html?id=&lt;value&gt;"},
+    description: {label: "Description"},
+    log: {label: "Log"}
+}, "list");
+&lt;/script&gt;</code></pre>
+    </div>
+</div>
+
 
 <script src="js/vendors.js"></script>
 <script src="js/bundle.js"></script>
@@ -43,6 +63,8 @@
         description: {label: "Description"},
         log: {label: "Log"}
     }, "list");
+
+    hljs.initHighlighting();
 </script>
 </body>
 </html>
