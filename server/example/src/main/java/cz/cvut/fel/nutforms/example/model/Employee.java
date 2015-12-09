@@ -19,7 +19,7 @@ public class Employee {
     @Column
     private String lastName;
 
-    @OneToMany(mappedBy = "manager")
+    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
     private List<Project> managedProjects;
 
     public Employee() {

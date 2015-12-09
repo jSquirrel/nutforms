@@ -27,6 +27,10 @@ public class EntityMetadataJsonSerializer {
         sb.append("\"attributes\":[");
         StringJoiner stringJoiner = new StringJoiner(",");
         for (Map.Entry<String, Attribute> entry : entity.getAttributes().entrySet()) {
+            if (entry.getValue().getSetter() == null) {
+                // Skip attributes without setter
+                continue;
+            }
             StringBuilder attributeBuilder = new StringBuilder();
             attributeBuilder
                     .append("{")
@@ -49,6 +53,10 @@ public class EntityMetadataJsonSerializer {
         sb.append("\"relationships\":[");
         StringJoiner stringJoiner = new StringJoiner(",");
         for (Map.Entry<String, Relationship> entry : entity.getRelationships().entrySet()) {
+            if (entry.getValue().getSetter() == null) {
+                // Skip relationships without setter
+                continue;
+            }
             StringBuilder attributeBuilder = new StringBuilder();
             attributeBuilder
                     .append("{")

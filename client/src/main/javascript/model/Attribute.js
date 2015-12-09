@@ -10,13 +10,15 @@ export default class Attribute extends Observable {
      * @param {string} type
      * @param {*} value
      * @param {AttributeLocalization} localization
+     * @param {boolean} isPrimary
      */
-    constructor(name, type, value, localization) {
+    constructor(name, type, value, localization, isPrimary) {
         super();
         this.name = name;
         this.type = type;
         this.value = value;
         this.localization = localization;
+        this._isPrimary = isPrimary;
     }
 
     /**
@@ -36,6 +38,15 @@ export default class Attribute extends Observable {
      */
     getFormLabel() {
         return this.localization.formLabel;
+    }
+
+    /**
+     * Returns TRUE if the attribute is primary, FALSE if not.
+     *
+     * @returns {boolean}
+     */
+    isPrimary() {
+        return this._isPrimary;
     }
 
 }

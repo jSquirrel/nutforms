@@ -5,10 +5,14 @@ export default class ModelLocalization {
      *
      * @param {string} formLabel
      * @param {string} submitValue
+     * @param {string} submitSucceededValue
+     * @param {string} submitFailedValue
      */
-    constructor(formLabel, submitValue) {
+    constructor(formLabel, submitValue, submitSucceededValue, submitFailedValue) {
         this.formLabel = formLabel;
         this.submitValue = submitValue;
+        this.submitSucceededValue = submitSucceededValue;
+        this.submitFailedValue = submitFailedValue;
     }
 
 }

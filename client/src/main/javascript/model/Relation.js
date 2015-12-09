@@ -13,7 +13,7 @@ export default class Relation extends Attribute {
      * @param {AttributeLocalization} localization
      */
     constructor(name, type, value, targetClass, localization) {
-        super(name, type, value);
+        super(name, type, value, localization, false);
         this.targetClass = targetClass;
     }
 

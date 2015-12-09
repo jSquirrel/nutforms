@@ -1,6 +1,7 @@
 
 package cz.cvut.fel.nutforms.example.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -13,7 +14,7 @@ public class Task extends Issue {
     @Column
     private Date completedAt;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Project project;
 
     public Task() {

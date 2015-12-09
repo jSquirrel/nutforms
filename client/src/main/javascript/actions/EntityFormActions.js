@@ -37,9 +37,14 @@ export default class EntityFormActions {
         attribute.setValue(value);
     }
 
+    /**
+     *
+     * @param {Model} model
+     * @param values
+     */
     static formSubmitted(model, values) {
         console.log(`EntityFormActions.formSubmitted(${values})`);
-        // TODO: set values
+        model.formSubmitted(values);
     }
 
 }
