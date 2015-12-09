@@ -5,8 +5,11 @@
     <title>jSquirrel Nutforms Client</title>
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
 </head>
 <body style="padding: 20px auto">;
 
@@ -21,30 +24,41 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Nutforms</a>
+                <a class="navbar-brand" href="/">Nutforms example app</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">Actions <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="?context=new">Vytvořit Bug</a></li>
-                            <li><a href="?context=new&locale=en_US">Create a Bug</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="?id=1&context=edit">Upravit Bug #1</a></li>
-                            <li><a href="?id=1&context=edit&locale=en_US">Edit Bug #1</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="/create-bug.html" class="active">Report a Bug</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 </div>
 
-<div class="container" id="form"></div>
+<div class="container">
+    <div class="col-md-6">
+        <div id="form"></div>
+    </div>
+    <div class="col-md-6">
+        <pre style="margin-top: 60px;"><code class="html">&lt;div id="form"&gt;&lt;/div&gt;
+&lt;script type="application/javascript"&gt;
+// Binds form to HTML element with id "form"
+nutforms.bindForm(
+    "cz.cvut.fel.nutforms.example.model.Bug", // Entity class
+    "create", // Context
+    "en_US", // Locale
+    null, // Id - null in this case
+    "form" // Id of the HTML element to bind to
+);
+&lt;/script&gt;</code></pre>
+    </div>
+</div>
 
 <script src="js/vendors.js"></script>
 <script src="js/bundle.js"></script>
+<script type="application/javascript">
+    nutforms.bindForm("cz.cvut.fel.nutforms.example.model.Bug", "new", "en_US", null, "form");
+    hljs.initHighlighting();
+</script>
 </body>
 </html>

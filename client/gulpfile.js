@@ -46,7 +46,7 @@ function bundleApp(isProduction) {
     // Browserify will bundle all our js files together in to one and will let
     // us use modules in the front end.
     var appBundler = browserify({
-        entries: './src/main/javascript/app.js',
+        entries: './src/main/javascript/index.js',
         debug: true
     });
 
@@ -80,7 +80,4 @@ function bundleApp(isProduction) {
         .on('error', gutil.log)
         .pipe(source('bundle.js'))
         .pipe(gulp.dest('./src/main/webapp/js/'));
-
-    // Copy index.html to src/main/webapp
-    gulp.src('index.html').pipe(gulp.dest('./src/main/webapp/'));
 }
