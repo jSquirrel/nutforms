@@ -7,7 +7,7 @@ import ModelFactory from './model/ModelFactory.js';
 
 let className = "cz.cvut.fel.nutforms.example.model.Bug";
 let contextParam = getQueryParameter("context");
-let context = contextParam !== "Not found" ? contextParam : "create";
+let context = contextParam !== "Not found" ? contextParam : "new";
 let localeParam = getQueryParameter("locale");
 let locale = localeParam !== "Not found" ? localeParam : "cs_CZ";
 let idParam = getQueryParameter("id");
