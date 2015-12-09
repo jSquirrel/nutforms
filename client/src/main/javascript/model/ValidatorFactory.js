@@ -7,7 +7,7 @@ export default class ValidatorFactory {
      */
     static createFunction(rule) {
         if (rule.hasOwnProperty("condition")) {
-
+            
         }
         return function () {
         };

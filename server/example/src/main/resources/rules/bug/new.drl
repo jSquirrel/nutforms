@@ -22,3 +22,5 @@ rule "[Bug] Is description null"
         Bug(description != null)
     then
 end
+
+// toDo: description length - onkeyup validation
