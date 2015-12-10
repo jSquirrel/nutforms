@@ -76,7 +76,7 @@ export default class ApiHandler {
     }
 
     /**
-     * Fetches all entites of given class and lists their from given attributes.
+     * Fetches all entities of given class and lists their from given attributes.
      *
      * @param {string} className
      * @returns {Promise.<T>}

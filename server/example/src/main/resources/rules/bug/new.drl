@@ -23,4 +23,8 @@ rule "[Bug] Is description null"
     then
 end
 
-// toDo: description length - onkeyup validation
+rule "[Bug] Is description long enough"
+    when
+        Bug(description.length > 15)    // length vs length()
+    then
+end

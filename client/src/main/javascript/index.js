@@ -5,6 +5,7 @@ import ApiHandler from './api/ApiHandler.js';
 import EntityForm from './components/EntityForm.js';
 import EntityList from './components/EntityList.js';
 import ModelFactory from './model/ModelFactory.js';
+import ValidatorFactory from './validation/ValidatorFactory.js';
 
 
 class Nutforms {
@@ -25,9 +26,11 @@ class Nutforms {
         apiHandler.fetchMetadataFor(className, context, locale).then((results) => {
             let metadata = results[0];
             let localization = results[1];
+            let rules = results[2];
 
             apiHandler.fetchDataFor(className, entityId).then((data) => {
                 let model = modelFactory.create(className, entityId, metadata, localization, data, apiHandler);
+                ValidatorFactory.addObservers(model, rules);
 
                 React.render(
                     <EntityForm model={model}/>,
