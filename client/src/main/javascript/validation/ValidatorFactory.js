@@ -10,11 +10,12 @@ export default class ValidatorFactory {
      */
     static addObservers(model, rules) {
         rules.forEach(rule => {
-            let validator = this.createFunction(rule);
+            let attribute = model.getAttribute(this.getField(rule.condition));
+            let validator = this.createFunction(attribute, rule);
             if (validator) {
                 // toDo: distinguish events
                 // toDo: also add validators to Relations
-                model.getAttribute(this.getField(rule.condition)).listen(AttributeActions.VALUE_CHANGED, validator);
+                attribute.listen(AttributeActions.VALUE_CHANGED, validator);
             }
         })
     }
@@ -22,17 +23,29 @@ export default class ValidatorFactory {
     /**
      * Creates a validation function out of given object (rule as JSON)
      *
+     * @param {Attribute} model
      * @param {object} rule
      */
-    static createFunction(rule) {
+    static createFunction(attribute, rule) {
         if (rule.hasOwnProperty("condition")) {
             // toDo: implement function creation for multiple constraints and multiple fields
             // get the first word, i.e. sequence of letters separated by non-letter
             let field = this.getField(rule.condition);
             if (field !== null) {
                 return function (args) {
-                    console.log(eval('var ' + field + '="' + args.value + '";' + rule.condition));
-                    return eval('var ' + field + '="' + args.value + '";' + rule.condition);
+                    // cannot declare with 'let' keyword, otherwise the variable in anonymous function would evaluate as false
+                    var evalResult = eval('var ' + field + '="' + args.value + '";' + rule.condition);
+                    console.log(evalResult);
+                    // toDo: Do not write feedback directly, use Rule FQN as translation key
+                    attribute.trigger(AttributeActions.ATTRIBUTE_VALIDATED, {
+                        validation: {
+                            errors: [
+                                `Rule ${rule.name} was evaluated as ${evalResult}`
+                            ],
+                            info: []
+                        }
+                    });
+                    return evalResult;
                 }
             }
         }
