@@ -75,8 +75,10 @@ export default class FormInput extends React.Component {
      * @param {Attribute} attribute
      */
     onAttributeValidated(attribute) {
-        // TODO: revise this when Validation is implemented
-        this.setState({validationErrors: attribute.validation.errors, validationInfo: attribute.validation.info});
+        this.setState({
+            validationErrors: attribute.validation.errors,
+            validationInfo: attribute.validation.info
+        });
     }
 
     render() {

@@ -17,12 +17,6 @@ dialect  "mvel"
 //    then
 //end
 
-rule "[Bug] Is description null"
-    when
-        Bug(description != null)
-    then
-end
-
 rule "[Bug] Is description long enough"
     when
         Bug(description.length > 15)    // length vs length()
