@@ -30,7 +30,7 @@ class Nutforms {
 
             apiHandler.fetchDataFor(className, entityId).then((data) => {
                 let model = modelFactory.create(className, entityId, metadata, localization, data, apiHandler);
-                ValidatorFactory.addObservers(model, rules);
+                ValidatorFactory.addObservers(model, rules, locale);
 
                 React.render(
                     <EntityForm model={model}/>,

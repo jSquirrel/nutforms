@@ -6,11 +6,6 @@ import Base64 from './Base64.js';
  */
 export default class ApiHandler {
 
-    const API_ENDPOINT = 'api/';
-    const RULES_ENDPOINT = 'rules/';
-    const LOCALIZATION_ENDPOINT = 'localization/';
-    const CLASS_METADATA_ENDPOINT = 'meta/class/';
-
     /**
      * ApiHandler constructor.
      *
@@ -19,6 +14,11 @@ export default class ApiHandler {
      * @param {string} apiPassword
      */
     constructor(apiAddress, apiUser, apiPassword) {
+        this.API_ENDPOINT = 'api/';
+        this.RULES_ENDPOINT = 'rules/';
+        this.LOCALIZATION_ENDPOINT = 'localization/';
+        this.CLASS_METADATA_ENDPOINT = 'meta/class/';
+
         this.apiAddress = apiAddress;
         this.apiUser = apiUser;
         this.apiPassword = apiPassword;
@@ -82,7 +82,7 @@ export default class ApiHandler {
      * @param {string} context
      * @returns {Promise.<T>}
      */
-    fetchRules(className, context) {
+    fetchRules(className, context, locale) {
         return fetch(this._buildUrl(this.RULES_ENDPOINT + className + '/' + context))
             .then(this._toJson)
             .then(this._logResponse("Context rules loaded from API"));
