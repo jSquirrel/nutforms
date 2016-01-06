@@ -33,7 +33,6 @@ export default class EntityFormActions {
      */
     static fieldSaved(attribute, name, value) {
         // TODO: this one could be used for e.g. email address validation
-        //console.log(`EntityFormActions.fieldSaved(${name}, ${value})`);
         attribute.setValue(value);
     }
 

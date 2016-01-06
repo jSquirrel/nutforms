@@ -4,15 +4,14 @@ import cz.cvut.fel.nutforms.example.model.Bug;
 
 dialect  "mvel"
 
-rule "[Bug] Has description"
+rule "[Bug] Is description long enough"
     when
-        Bug(description != null && description != "")
+        Bug(description.length > 15)
     then
 end
 
-rule "[Bug] Is log valid"
+rule "[Bug] Is log filled in"
     when
-        Bug(log != null && log != "")
-        Bug(log.length() < 50)
+        Bug(log.length > 0)
     then
 end

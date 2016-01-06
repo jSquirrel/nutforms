@@ -39,7 +39,7 @@ export default class ValidatorFactory {
                     // toDo: Do not write feedback directly, use Rule FQN as translation key
                     attribute.trigger(AttributeActions.ATTRIBUTE_VALIDATED, {
                         validation: {
-                            errors: evalResult ? [] : [`Rule ${rule.name} was evaluated as ${evalResult}`],
+                            errors: evalResult ? [] : [`${rule.pckg}.${rule.name}`],
                             info: []
                         }
                     });
