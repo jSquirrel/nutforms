@@ -14,6 +14,11 @@ export default class ApiHandler {
      * @param {string} apiPassword
      */
     constructor(apiAddress, apiUser, apiPassword) {
+        this.API_ENDPOINT = 'api/';
+        this.RULES_ENDPOINT = 'rules/';
+        this.LOCALIZATION_ENDPOINT = 'localization/';
+        this.CLASS_METADATA_ENDPOINT = 'meta/class/';
+
         this.apiAddress = apiAddress;
         this.apiUser = apiUser;
         this.apiPassword = apiPassword;
@@ -37,18 +42,50 @@ export default class ApiHandler {
      */
     fetchMetadataFor(className, context, locale) {
 
-        let classMetadataPromise = fetch(this._buildUrl('meta/class/' + className))
-            .then(this._toJson)
-            .then(this._logResponse("Class metadata loaded from API"));
-        let localizationPromise = fetch(this._buildUrl('localization/' + locale + '/' + className + '/' + context))
-            .then(this._toJson)
-            .then(this._logResponse("Localization data loaded from API"));
-        let rulesPromise = fetch(this._buildUrl('rules/' + className + '/' + context))
-            .then(this._toJson)
-            .then(this._logResponse("Context rules loaded from API"));
+        let classMetadataPromise = this.fetchClassData(className);
+        let localizationPromise = this.fetchLocalization(locale, className + '/' + context)
+        let rulesPromise = this.fetchRules(className, context);
         // TODO: more metadata
 
         return Promise.all([classMetadataPromise, localizationPromise, rulesPromise]);
+    }
+
+    /**
+     * Fetches only class data for given class
+     *
+     * @param {string} className class FQN
+     * @returns {Promise.<T>}
+     */
+    fetchClassData(className) {
+        return fetch(this._buildUrl(this.CLASS_METADATA_ENDPOINT + className))
+            .then(this._toJson)
+            .then(this._logResponse("Class metadata loaded from API"));
+    }
+
+    /**
+     * Fetches translation of given key for given context
+     *
+     * @param {string} locale
+     * @param {string} translationKey
+     * @returns {Promise.<T>}
+     */
+    fetchLocalization(locale, translationKey) {
+        return fetch(this._buildUrl(this.LOCALIZATION_ENDPOINT + locale + '/' + translationKey))
+            .then(this._toJson)
+            .then(this._logResponse("Localization data loaded from API"));
+    }
+
+    /**
+     * Fetches rules for given class within given context
+     *
+     * @param {string} className
+     * @param {string} context
+     * @returns {Promise.<T>}
+     */
+    fetchRules(className, context, locale) {
+        return fetch(this._buildUrl(this.RULES_ENDPOINT + className + '/' + context))
+            .then(this._toJson)
+            .then(this._logResponse("Context rules loaded from API"));
     }
 
     /**
@@ -64,7 +101,7 @@ export default class ApiHandler {
             return Promise.resolve({});
         }
 
-        return fetch(this._buildUrl('api/' + className.split(".").pop() + '/' + id), {
+        return fetch(this._buildUrl(this.API_ENDPOINT + className.split(".").pop() + '/' + id), {
             headers: {
                 Authorization: "Basic " + Base64.encode(this.apiUser + ":" + this.apiPassword)
                 , Accept: "application/json;charset=UTF-8"
@@ -76,13 +113,13 @@ export default class ApiHandler {
     }
 
     /**
-     * Fetches all entites of given class and lists their from given attributes.
+     * Fetches all entities of given class and lists their from given attributes.
      *
      * @param {string} className
      * @returns {Promise.<T>}
      */
     fetchList(className) {
-        return fetch(this._buildUrl('api/' + className.split(".").pop()), {
+        return fetch(this._buildUrl(this.API_ENDPOINT + className.split(".").pop()), {
             headers: {
                 Authorization: "Basic " + Base64.encode(this.apiUser + ":" + this.apiPassword)
                 , Accept: "application/json;charset=UTF-8"
@@ -102,7 +139,7 @@ export default class ApiHandler {
      * @param {number} id
      */
     submit(className, data, method, id) {
-        let url = this._buildUrl('api/' + className.split(".").pop());
+        let url = this._buildUrl(this.API_ENDPOINT + className.split(".").pop());
         if (id !== null) {
             url += '/' + id;
         }

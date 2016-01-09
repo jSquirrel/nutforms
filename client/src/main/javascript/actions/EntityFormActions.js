@@ -14,15 +14,15 @@ export default class EntityFormActions {
         attribute.setValue(value);
 
         // TODO: remove, this is only temporary
-        let remaining = 150 - value.length;
-        attribute.trigger(AttributeActions.ATTRIBUTE_VALIDATED, {
-            validation: {
-                errors: [],
-                info: [
-                    `${remaining} characters remaining`
-                ]
-            }
-        });
+        //let remaining = 150 - value.length;
+        //attribute.trigger(AttributeActions.ATTRIBUTE_VALIDATED, {
+        //    validation: {
+        //        errors: [],
+        //        info: [
+        //            `${remaining} characters remaining`
+        //        ]
+        //    }
+        //});
     }
 
     /**
@@ -33,7 +33,6 @@ export default class EntityFormActions {
      */
     static fieldSaved(attribute, name, value) {
         // TODO: this one could be used for e.g. email address validation
-        //console.log(`EntityFormActions.fieldSaved(${name}, ${value})`);
         attribute.setValue(value);
     }
 
