@@ -80,6 +80,7 @@ export default class ApiHandler {
      *
      * @param {string} className
      * @param {string} context
+     * @param {string} locale
      * @returns {Promise.<T>}
      */
     fetchRules(className, context, locale) {
