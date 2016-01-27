@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import assert from 'assert';
 import AttributeLocalization from '../../../../src/main/javascript/model/AttributeLocalization.js';
 

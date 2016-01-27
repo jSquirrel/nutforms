@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import assert from 'assert';
 import ModelFactory from '../../../../src/main/javascript/model/ModelFactory.js';
 

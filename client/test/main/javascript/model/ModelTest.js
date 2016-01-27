@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import assert from 'assert';
 import Model from '../../../../src/main/javascript/model/Model.js';
 import Submit from '../../../../src/main/javascript/model/Submit.js';

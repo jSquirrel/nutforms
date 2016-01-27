@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import assert from 'assert';
 import ModelLocalization from '../../../../src/main/javascript/model/ModelLocalization.js';
 

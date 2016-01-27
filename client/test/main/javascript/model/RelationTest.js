@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import assert from 'assert';
 import Relation from '../../../../src/main/javascript/model/Relation.js';
 

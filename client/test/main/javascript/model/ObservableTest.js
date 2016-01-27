@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import assert from 'assert';
 import Observable from '../../../../src/main/javascript/model/Observable.js';
 

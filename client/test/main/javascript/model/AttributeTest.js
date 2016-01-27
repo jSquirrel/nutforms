@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import assert from 'assert';
 import Attribute from '../../../../src/main/javascript/model/Attribute.js';
 
