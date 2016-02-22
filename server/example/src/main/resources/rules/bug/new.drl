@@ -3,17 +3,18 @@ package cz.cvut.fel.nutforms.example.model.Bug.new;
 import cz.cvut.fel.nutforms.example.model.Bug;
 
 dialect  "mvel"
-//rule "[Bug] Is description long enough"
-//    when
-//        Bug(description.length > 15)    // length vs length()
-//    then
-//end
-//
-//rule "[Bug] Is log filled in"
-//    when
-//        Bug(log.length > 0)
-//    then
-//end
+
+rule "[Bug] Is description long enough"
+    when
+        Bug(description.length > 15)    // length vs length()
+    then
+end
+
+rule "[Bug] Is log filled in"
+    when
+        Bug(log.length > 0)
+    then
+end
 
 // regex test
 rule "[Bug] Is alphanumeric"
