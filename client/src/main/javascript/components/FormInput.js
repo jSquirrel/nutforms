@@ -13,7 +13,7 @@ export default class FormInput extends React.Component {
         super(props);
         this.props.attribute.listen(AttributeActions.VALUE_CHANGED, this);
         this.props.attribute.listen(AttributeActions.ATTRIBUTE_VALIDATED, this);
-        this.state = {value: this.props.attribute.value, validationErrors: [], validationInfo: []};
+        this.state = {value: this.props.attribute.value, validationErrors: {}, validationInfo: {}};
         this.handleChange = this.handleChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
     }
@@ -76,9 +76,22 @@ export default class FormInput extends React.Component {
      */
     onAttributeValidated(attribute) {
         this.setState({
-            validationErrors: attribute.validation.errors,
-            validationInfo: attribute.validation.info
+            validationErrors: FormInput._updateValidationState(this.state.validationErrors, attribute.validation.errors,
+                attribute.validation.rule),
+            validationInfo: FormInput._updateValidationState(this.state.validationInfo, attribute.validation.info,
+                attribute.validation.rule)
         });
+    }
+
+    static _updateValidationState(oldState, newState, ruleName) {
+        let updated = Object.assign({}, oldState);
+        updated[`${ruleName}`] = newState;
+        for (let attr in updated) {
+            if (updated.hasOwnProperty(attr) && updated[attr] === null) {
+                delete updated[attr];
+            }
+        }
+        return updated;
     }
 
     render() {

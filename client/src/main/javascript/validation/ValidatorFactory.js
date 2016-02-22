@@ -38,7 +38,6 @@ export default class ValidatorFactory {
             if (field !== null) {
                 return function (args) {
                     // cannot declare with 'let' keyword, otherwise the variable in anonymous function would evaluate as false
-                    console.log('var ' + field + '="' + args.value + '";' + that.rewriteCondition(rule.condition));
                     var evalResult = eval('var ' + field + '="' + args.value + '";' + that.rewriteCondition(rule.condition));
                     let url = document.location.origin + '/';
                     let apiHandler = new ApiHandler(url, 'admin', '1234');
@@ -46,8 +45,9 @@ export default class ValidatorFactory {
                         console.log(data);
                         attribute.trigger(AttributeActions.ATTRIBUTE_VALIDATED, {
                             validation: {
-                                errors: evalResult ? [] : [data[rule.name]],
-                                info: []
+                                rule: rule.name,
+                                errors: evalResult ? null : data[rule.name],
+                                info: null
                             }
                         });
                     });
@@ -77,8 +77,8 @@ export default class ValidatorFactory {
     static rewriteCondition(condition) {
         let rewritten = condition;
         // rewrite regex matching
-        let split = rewritten.split(' ');
-        while (split.indexOf('~=') > -1) {  // matches gets rewritten to '~=' in Drools
+        while (rewritten.split(' ').indexOf('~=') > -1) {  // matches gets rewritten to '~=' in Drools
+            let split = rewritten.split(' ');
             let matchesIndex = split.indexOf('~=');
             let regex = split[matchesIndex + 1];
             var regexIndex = matchesIndex + 1;
@@ -87,11 +87,10 @@ export default class ValidatorFactory {
             }
             split.length = 3;
             split[matchesIndex + 1] = split[matchesIndex - 1] + ')';    // matches the opening bracket of 'test('
-            split[matchesIndex - 1] = regex.replace(/"/g,'/');  // globally replace quotes by slashes (RegExp notation)
+            split[matchesIndex - 1] = regex.replace(/"/g, '/');  // globally replace quotes by slashes (RegExp notation)
             split[matchesIndex] = '.test(';
             rewritten = split.join(' ');
         }
-        console.log(rewritten);
         return rewritten;
     }
 }

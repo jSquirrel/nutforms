@@ -22,18 +22,22 @@ export default class TextInput extends FormInput {
     render() {
 
         let infos = [];
-        this.state.validationInfo.forEach((info) => {
-            infos.push((
-                <span class="validation-info">{info}</span>
-            ));
-        });
+        for (let info in this.state.validationInfo) {
+            if (this.state.validationInfo.hasOwnProperty(info)) {
+                infos.push((
+                    <div class="validation-info">{this.state.validationInfo[info]}</div>
+                ));
+            }
+        }
 
         let errors = [];
-        this.state.validationErrors.forEach((error) => {
-            infos.push((
-                <span class="validation-error">{error}</span>
-            ));
-        });
+        for (let error in this.state.validationErrors) {
+            if (this.state.validationErrors.hasOwnProperty(error)) {
+                infos.push((
+                    <div class="validation-error">{this.state.validationErrors[error]}</div>
+                ));
+            }
+        }
 
         let input;
         if (this.props.attribute.isPrimary()) {

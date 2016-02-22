@@ -20,6 +20,7 @@ export default class NumberInput extends FormInput {
      * @returns {XML}
      */
     render() {
+        // toDo: add validation feedback (ideally to superclass)
         let input;
         if (this.props.attribute.isPrimary()) {
             input = <input type="number"
