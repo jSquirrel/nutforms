@@ -83,6 +83,16 @@ export default class FormInput extends React.Component {
         });
     }
 
+    /**
+     * Merges current component state with received changes and returns the new state (without calling
+     * <code>this#setState()</code>)
+     *
+     * @param {object} oldState current component state
+     * @param {object} newState received object
+     * @param {string} ruleName the name of the validation rule
+     * @returns {object} new component state
+     * @private
+     */
     static _updateValidationState(oldState, newState, ruleName) {
         let updated = Object.assign({}, oldState);
         updated[`${ruleName}`] = newState;
