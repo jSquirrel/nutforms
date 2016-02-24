@@ -10,19 +10,7 @@ export default class EntityFormActions {
      * @param {string} value
      */
     static fieldChanged(attribute, name, value) {
-
         attribute.setValue(value);
-
-        // TODO: remove, this is only temporary
-        //let remaining = 150 - value.length;
-        //attribute.trigger(AttributeActions.ATTRIBUTE_VALIDATED, {
-        //    validation: {
-        //        errors: [],
-        //        info: [
-        //            `${remaining} characters remaining`
-        //        ]
-        //    }
-        //});
     }
 
     /**

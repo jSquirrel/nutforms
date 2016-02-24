@@ -11,9 +11,10 @@ export default class Relation extends Attribute {
      * @param {*} value
      * @param {string} targetClass
      * @param {AttributeLocalization} localization
+     * @param {Validation} validation
      */
-    constructor(name, type, value, targetClass, localization) {
-        super(name, type, value, localization, false);
+    constructor(name, type, value, targetClass, localization, validation) {
+        super(name, type, value, localization, validation, false);
         this.targetClass = targetClass;
     }
 

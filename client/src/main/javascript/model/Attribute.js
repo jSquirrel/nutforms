@@ -10,14 +10,16 @@ export default class Attribute extends Observable {
      * @param {string} type
      * @param {*} value
      * @param {AttributeLocalization} localization
+     * @param {Validation} validation
      * @param {boolean} isPrimary
      */
-    constructor(name, type, value, localization, isPrimary) {
+    constructor(name, type, value, localization, validation, isPrimary) {
         super();
         this.name = name;
         this.type = type;
         this.value = value;
         this.localization = localization;
+        this.validation = validation;
         this._isPrimary = isPrimary;
     }
 
@@ -49,4 +51,12 @@ export default class Attribute extends Observable {
         return this._isPrimary;
     }
 
+    /**
+     * Returns <code>true</code> if the value of this attribute is not valid, <code>false</code> if valid
+     *
+     * @returns {boolean}
+     */
+    hasErrors() {
+        return this.validation.hasErrors();
+    }
 }

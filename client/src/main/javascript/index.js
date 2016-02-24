@@ -29,7 +29,7 @@ class Nutforms {
             let rules = results[2];
 
             apiHandler.fetchDataFor(className, entityId).then((data) => {
-                let model = modelFactory.create(className, entityId, metadata, localization, data, apiHandler);
+                let model = modelFactory.create(className, entityId, metadata, context, localization, data, apiHandler);
                 ValidatorFactory.addObservers(model, rules, locale);
 
                 React.render(

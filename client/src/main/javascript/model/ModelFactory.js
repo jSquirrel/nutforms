@@ -1,6 +1,7 @@
 import Model from './Model.js';
 import Attribute from './Attribute.js';
 import Relation from './Relation.js';
+import Validation from './Validation.js';
 import AttributeLocalization from './AttributeLocalization.js';
 import ModelLocalization from './ModelLocalization.js';
 import Submit from './Submit.js';
@@ -14,12 +15,13 @@ export default class ModelFactory {
      * @param {string} className
      * @param {*} id
      * @param {object} entityMetadata
+     * @param {string} context
      * @param {object} localization
      * @param {object} values
      * @param {ApiHandler} apiHandler
      * @returns {Model}
      */
-    create(className, id, entityMetadata = {}, localization = {}, values = {}, apiHandler) {
+    create(className, id, entityMetadata = {}, context, localization = {}, values = {}, apiHandler) {
         let attributes = this.createAttributes(entityMetadata, localization, values);
         let relations = this.createRelations(entityMetadata, localization, values);
         let modelLocalization = new ModelLocalization(
@@ -31,11 +33,12 @@ export default class ModelFactory {
 
         return new Model(
             className,
-            "",
+            context,
             id,
             attributes,
             relations,
             modelLocalization,
+            new Validation,
             submit
         );
     }
@@ -60,6 +63,7 @@ export default class ModelFactory {
                     attribute.type,
                     value,
                     attributeLocalization,
+                    new Validation(),
                     attribute.is_primary
                 );
             });
@@ -86,7 +90,8 @@ export default class ModelFactory {
                     relation.name,
                     relation.type,
                     value, relation["target_entity"],
-                    new AttributeLocalization(localization[`form.${relation.name}.label`])
+                    new AttributeLocalization(localization[`form.${relation.name}.label`]),
+                    new Validation()
                 );
             });
         }
