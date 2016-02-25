@@ -25,6 +25,10 @@
         <servlet-class>cz.cvut.fel.nutforms.rules.servlet.RuleServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>WidgetServlet</servlet-name>
+        <servlet-class>cz.cvut.fel.nutforms.widget.WidgetServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AdaptiveApiServlet</servlet-name>
         <servlet-class>cz.cvut.fel.nutforms.example.AdaptiveApiServlet</servlet-class>
     </servlet>
@@ -44,6 +48,10 @@
     <servlet-mapping>
         <servlet-name>RuleServlet</servlet-name>
         <url-pattern>/rules/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WidgetServlet</servlet-name>
+        <url-pattern>/widget/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AdaptiveApiServlet</servlet-name>

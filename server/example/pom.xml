@@ -44,6 +44,12 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>nutforms</groupId>
+            <artifactId>widget</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- Adaptive RESTful API -->
         <dependency>
             <groupId>cz.cvut.fel</groupId>
