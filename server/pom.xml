@@ -19,6 +19,7 @@
         <module>example</module>
         <module>widget</module>
         <module>layout</module>
+        <module>layout</module>
     </modules>
 
     <dependencies>

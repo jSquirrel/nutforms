@@ -13,6 +13,10 @@
         <servlet-class>cz.cvut.fel.nutforms.meta.MetadataServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>LayoutServlet</servlet-name>
+        <servlet-class>cz.cvut.fel.nutforms.layout.LayoutServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>LocalizationServlet</servlet-name>
         <servlet-class>cz.cvut.fel.nutforms.localization.LocalizationServlet</servlet-class>
     </servlet>
@@ -28,6 +32,10 @@
     <servlet-mapping>
         <servlet-name>MetadataServlet</servlet-name>
         <url-pattern>/meta/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LayoutServlet</servlet-name>
+        <url-pattern>/layout/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LocalizationServlet</servlet-name>
