@@ -1,32 +1,88 @@
 export default class LayoutParser {
 
     /**
+     * LayoutParser constructor.
+     *
+     * @param {Model} model
+     */
+    constructor(model) {
+        this.model = model;
+    }
+
+    /**
      *
      * @param {string} layoutString
      */
-    static parse(layoutString) {
+    parse(layoutString) {
         let parser = new DOMParser();
         let doc = parser.parseFromString(layoutString, "text/html");
-        let matchingElements = LayoutParser.findElementsWithAttribute(doc, "nf-entity-form");
-        console.log("matchingElements" + matchingElements);
+        let entityForms = this.findElementsWithAttribute(doc, "nf-entity-form");
+        console.log("Entity forms count", entityForms.length);
+
+        // Entity Form
+        if (entityForms.length > 0) {
+            let entityForm = entityForms.shift(); // TODO: what about the other forms?
+            var usedAttributes = this.addExplicitWidgets(entityForm);
+            this.addRemainingWidgets(usedAttributes, entityForm);
+            entityForm.insertAdjacentHTML('beforeend', this.model.widgetFactory.loadSubmitWidget());
+        }
+
+        // Entity List
+        let entityLists = this.findElementsWithAttribute(doc, "nf-entity-list");
+        if (entityLists.length > 0) {
+            // TODO: list
+        }
 
         return doc;
     }
 
     /**
+     * Adds explicit widgets to the HTMLDocument.
+     *
+     * @param {HTMLDocument} entityForm
+     * @returns {Array}
+     */
+    private addExplicitWidgets(entityForm) {
+        let usedAttributes = [];
+        let explicitWidgets = this.findElementsWithAttribute(entityForm, "nf-field-widget");
+        for (var i = 0, n = explicitWidgets.length; i < n; i++) {
+            let widget = explicitWidgets[i];
+            let attribute = this.model.getAttribute(widget.getAttribute("nf-field-widget"));
+            widget.innerHTML = this.model.widgetFactory.loadFieldWidget(attribute);
+            usedAttributes.push(attribute.name);
+        }
+        return usedAttributes;
+    }
+
+    /**
+     * Adds implicit widgets to the HTMLDocument.
+     *
+     * @param {string[]} usedAttributes
+     * @param {HTMLDocument} entityForm
+     */
+    private addRemainingWidgets(usedAttributes, entityForm) {
+        // Add remaining/implicit widgets
+        for (var attributeName in this.model.attributes) {
+            let attribute = this.model.attributes[attributeName];
+            if (usedAttributes.find(x => x == attributeName) !== undefined) {
+                continue;
+            }
+            entityForm.insertAdjacentHTML('beforeend', this.model.widgetFactory.loadFieldWidget(attribute));
+        }
+    }
+
+    /**
      *
      *
-     * @param {{}} doc
+     * @param {HTMLDocument} doc
      * @param {string} attribute
      * @returns {Array}
      */
-    static findElementsWithAttribute(doc, attribute) {
+    private findElementsWithAttribute(doc, attribute) {
         let matchingElements = [];
         let allElements = doc.getElementsByTagName('*');
-        for (var i = 0, n = allElements.length; i < n; i++)
-        {
-            if (allElements[i].getAttribute(attribute) !== null)
-            {
+        for (var i = 0, n = allElements.length; i < n; i++) {
+            if (allElements[i].getAttribute(attribute) !== null) {
                 matchingElements.push(allElements[i]);
             }
         }

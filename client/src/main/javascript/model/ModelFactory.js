@@ -5,6 +5,7 @@ import AttributeLocalization from './AttributeLocalization.js';
 import ModelLocalization from './ModelLocalization.js';
 import Submit from './Submit.js';
 import Layout from './Layout.js';
+import WidgetFactory from './WidgetFactory.js';
 
 
 export default class ModelFactory {
@@ -31,6 +32,7 @@ export default class ModelFactory {
             , localization["form.submit.succeeded_value"]
             , localization["form.submit.failed_value"]);
         let submit = new Submit(apiHandler);
+        let widgetFactory = new WidgetFactory();
 
         return new Model(
             className,
@@ -40,7 +42,8 @@ export default class ModelFactory {
             relations,
             modelLocalization,
             submit,
-            layout
+            layout,
+            widgetFactory
         );
     }
 
