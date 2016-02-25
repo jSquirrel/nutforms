@@ -1,0 +1,19 @@
+<div>
+    <form class="form" role="form" nf-entity-form="cz.cvut.fel.nutforms.example.model.Bug:new">
+        <h1>Create a Bug</h1>
+        <div class="form-group">
+            <div nf-widget-for="id"></div>
+            <!--<label nf-label="id" for="id">ID</label>-->
+            <!--<input nf-field="id" id="id" type="number" class="form-control" name="id" disabled="">-->
+        </div>
+        <div class="form-group">
+            <label nf-label="description" for="description">Description</label>
+            <input nf-value="description" id="description" type="text" class="form-control" name="description">
+        </div>
+        <div class="form-group">
+            <label nf-label="log" for="log">Log</label>
+            <input nf-value="log" id="log" type="text" class="form-control" name="log">
+        </div>
+        <button nf-submit type="submit" class="btn btn-default">Create</button>
+    </form>
+</div>

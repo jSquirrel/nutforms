@@ -16,6 +16,7 @@ export default class ApiHandler {
     constructor(apiAddress, apiUser, apiPassword) {
         this.API_ENDPOINT = 'api/';
         this.RULES_ENDPOINT = 'rules/';
+        this.LAYOUT_ENDPOINT = 'layout/';
         this.LOCALIZATION_ENDPOINT = 'localization/';
         this.CLASS_METADATA_ENDPOINT = 'meta/class/';
 
@@ -23,6 +24,7 @@ export default class ApiHandler {
         this.apiUser = apiUser;
         this.apiPassword = apiPassword;
 
+        this._toText = response => response.text();
         this._toJson = response => response.json();
         this._logResponse = (message) => {
             return response => {
@@ -43,11 +45,12 @@ export default class ApiHandler {
     fetchMetadataFor(className, context, locale) {
 
         let classMetadataPromise = this.fetchClassData(className);
-        let localizationPromise = this.fetchLocalization(locale, className + '/' + context)
+        let localizationPromise = this.fetchLocalization(locale, className + '/' + context);
         let rulesPromise = this.fetchRules(className, context);
+        let layoutPromise = this.fetchLayout(className, context);
         // TODO: more metadata
 
-        return Promise.all([classMetadataPromise, localizationPromise, rulesPromise]);
+        return Promise.all([classMetadataPromise, localizationPromise, rulesPromise, layoutPromise]);
     }
 
     /**
@@ -87,6 +90,19 @@ export default class ApiHandler {
         return fetch(this._buildUrl(this.RULES_ENDPOINT + className + '/' + context))
             .then(this._toJson)
             .then(this._logResponse("Context rules loaded from API"));
+    }
+
+    /**
+     * Fetches layout for given class within given context
+     *
+     * @param {string} className
+     * @param {string} context
+     * @returns {Promise.<T>}
+     */
+    fetchLayout(className, context) {
+        return fetch(this._buildUrl(this.LAYOUT_ENDPOINT + className + '/' + context))
+            .then(this._toText)
+            .then(this._logResponse("Layout for context loaded from API"));
     }
 
     /**

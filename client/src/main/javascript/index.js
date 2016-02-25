@@ -27,15 +27,19 @@ class Nutforms {
             let metadata = results[0];
             let localization = results[1];
             let rules = results[2];
+            let layout = results[3];
 
             apiHandler.fetchDataFor(className, entityId).then((data) => {
-                let model = modelFactory.create(className, entityId, metadata, localization, data, apiHandler);
+                let model = modelFactory.create(className, entityId, metadata, layout, localization, data, apiHandler);
                 ValidatorFactory.addObservers(model, rules, locale);
 
-                React.render(
-                    <EntityForm model={model}/>,
-                    document.getElementById(bindElementId)
-                );
+                let html = model.layout.generateHtml();
+                document.getElementById(bindElementId).innerHTML = html;
+
+                //React.render(
+                //    <EntityForm model={model}/>,
+                //    document.getElementById(bindElementId)
+                //);
             });
         });
     };

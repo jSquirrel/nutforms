@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import assert from 'assert';
 import ModelFactory from '../../../../src/main/javascript/model/ModelFactory.js';
 
-let className = "cz.cvut.fel.nutforms.example.model.Bug";
+let className = "cz.cvut.fel.nutforms.example.model.cz.cvut.fel.nutforms.example.model.Bug";
 let metadata = {
     "attributes": [
         {

@@ -14,8 +14,9 @@ export default class Model extends Observable {
      * @param {Relation[]} relations
      * @param {ModelLocalization} localization
      * @param {Submit} submit
+     * @param {Layout} layout
      */
-    constructor(className, context, id, attributes, relations, localization, submit) {
+    constructor(className, context, id, attributes, relations, localization, submit, layout) {
         super();
         this.className = className;
         this.context = context;
@@ -24,6 +25,7 @@ export default class Model extends Observable {
         this.relations = relations;
         this.localization = localization;
         this.submit = submit.bind(this);
+        this.layout = layout;
     }
 
     /**
