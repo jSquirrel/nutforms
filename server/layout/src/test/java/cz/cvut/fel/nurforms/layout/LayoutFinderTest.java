@@ -13,7 +13,7 @@ public class LayoutFinderTest {
     @Test
     public void testFind() throws LayoutNotFound {
         LayoutFinder finder = new LayoutFinder();
-        Assert.assertEquals("Lorem ipsum", finder.find("bug-edit"));
+        Assert.assertEquals("Lorem ipsum", finder.find("cz.cvut.fel.nutforms.model.cz.cvut.fel.nutforms.example.model.Bug/edit"));
     }
 
     @Test(expectedExceptions = LayoutNotFound.class)
