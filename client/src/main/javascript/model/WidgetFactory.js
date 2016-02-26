@@ -33,16 +33,19 @@ export default class WidgetFactory {
         switch (attribute.type) {
             case "java.lang.String":
                 // TODO: replace with loaded widget
-                return "<label nf-field-widget-label=\"id\" for=\"id\">"
+                return "<div class=\"form-group\"><label nf-field-widget-label=\"" + attribute.name + "\" for=\"" + attribute.name + "\">"
                     + "</label>"
-                    + "<input nf-field-widget-value=\"id\" class=\"form-control\" id=\"id\" name=\"id\" type=\"text\""
+                    + "<input nf-field-widget-value=\"" + attribute.name + "\" class=\"form-control\" id=\""
+                    + attribute.name + "\" name=\"" + attribute.name + "\" type=\"text\""
+                    + disabledString + " /></div>";
             //return "input-text";
             case "java.lang.Long":
                 // TODO: replace with loaded widget
-                return "<label nf-field-widget-label=\"id\" for=\"id\">"
+                return "<div class=\"form-group\"><label nf-field-widget-label=\"" + attribute.name + "\" for=\"" + attribute.name + "\">"
                     + "</label>"
-                    + "<input nf-field-widget-value=\"id\" class=\"form-control\" id=\"id\" name=\"id\" type=\"number\""
-                    + disabledString + " />";
+                    + "<input nf-field-widget-value=\"" + attribute.name + "\" class=\"form-control\" id=\""
+                    + attribute.name + "\" name=\"" + attribute.name + "\" type=\"number\""
+                    + disabledString + " /></div>";
             //return "input-number";
         }
     }
@@ -53,12 +56,10 @@ export default class WidgetFactory {
      * @returns {string}
      */
     loadSubmitWidget() {
-        console.log("loading submit widget");
         let string =
-            "<button type=\"submit\" class=\"btn btn-default\">"
+            "<div class=\"form-group\"><button type=\"submit\" class=\"btn btn-default\">"
             + this.model.getSubmitValue()
-            + "</button>";
-        console.log("loaded submit widget");
+            + "</button></div>";
         return string;
     }
 

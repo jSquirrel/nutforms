@@ -89,7 +89,25 @@ export default class LayoutParser {
      * @param {HTMLDocument} doc
      */
     bindListeners(doc) {
-        // TODO
+
+        // Bind values
+        let values = this.findElementsWithAttribute(doc, "nf-field-widget-value");
+        for (var k = 0, o = values.length; k < o; k++) {
+            let value = values[k];
+            let attributeName = value.getAttribute("nf-field-widget-value");
+            let attributeValue = this.model.getAttribute(attributeName).value;
+            if (attributeValue != null) {
+                value.setAttribute("value", attributeValue);
+            }
+        }
+
+        // Bind labels
+        let labels = this.findElementsWithAttribute(doc, "nf-field-widget-label");
+        for (var i = 0, n = labels.length; i < n; i++) {
+            let label = labels[i];
+            let attributeName = label.getAttribute("nf-field-widget-label");
+            label.innerHTML = this.model.getAttribute(attributeName).getFormLabel();
+        }
     }
 
     /**
