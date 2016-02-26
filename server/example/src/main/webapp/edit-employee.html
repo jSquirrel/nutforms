@@ -57,34 +57,40 @@
     <div class="col-md-6">
         <pre style="margin-top: 60px;"><code class="html">&lt;div id="form"&gt;&lt;/div&gt;
 &lt;script type="application/javascript"&gt;
-// Finds element with id "form"
+// Retrieves the id from HTTP query parameter
+var id = nutforms.getQueryParameter("id")
+// Gets element with id "form"
 var element = document.getElementById("form");
 // Binds form to given element
 nutforms.bindForm(
-    "cz.cvut.fel.nutforms.example.model.Bug", // Entity class
-    "create", // Context
+    "cz.cvut.fel.nutforms.example.model.Employee", // Entity class
+    "edit", // Context
     "en_US", // Locale
-    null, // Id - null in this case
+    id, // Id of the entity
     element // Form will be binded to this element
 );
 &lt;/script&gt;</code></pre>
-        <p>Script on page <span style="font-style: italic;">webapp/create-bug.html</span></p>
+        <p>Script on page <span style="font-style: italic;">webapp/edit-employee.html</span></p>
         <pre style="margin-top: 60px;"><code class="html">&lt;form class="form" role="form" nf-entity-form="nf-entity-form"&gt;
-    &lt;h1&gt;Create a Bug&lt;/h1&gt;
-    &lt;div nf-field-widget="id"&gt;&lt;/div&gt;
-    &lt;div nf-field-widget="description"&gt;&lt;/div&gt;
-    &lt;div nf-field-widget="log"&gt;&lt;/div&gt;
+    &lt;h1&gt;Edit Employee&lt;/h1&gt;
+    &lt;-- Other field widgets are generated automagically here --&gt;
     &lt;-- Submit button is automagically generated here --&gt;
 &lt;/form&gt;</code></pre>
-        <p>Layout file <span style="font-style: italic;">resources/layout/cz.cvut.fel.nutforms.model.Bug/new.html</span></p>
+        <p>Layout file <span style="font-style: italic;">resources/layout/cz.cvut.fel.nutforms.model.Employee/edit.html</span></p>
     </div>
 </div>
 
 <script src="js/vendors.js"></script>
 <script src="js/bundle.js"></script>
 <script type="application/javascript">
+    var id = nutforms.getQueryParameter("id");
     var element = document.getElementById("form");
-    nutforms.bindForm("cz.cvut.fel.nutforms.example.model.Bug", "new", "en_US", null, form);
+    if (id !== "Not found") {
+        nutforms.bindForm("cz.cvut.fel.nutforms.example.model.Eployee", "edit", "en_US", id, element);
+    } else {
+        document.getElementById("form").innerHTML = "<h2 class=\"center\">Employee with given ID was not found.<h2>";
+    }
+
     hljs.initHighlighting();
 </script>
 </body>
