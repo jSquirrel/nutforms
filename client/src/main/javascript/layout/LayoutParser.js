@@ -1,3 +1,8 @@
+import EntityFormActions from './../actions/EntityFormActions.js';
+import * as AttributeActions from './../constants/AttributeActions.js';
+import * as ModelActions from './../constants/ModelActions.js';
+
+
 export default class LayoutParser {
 
     /**
@@ -10,15 +15,15 @@ export default class LayoutParser {
     }
 
     /**
+     * Parses the layout from layoutString and weaves in widgets.
      *
      * @param {string} layoutString
+     * @return {HTMLDocument} HTMLDocument created from the layoutString with widgets.
      */
     parse(layoutString) {
         let parser = new DOMParser();
         let doc = parser.parseFromString(layoutString, "text/html");
         this.weaveWidgets(doc);
-        this.bindListeners(doc);
-
         return doc;
     }
 
@@ -28,9 +33,9 @@ export default class LayoutParser {
      * @param {HTMLDocument} entityForm
      * @returns {Array}
      */
-    addExplicitWidgets(entityForm) {
+    _addExplicitWidgets(entityForm) {
         let usedAttributes = [];
-        let explicitWidgets = this.findElementsWithAttribute(entityForm, "nf-field-widget");
+        let explicitWidgets = this._findElementsWithAttribute(entityForm, "nf-field-widget");
         for (var i = 0, n = explicitWidgets.length; i < n; i++) {
             let widget = explicitWidgets[i];
             let attribute = this.model.getAttribute(widget.getAttribute("nf-field-widget"));
@@ -46,7 +51,7 @@ export default class LayoutParser {
      * @param {string[]} usedAttributes
      * @param {HTMLDocument} entityForm
      */
-    addRemainingWidgets(usedAttributes, entityForm) {
+    _addRemainingWidgets(usedAttributes, entityForm) {
         // Add remaining/implicit widgets
         for (var attributeName in this.model.attributes) {
             let attribute = this.model.attributes[attributeName];
@@ -68,30 +73,30 @@ export default class LayoutParser {
         // TODO: What if there are no forms nor lists, maybe throw something?
 
         // Entity Form
-        let entityForms = this.findElementsWithAttribute(doc, "nf-entity-form");
+        let entityForms = this._findElementsWithAttribute(doc, "nf-entity-form");
         if (entityForms.length > 0) {
             let entityForm = entityForms.shift(); // TODO: what about the other forms?
-            var usedAttributes = this.addExplicitWidgets(entityForm);
-            this.addRemainingWidgets(usedAttributes, entityForm);
+            var usedAttributes = this._addExplicitWidgets(entityForm);
+            this._addRemainingWidgets(usedAttributes, entityForm);
             entityForm.insertAdjacentHTML('beforeend', this.model.widgetFactory.loadSubmitWidget());
         }
 
         // Entity List
-        let entityLists = this.findElementsWithAttribute(doc, "nf-entity-list");
+        let entityLists = this._findElementsWithAttribute(doc, "nf-entity-list");
         if (entityLists.length > 0) {
             // TODO: list
         }
     }
 
     /**
-     * Binds model listeners to the inputs.
+     * Binds model values & labels to the inputs.
      *
      * @param {HTMLDocument} doc
      */
-    bindListeners(doc) {
+    bindValues(doc) {
 
         // Bind values
-        let values = this.findElementsWithAttribute(doc, "nf-field-widget-value");
+        let values = this._findElementsWithAttribute(doc, "nf-field-widget-value");
         for (var k = 0, o = values.length; k < o; k++) {
             let value = values[k];
             let attributeName = value.getAttribute("nf-field-widget-value");
@@ -102,11 +107,48 @@ export default class LayoutParser {
         }
 
         // Bind labels
-        let labels = this.findElementsWithAttribute(doc, "nf-field-widget-label");
+        let labels = this._findElementsWithAttribute(doc, "nf-field-widget-label");
         for (var i = 0, n = labels.length; i < n; i++) {
             let label = labels[i];
             let attributeName = label.getAttribute("nf-field-widget-label");
             label.innerHTML = this.model.getAttribute(attributeName).getFormLabel();
+        }
+    }
+
+    /**
+     * Binds model listeners to the inputs.
+     *
+     * @param {HTMLDocument} doc
+     */
+    bindListeners(doc) {
+        // Bind values listeners
+        let values = this._findElementsWithAttribute(doc, "nf-field-widget-value");
+        for (var k = 0, o = values.length; k < o; k++) {
+            let value = values[k];
+            let attributeName = value.getAttribute("nf-field-widget-value");
+            let attribute = this.model.getAttribute(attributeName);
+
+            // Adding event listeners
+            value.addEventListener("keyup", (e) => {
+                console.log("changed", e);
+                EntityFormActions.fieldChanged(attribute, attributeName, value.value);
+            }, false);
+            value.addEventListener("change", (e) => {
+                console.log("changed", e);
+                EntityFormActions.fieldSaved(attribute, attributeName, value.value);
+            }, false);
+            value.addEventListener("blur", (e) => {
+                console.log("blurred", e);
+                EntityFormActions.fieldSaved(attribute, attributeName, value.value);
+            }, false);
+
+            // Adding model listeners
+            attribute.listen(AttributeActions.ATTRIBUTE_VALIDATED, (attr) => {
+                console.log("AttributeActions.ATTRIBUTE_VALIDATED intercepted by value element", attr);
+                console.log("validation errors", attr.model.validation.errors);
+                console.log("validation info", attr.model.validation.info);
+                value.setAttribute("value", attr.value);
+            });
         }
     }
 
@@ -117,7 +159,7 @@ export default class LayoutParser {
      * @param {string} attribute
      * @returns {Array}
      */
-    findElementsWithAttribute(doc, attribute) {
+    _findElementsWithAttribute(doc, attribute) {
         let matchingElements = [];
         let allElements = doc.getElementsByTagName('*');
         for (var i = 0, n = allElements.length; i < n; i++) {

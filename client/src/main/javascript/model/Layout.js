@@ -10,6 +10,7 @@ export default class Layout {
     constructor(layoutString) {
         this.layoutString = layoutString;
         this.model = {};
+        this.layoutParser = {};
     }
 
     /**
@@ -20,6 +21,7 @@ export default class Layout {
      */
     bind(model) {
         this.model = model;
+        this.layoutParser = new LayoutParser(model);
         return this;
     }
 
@@ -29,8 +31,26 @@ export default class Layout {
      * @returns {string}
      */
     generateHtml() {
-        let dom = new LayoutParser(this.model).parse(this.layoutString);
+        let dom = this.layoutParser.parse(this.layoutString);
         return new XMLSerializer().serializeToString(dom);
+    }
+
+    /**
+     * Binds values & labels to element.
+     *
+     * @param {HTMLDocument} element
+     */
+    bindValues(element) {
+        this.layoutParser.bindValues(element);
+    }
+
+    /**
+     * Binds listeners to element.
+     *
+     * @param {HTMLDocument} element
+     */
+    bindListeners(element) {
+        this.layoutParser.bindListeners(element);
     }
 
 }

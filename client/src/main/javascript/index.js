@@ -34,7 +34,11 @@ class Nutforms {
                 ValidatorFactory.addObservers(model, rules, locale);
 
                 let html = model.layout.generateHtml();
-                document.getElementById(bindElementId).innerHTML = html;
+                let bindElement = document.getElementById(bindElementId);
+                bindElement.innerHTML = html;
+                model.layout.bindValues(bindElement);
+                model.layout.bindListeners(bindElement);
+
 
                 //React.render(
                 //    <EntityForm model={model}/>,
