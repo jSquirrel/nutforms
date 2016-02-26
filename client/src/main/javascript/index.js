@@ -17,9 +17,9 @@ class Nutforms {
      * @param {string} context Name of the context in which the form is displayed.
      * @param {string} locale Locale of the form.
      * @param {number|null} entityId Id of the entity, can be NULL.
-     * @param {string} bindElementId Id of the HTML element to bind the EntityForm to.
+     * @param {HTMLDocument} bindElement HTML element to bind the EntityForm to.
      */
-    static bindForm(className, context, locale, entityId, bindElementId) {
+    static bindForm(className, context, locale, entityId, bindElement) {
         let url = document.location.origin + '/';
         let apiHandler = new ApiHandler(url, 'admin', '1234');
         let modelFactory = new ModelFactory();
@@ -33,9 +33,7 @@ class Nutforms {
                 let model = modelFactory.create(className, entityId, metadata, layout, localization, data, apiHandler);
                 ValidatorFactory.addObservers(model, rules, locale);
 
-                let html = model.layout.generateHtml();
-                let bindElement = document.getElementById(bindElementId);
-                bindElement.innerHTML = html;
+                bindElement.innerHTML = model.layout.generateHtml();
                 model.layout.bindValues(bindElement);
                 model.layout.bindListeners(bindElement);
 
