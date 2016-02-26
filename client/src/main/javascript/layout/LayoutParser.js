@@ -150,6 +150,29 @@ export default class LayoutParser {
                 value.setAttribute("value", attr.value);
             });
         }
+
+        let submits = this._findElementsWithAttribute(doc, "nf-submit");
+        let model = this.model;
+        if (submits.length > 0) {
+            let submit = submits.shift(); // TODO: what about other submits?
+            console.log(submit);
+            submit.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                console.log("Click on submit intercepted by callback", e);
+
+                let valuesObject = {};
+                for (var k = 0, o = values.length; k < o; k++) {
+                    let value = values[k];
+                    let attributeName = value.getAttribute("nf-field-widget-value");
+                    valuesObject[attributeName] = value.value;
+                }
+
+                console.log('EntityForm submitted with values: ', valuesObject);
+
+                EntityFormActions.formSubmitted(model, valuesObject);
+            });
+        }
     }
 
     /**

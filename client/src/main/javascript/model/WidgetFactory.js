@@ -57,9 +57,9 @@ export default class WidgetFactory {
      */
     loadSubmitWidget() {
         let string =
-            "<div class=\"form-group\"><button type=\"submit\" class=\"btn btn-default\">"
+            "<div class=\"form-group\"><input type=\"submit\" class=\"btn btn-default\" nf-submit=\"submit\" value=\""
             + this.model.getSubmitValue()
-            + "</button></div>";
+            + "\" /></div>";
         return string;
     }
 
