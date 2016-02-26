@@ -77,12 +77,6 @@ export default class FormInput extends React.Component {
     onAttributeValidated(attribute) {
         this.props.attribute.validation.update(attribute.validation);
         this.forceUpdate(); // toDo: do this in a better way
-        //this.setState({
-        //    validationErrors: FormInput._updateValidationState(this.state.validationErrors, attribute.validation.errors,
-        //        attribute.validation.rule),
-        //    validationInfo: FormInput._updateValidationState(this.state.validationInfo, attribute.validation.info,
-        //        attribute.validation.rule)
-        //});
     }
 
     /**

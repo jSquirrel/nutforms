@@ -86,10 +86,9 @@ export default class Model extends Observable {
      */
     formSubmitted(values) {
         Object.keys(values).forEach((key) => {
-            this.getAttribute(key).setValue(values[key]);
+            this.getAttribute(key).setValue(values[key]);   // invokes field-changed
         });
         this.trigger(ModelActions.SUBMITTED, this);
-        // TODO: add validation
         // TODO: the line below should be done by Validation
         this.trigger(ModelActions.VALIDATED, this)
     }

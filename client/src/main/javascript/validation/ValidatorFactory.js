@@ -1,4 +1,5 @@
 import * as AttributeActions from './../constants/AttributeActions.js';
+import * as ModelActions from './../constants/ModelActions.js';
 import ApiHandler from '../api/ApiHandler.js';
 
 export default class ValidatorFactory {
@@ -37,8 +38,14 @@ export default class ValidatorFactory {
             var that = this;
             if (field !== null) {
                 return function (args) {
+                    console.log(args);
                     // cannot declare with 'let' keyword, otherwise the variable in anonymous function would evaluate as false
-                    var evalResult = eval('var ' + field + '="' + args.value + '";' + that.rewriteCondition(rule.condition));
+                    var declaration = 'var ' + field + '="' + args.value + '";';
+                    if (args.value === null) {  // null errors should be handled in the rule declaration
+                        declaration = declaration.replace(/"/g, ''); // do not replace null value with "null"
+                    }
+                    var evalResult = eval(declaration + that.rewriteCondition(rule.condition));
+                    console.log(declaration + that.rewriteCondition(rule.condition));
                     let url = document.location.origin + '/';
                     let apiHandler = new ApiHandler(url, 'admin', '1234');
                     apiHandler.fetchLocalization(locale, `rule/${rule.pckg}`).then((data) => {
