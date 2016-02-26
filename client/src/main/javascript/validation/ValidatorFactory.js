@@ -12,7 +12,11 @@ export default class ValidatorFactory {
      */
     static addObservers(model, rules, locale) {
         rules.forEach(rule => {
-            let attribute = model.getAttribute(this.getField(rule.condition));
+            let fieldName = this.getField(rule.condition);
+            if (fieldName == null) {
+                return;
+            }
+            let attribute = model.getAttribute(fieldName);
             let validator = this.createFunction(attribute, rule, locale);
             if (validator) {
                 // toDo: distinguish events

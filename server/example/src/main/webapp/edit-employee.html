@@ -86,7 +86,7 @@ nutforms.bindForm(
     var id = nutforms.getQueryParameter("id");
     var element = document.getElementById("form");
     if (id !== "Not found") {
-        nutforms.bindForm("cz.cvut.fel.nutforms.example.model.Eployee", "edit", "en_US", id, element);
+        nutforms.bindForm("cz.cvut.fel.nutforms.example.model.Employee", "edit", "en_US", id, element);
     } else {
         document.getElementById("form").innerHTML = "<h2 class=\"center\">Employee with given ID was not found.<h2>";
     }
