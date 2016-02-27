@@ -10,7 +10,10 @@
 
 mappingFunction = function (className, context, attributeName, attributeType, isAttributePrimary) {
     var widgetNamespace = "default";
-    if (isAttributePrimary) {
+
+    if (context === "list") {
+        widgetNamespace = "list";
+    } else if (isAttributePrimary) {
         widgetNamespace = "disabled";
     }
 

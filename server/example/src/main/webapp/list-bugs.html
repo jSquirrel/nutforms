@@ -75,13 +75,8 @@ nutforms.bindList("cz.cvut.fel.nutforms.example.model.Bug", {
 <script src="js/vendors.js"></script>
 <script src="js/bundle.js"></script>
 <script type="application/javascript">
-    // TODO: load this from entity metadata instead of defining the attributes ad-hoc
-    nutforms.bindList("cz.cvut.fel.nutforms.example.model.Bug", {
-        id: {label: "ID", href: "/edit-bug.html?id=<value>"},
-        description: {label: "Description"},
-        log: {label: "Log"}
-    }, "list");
-
+    var element = document.getElementById("list");
+    nutforms.bindForm("cz.cvut.fel.nutforms.example.model.Bug", "list", "en_US", null, element);
     hljs.initHighlighting();
 </script>
 </body>

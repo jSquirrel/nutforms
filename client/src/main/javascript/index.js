@@ -36,12 +36,6 @@ class Nutforms {
                 bindElement.innerHTML = model.layout.generateHtml();
                 model.layout.bindValues(bindElement);
                 model.layout.bindListeners(bindElement);
-
-
-                //React.render(
-                //    <EntityForm model={model}/>,
-                //    document.getElementById(bindElementId)
-                //);
             });
         });
     };
