@@ -13,6 +13,7 @@ export default class ModelFactory {
      * Creates model with given parameters.
      *
      * @param {string} className
+     * @param {string} context
      * @param {*} id
      * @param {object} entityMetadata
      * @param {object} localization
@@ -20,7 +21,7 @@ export default class ModelFactory {
      * @param {ApiHandler} apiHandler
      * @returns {Model}
      */
-    create(className, id, entityMetadata = {}, localization = {}, values = {}, apiHandler) {
+    create(className, context, id, entityMetadata = {}, localization = {}, values = {}, apiHandler) {
         let attributes = this.createAttributes(entityMetadata, localization, values);
         let relations = this.createRelations(entityMetadata, localization, values);
         let modelLocalization = new ModelLocalization(
@@ -33,7 +34,7 @@ export default class ModelFactory {
 
         return new Model(
             className,
-            "",
+            context,
             id,
             attributes,
             relations,

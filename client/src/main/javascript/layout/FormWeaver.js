@@ -20,15 +20,13 @@ export default class FormWeaver {
             let locale = "en_US"; // TODO: load locale from somewhere
 
             apiHandler.fetchMetadataFor(className, context, locale).then((results) => {
-                console.log("metadata fetched");
                 let metadata = results[0];
                 let localization = results[1];
                 let rules = results[2];
 
                 apiHandler.fetchDataFor(className, entityId).then((data) => {
-                    console.log("data fetched");
                     let modelFactory = new ModelFactory();
-                    let model = modelFactory.create(className, entityId, metadata, localization, data, apiHandler);
+                    let model = modelFactory.create(className, context, entityId, metadata, localization, data, apiHandler);
                     ValidatorFactory.addObservers(model, rules, locale);
 
                     form.innerHTML = model.layout.generateHtml(form.parentElement.innerHTML);
@@ -36,7 +34,6 @@ export default class FormWeaver {
                     model.layout.bindListeners(form);
                 });
             });
-
         });
     }
 

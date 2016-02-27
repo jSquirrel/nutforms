@@ -69,9 +69,7 @@ export default class Renderer {
      * @param {HTMLDocument} doc
      */
     weaveWidgets(doc) {
-        console.log("doc", doc);
         let entityForms = DOMHelper.findElementsWithAttribute(doc, "nf-entity-form");
-        console.log("entityForms", entityForms);
         let entityForm = entityForms.shift();
         var usedAttributes = this._addExplicitWidgets(entityForm);
         this._addRemainingWidgets(usedAttributes, entityForm);
@@ -148,7 +146,6 @@ export default class Renderer {
         let model = this.model;
         if (submits.length > 0) {
             let submit = submits.shift(); // TODO: what about other submits?
-            console.log(submit);
             submit.addEventListener("click", (e) => {
                 e.preventDefault();
 

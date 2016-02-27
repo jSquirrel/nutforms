@@ -27,7 +27,14 @@ export default class ApiHandler {
         this.apiPassword = apiPassword;
 
         this._toText = response => response.text();
-        this._toJson = response => response.json();
+        this._toJson = response => {
+            try {
+                return response.json();
+            } catch (err) {
+                console.log("Error while parsing JSON", response);
+                return null;
+            }
+        };
         this._logResponse = (message) => {
             return response => {
                 console.log(message, response);
@@ -60,7 +67,7 @@ export default class ApiHandler {
      * @returns {Promise.<T>}
      */
     fetchClassData(className) {
-        return fetch(this._buildUrl(this.CLASS_METADATA_ENDPOINT + className), {headers: {Accept: 'application/json;charset=UTF-8'}})
+        return fetch(this._buildUrl(this.CLASS_METADATA_ENDPOINT + className))
             //.then(this._logResponse("Class metadata loaded from API"))
             .then(this._toJson)
             ;
@@ -75,8 +82,8 @@ export default class ApiHandler {
      */
     fetchLocalization(locale, translationKey) {
         return fetch(this._buildUrl(this.LOCALIZATION_ENDPOINT + locale + '/' + translationKey))
-            //.then(this._logResponse("Localization data loaded from API"))
             .then(this._toJson)
+            //.then(this._logResponse("Localization data loaded from API"))
             ;
     }
 
@@ -90,8 +97,8 @@ export default class ApiHandler {
      */
     fetchRules(className, context, locale) {
         return fetch(this._buildUrl(this.RULES_ENDPOINT + className + '/' + context))
-            //.then(this._logResponse("Context rules loaded from API"))
             .then(this._toJson)
+            //.then(this._logResponse("Context rules loaded from API"))
             ;
     }
 
@@ -119,16 +126,19 @@ export default class ApiHandler {
         var request = new XMLHttpRequest();
         request.open('GET', this._buildUrl(this.WIDGET_ENDPOINT + name), false);  // `false` makes the request synchronous
         request.send(null);
-        //console.log("Widget " + name + "loaded from API", request.responseText);
         return request.responseText;
     }
 
+    /**
+     * Fetches widget mapping function.
+     *
+     * @returns {string}
+     */
     fetchWidgetMapping() {
         // TODO: make this asynchronous
         var request = new XMLHttpRequest();
         request.open('GET', this._buildUrl(this.WIDGET_MAPPING_ENDPOINT), false);  // `false` makes the request synchronous
         request.send(null);
-        //console.log("Widget mapping function loaded from API", request.responseText);
         return request.responseText;
     }
 

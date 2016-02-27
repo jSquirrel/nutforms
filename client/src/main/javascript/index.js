@@ -9,6 +9,7 @@ import ValidatorFactory from './validation/ValidatorFactory.js';
 
 import LayoutWeaver from './layout/LayoutWeaver.js';
 import FormWeaver from './layout/FormWeaver.js';
+import ListWeaver from './layout/ListWeaver.js';
 
 class Nutforms {
 
@@ -23,40 +24,12 @@ class Nutforms {
         LayoutWeaver.weave(doc, apiHandler)
             .then(() => {
                 return FormWeaver.weave(doc, apiHandler);
-            });
-
-        console.log("Nutforms bound.")
+            })
+            .then(() => {
+                return ListWeaver.weave(doc, apiHandler);
+            })
+            .then(() => console.log("Nutforms bound."));
     }
-
-    /**
-     * Binds EntityForm to element with given id.
-     *
-     * @param {string} className Name of the entity class.
-     * @param {string} context Name of the context in which the form is displayed.
-     * @param {string} locale Locale of the form.
-     * @param {number|null} entityId Id of the entity, can be NULL.
-     * @param {HTMLDocument} bindElement HTML element to bind the EntityForm to.
-     */
-    static bindForm(className, context, locale, entityId, bindElement) {
-        let url = document.location.origin + '/';
-        let apiHandler = new ApiHandler(url, 'admin', '1234');
-        let modelFactory = new ModelFactory();
-        apiHandler.fetchMetadataFor(className, context, locale).then((results) => {
-            let metadata = results[0];
-            let localization = results[1];
-            let rules = results[2];
-            let layout = results[3];
-
-            apiHandler.fetchDataFor(className, entityId).then((data) => {
-                let model = modelFactory.create(className, entityId, metadata, layout, localization, data, apiHandler);
-                ValidatorFactory.addObservers(model, rules, locale);
-
-                bindElement.innerHTML = model.layout.generateHtml();
-                model.layout.bindValues(bindElement);
-                model.layout.bindListeners(bindElement);
-            });
-        });
-    };
 
     /**
      * Binds EntityList to element with given id.
@@ -73,7 +46,6 @@ class Nutforms {
                 <EntityList entities={results} attributes={attributes}/>,
                 document.getElementById(bindElementId)
             );
-            console.log("Rendered");
         });
     }
 
