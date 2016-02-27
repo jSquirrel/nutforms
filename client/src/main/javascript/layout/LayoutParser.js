@@ -4,7 +4,7 @@ import * as AttributeActions from './../constants/AttributeActions.js';
 import * as ModelActions from './../constants/ModelActions.js';
 
 
-export default class LayoutParser {
+export default class Renderer {
 
     /**
      * LayoutParser constructor.
@@ -31,7 +31,7 @@ export default class LayoutParser {
     /**
      * Adds explicit widgets to the HTMLDocument.
      *
-     * @param {HTMLDocument} entityForm
+     * @param {Element} entityForm
      * @returns {Array}
      */
     _addExplicitWidgets(entityForm) {
@@ -50,7 +50,7 @@ export default class LayoutParser {
      * Adds implicit widgets to the HTMLDocument.
      *
      * @param {string[]} usedAttributes
-     * @param {HTMLDocument} entityForm
+     * @param {Element} entityForm
      */
     _addRemainingWidgets(usedAttributes, entityForm) {
         // Add remaining/implicit widgets
@@ -69,24 +69,13 @@ export default class LayoutParser {
      * @param {HTMLDocument} doc
      */
     weaveWidgets(doc) {
-        // TODO: What if there are multiple forms or multiple lists, or both?
-        // TODO: Maybe raise a warning or throw something
-        // TODO: What if there are no forms nor lists, maybe throw something?
-
-        // Entity Form
+        console.log("doc", doc);
         let entityForms = DOMHelper.findElementsWithAttribute(doc, "nf-entity-form");
-        if (entityForms.length > 0) {
-            let entityForm = entityForms.shift(); // TODO: what about the other forms?
-            var usedAttributes = this._addExplicitWidgets(entityForm);
-            this._addRemainingWidgets(usedAttributes, entityForm);
-            entityForm.insertAdjacentHTML('beforeend', this.model.widgetFactory.loadSubmitWidget());
-        }
-
-        // Entity List
-        let entityLists = DOMHelper.findElementsWithAttribute(doc, "nf-entity-list");
-        if (entityLists.length > 0) {
-            // TODO: list
-        }
+        console.log("entityForms", entityForms);
+        let entityForm = entityForms.shift();
+        var usedAttributes = this._addExplicitWidgets(entityForm);
+        this._addRemainingWidgets(usedAttributes, entityForm);
+        entityForm.insertAdjacentHTML('beforeend', this.model.widgetFactory.loadSubmitWidget());
     }
 
     /**
@@ -114,6 +103,12 @@ export default class LayoutParser {
             let attributeName = label.getAttribute("nf-field-widget-label");
             label.innerHTML = this.model.getAttribute(attributeName).getFormLabel();
         }
+
+        // Bind form labels
+        let formLabels = DOMHelper.findElementsWithAttribute(doc, "nf-form-label");
+        formLabels.forEach((formLabel) => {
+            formLabel.innerHTML = this.model.getFormLabel();
+        });
     }
 
     /**
@@ -131,15 +126,12 @@ export default class LayoutParser {
 
             // Adding event listeners
             value.addEventListener("keyup", (e) => {
-                console.log("changed", e);
                 EntityFormActions.fieldChanged(attribute, attributeName, value.value);
             }, false);
             value.addEventListener("change", (e) => {
-                console.log("changed", e);
                 EntityFormActions.fieldSaved(attribute, attributeName, value.value);
             }, false);
             value.addEventListener("blur", (e) => {
-                console.log("blurred", e);
                 EntityFormActions.fieldSaved(attribute, attributeName, value.value);
             }, false);
 
@@ -160,8 +152,6 @@ export default class LayoutParser {
             submit.addEventListener("click", (e) => {
                 e.preventDefault();
 
-                console.log("Click on submit intercepted by callback", e);
-
                 let valuesObject = {};
                 for (var k = 0, o = values.length; k < o; k++) {
                     let value = values[k];
@@ -174,24 +164,6 @@ export default class LayoutParser {
                 EntityFormActions.formSubmitted(model, valuesObject);
             });
         }
-    }
-
-    /**
-     *
-     *
-     * @param {HTMLDocument} doc
-     * @param {string} attribute
-     * @returns {Array}
-     */
-    _findElementsWithAttribute(doc, attribute) {
-        let matchingElements = [];
-        let allElements = doc.getElementsByTagName('*');
-        for (var i = 0, n = allElements.length; i < n; i++) {
-            if (allElements[i].getAttribute(attribute) !== null) {
-                matchingElements.push(allElements[i]);
-            }
-        }
-        return matchingElements;
     }
 
 }

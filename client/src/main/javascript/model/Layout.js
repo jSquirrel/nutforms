@@ -1,6 +1,6 @@
 import LayoutParser from './../layout/LayoutParser.js'
 
-export default class Layout {
+export default class Renderable {
 
     /**
      * Layout constructor.
@@ -14,7 +14,7 @@ export default class Layout {
      * Binds model to the Layout.
      *
      * @param {Model} model
-     * @return {Layout} this
+     * @return {Renderable} this
      */
     bind(model) {
         this.model = model;

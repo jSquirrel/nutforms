@@ -61,8 +61,9 @@ export default class ApiHandler {
      */
     fetchClassData(className) {
         return fetch(this._buildUrl(this.CLASS_METADATA_ENDPOINT + className), {headers: {Accept: 'application/json;charset=UTF-8'}})
-            .then(this._logResponse("Class metadata loaded from API"))
-            .then(this._toJson);
+            //.then(this._logResponse("Class metadata loaded from API"))
+            .then(this._toJson)
+            ;
     }
 
     /**
@@ -74,8 +75,9 @@ export default class ApiHandler {
      */
     fetchLocalization(locale, translationKey) {
         return fetch(this._buildUrl(this.LOCALIZATION_ENDPOINT + locale + '/' + translationKey))
-            .then(this._logResponse("Localization data loaded from API"))
-            .then(this._toJson);
+            //.then(this._logResponse("Localization data loaded from API"))
+            .then(this._toJson)
+            ;
     }
 
     /**
@@ -88,8 +90,9 @@ export default class ApiHandler {
      */
     fetchRules(className, context, locale) {
         return fetch(this._buildUrl(this.RULES_ENDPOINT + className + '/' + context))
-            .then(this._logResponse("Context rules loaded from API"))
-            .then(this._toJson);
+            //.then(this._logResponse("Context rules loaded from API"))
+            .then(this._toJson)
+            ;
     }
 
     /**
@@ -100,8 +103,9 @@ export default class ApiHandler {
      */
     fetchLayout(layoutName) {
         return fetch(this._buildUrl(this.LAYOUT_ENDPOINT + layoutName))
-            .then(this._logResponse("Layout \"" + layoutName + "\" loaded from API"))
-            .then(this._toText);
+            //.then(this._logResponse("Layout \"" + layoutName + "\" loaded from API"))
+            .then(this._toText)
+            ;
     }
 
     /**
@@ -115,7 +119,7 @@ export default class ApiHandler {
         var request = new XMLHttpRequest();
         request.open('GET', this._buildUrl(this.WIDGET_ENDPOINT + name), false);  // `false` makes the request synchronous
         request.send(null);
-        console.log("Widget " + name + "loaded from API", request.responseText);
+        //console.log("Widget " + name + "loaded from API", request.responseText);
         return request.responseText;
     }
 
@@ -124,7 +128,7 @@ export default class ApiHandler {
         var request = new XMLHttpRequest();
         request.open('GET', this._buildUrl(this.WIDGET_MAPPING_ENDPOINT), false);  // `false` makes the request synchronous
         request.send(null);
-        console.log("Widget mapping function loaded from API", request.responseText);
+        //console.log("Widget mapping function loaded from API", request.responseText);
         return request.responseText;
     }
 
@@ -149,7 +153,8 @@ export default class ApiHandler {
             }
         })
             .then(this._toJson)
-            .then(this._logResponse("Entity data loaded from API"));
+            //.then(this._logResponse("Entity data loaded from API"))
+            ;
     }
 
     /**
@@ -167,7 +172,8 @@ export default class ApiHandler {
             }
         })
             .then(this._toJson)
-            .then(this._logResponse("List data loaded from API"));
+            //.then(this._logResponse("List data loaded from API"))
+            ;
     }
 
     /**
@@ -192,7 +198,8 @@ export default class ApiHandler {
             },
             body: JSON.stringify(data)
         })
-            .then(this._logResponse(`Submitted data to API via ${method} method.`));
+            .then(this._logResponse(`Submitted data to API via ${method} method.`))
+            ;
     }
 
     /**
