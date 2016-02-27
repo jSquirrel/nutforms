@@ -61,7 +61,6 @@ export default class ApiHandler {
      */
     fetchClassData(className) {
         return fetch(this._buildUrl(this.CLASS_METADATA_ENDPOINT + className), {headers: {Accept: 'application/json;charset=UTF-8'}})
-            .then(this._toText)
             .then(this._logResponse("Class metadata loaded from API"))
             .then(this._toJson);
     }
