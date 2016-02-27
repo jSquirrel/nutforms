@@ -4,11 +4,8 @@ export default class Layout {
 
     /**
      * Layout constructor.
-     *
-     * @param {string} layoutString
      */
-    constructor(layoutString) {
-        this.layoutString = layoutString;
+    constructor() {
         this.model = {};
         this.layoutParser = {};
     }
@@ -30,8 +27,8 @@ export default class Layout {
      *
      * @returns {string}
      */
-    generateHtml() {
-        let dom = this.layoutParser.parse(this.layoutString);
+    generateHtml(layoutString) {
+        let dom = this.layoutParser.parse(layoutString);
         return new XMLSerializer().serializeToString(dom);
     }
 

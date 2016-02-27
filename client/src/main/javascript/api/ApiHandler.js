@@ -49,10 +49,8 @@ export default class ApiHandler {
         let classMetadataPromise = this.fetchClassData(className);
         let localizationPromise = this.fetchLocalization(locale, className + '/' + context);
         let rulesPromise = this.fetchRules(className, context);
-        let layoutPromise = this.fetchLayout(className, context);
-        // TODO: more metadata
 
-        return Promise.all([classMetadataPromise, localizationPromise, rulesPromise, layoutPromise]);
+        return Promise.all([classMetadataPromise, localizationPromise, rulesPromise]);
     }
 
     /**
@@ -62,9 +60,10 @@ export default class ApiHandler {
      * @returns {Promise.<T>}
      */
     fetchClassData(className) {
-        return fetch(this._buildUrl(this.CLASS_METADATA_ENDPOINT + className))
-            .then(this._toJson)
-            .then(this._logResponse("Class metadata loaded from API"));
+        return fetch(this._buildUrl(this.CLASS_METADATA_ENDPOINT + className), {headers: {Accept: 'application/json;charset=UTF-8'}})
+            .then(this._toText)
+            .then(this._logResponse("Class metadata loaded from API"))
+            .then(this._toJson);
     }
 
     /**
@@ -76,8 +75,8 @@ export default class ApiHandler {
      */
     fetchLocalization(locale, translationKey) {
         return fetch(this._buildUrl(this.LOCALIZATION_ENDPOINT + locale + '/' + translationKey))
-            .then(this._toJson)
-            .then(this._logResponse("Localization data loaded from API"));
+            .then(this._logResponse("Localization data loaded from API"))
+            .then(this._toJson);
     }
 
     /**
@@ -90,21 +89,20 @@ export default class ApiHandler {
      */
     fetchRules(className, context, locale) {
         return fetch(this._buildUrl(this.RULES_ENDPOINT + className + '/' + context))
-            .then(this._toJson)
-            .then(this._logResponse("Context rules loaded from API"));
+            .then(this._logResponse("Context rules loaded from API"))
+            .then(this._toJson);
     }
 
     /**
-     * Fetches layout for given class within given context
+     * Fetches layout with given name.
      *
-     * @param {string} className
-     * @param {string} context
-     * @returns {Promise.<T>}
+     * @param {string} layoutName
+     * @returns {Promise.<string>}
      */
-    fetchLayout(className, context) {
-        return fetch(this._buildUrl(this.LAYOUT_ENDPOINT + className + '/' + context))
-            .then(this._toText)
-            .then(this._logResponse("Layout for context loaded from API"));
+    fetchLayout(layoutName) {
+        return fetch(this._buildUrl(this.LAYOUT_ENDPOINT + layoutName))
+            .then(this._logResponse("Layout \"" + layoutName + "\" loaded from API"))
+            .then(this._toText);
     }
 
     /**

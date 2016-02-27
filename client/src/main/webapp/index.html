@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title>Nutforms overhaul</title>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
+</head>
+<body>
+<div class="container" id="page">
+    <div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/edit"></div>
+    <div nf-entity-list="cz.cvut.fel.nutforms.example.model.Bug"></div>
+</div>
+<script src="js/vendors.js"></script>
+<script src="js/bundle.js"></script>
+<script>
+    nutforms.bind(document.getElementById("page"));
+</script>
+</body>
+</html>

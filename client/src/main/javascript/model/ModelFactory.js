@@ -4,7 +4,6 @@ import Relation from './Relation.js';
 import AttributeLocalization from './AttributeLocalization.js';
 import ModelLocalization from './ModelLocalization.js';
 import Submit from './Submit.js';
-import Layout from './Layout.js';
 import WidgetFactory from './WidgetFactory.js';
 
 
@@ -16,16 +15,14 @@ export default class ModelFactory {
      * @param {string} className
      * @param {*} id
      * @param {object} entityMetadata
-     * @param {string} layoutString
      * @param {object} localization
      * @param {object} values
      * @param {ApiHandler} apiHandler
      * @returns {Model}
      */
-    create(className, id, entityMetadata = {}, layoutString, localization = {}, values = {}, apiHandler) {
+    create(className, id, entityMetadata = {}, localization = {}, values = {}, apiHandler) {
         let attributes = this.createAttributes(entityMetadata, localization, values);
         let relations = this.createRelations(entityMetadata, localization, values);
-        let layout = new Layout(layoutString);
         let modelLocalization = new ModelLocalization(
             localization["form.label"]
             , localization["form.submit.value"]
@@ -42,7 +39,6 @@ export default class ModelFactory {
             relations,
             modelLocalization,
             submit,
-            layout,
             widgetFactory
         );
     }

@@ -1,4 +1,5 @@
 import EntityFormActions from './../actions/EntityFormActions.js';
+import DOMHelper from './../helper/DOMHelper.js';
 import * as AttributeActions from './../constants/AttributeActions.js';
 import * as ModelActions from './../constants/ModelActions.js';
 
@@ -35,7 +36,7 @@ export default class LayoutParser {
      */
     _addExplicitWidgets(entityForm) {
         let usedAttributes = [];
-        let explicitWidgets = this._findElementsWithAttribute(entityForm, "nf-field-widget");
+        let explicitWidgets = DOMHelper.findElementsWithAttribute(entityForm, "nf-field-widget");
         for (var i = 0, n = explicitWidgets.length; i < n; i++) {
             let widget = explicitWidgets[i];
             let attribute = this.model.getAttribute(widget.getAttribute("nf-field-widget"));
@@ -73,7 +74,7 @@ export default class LayoutParser {
         // TODO: What if there are no forms nor lists, maybe throw something?
 
         // Entity Form
-        let entityForms = this._findElementsWithAttribute(doc, "nf-entity-form");
+        let entityForms = DOMHelper.findElementsWithAttribute(doc, "nf-entity-form");
         if (entityForms.length > 0) {
             let entityForm = entityForms.shift(); // TODO: what about the other forms?
             var usedAttributes = this._addExplicitWidgets(entityForm);
@@ -82,7 +83,7 @@ export default class LayoutParser {
         }
 
         // Entity List
-        let entityLists = this._findElementsWithAttribute(doc, "nf-entity-list");
+        let entityLists = DOMHelper.findElementsWithAttribute(doc, "nf-entity-list");
         if (entityLists.length > 0) {
             // TODO: list
         }
@@ -96,7 +97,7 @@ export default class LayoutParser {
     bindValues(doc) {
 
         // Bind values
-        let values = this._findElementsWithAttribute(doc, "nf-field-widget-value");
+        let values = DOMHelper.findElementsWithAttribute(doc, "nf-field-widget-value");
         for (var k = 0, o = values.length; k < o; k++) {
             let value = values[k];
             let attributeName = value.getAttribute("nf-field-widget-value");
@@ -107,7 +108,7 @@ export default class LayoutParser {
         }
 
         // Bind labels
-        let labels = this._findElementsWithAttribute(doc, "nf-field-widget-label");
+        let labels = DOMHelper.findElementsWithAttribute(doc, "nf-field-widget-label");
         for (var i = 0, n = labels.length; i < n; i++) {
             let label = labels[i];
             let attributeName = label.getAttribute("nf-field-widget-label");
@@ -122,7 +123,7 @@ export default class LayoutParser {
      */
     bindListeners(doc) {
         // Bind values listeners
-        let values = this._findElementsWithAttribute(doc, "nf-field-widget-value");
+        let values = DOMHelper.findElementsWithAttribute(doc, "nf-field-widget-value");
         for (var k = 0, o = values.length; k < o; k++) {
             let value = values[k];
             let attributeName = value.getAttribute("nf-field-widget-value");
@@ -151,7 +152,7 @@ export default class LayoutParser {
             });
         }
 
-        let submits = this._findElementsWithAttribute(doc, "nf-submit");
+        let submits = DOMHelper.findElementsWithAttribute(doc, "nf-submit");
         let model = this.model;
         if (submits.length > 0) {
             let submit = submits.shift(); // TODO: what about other submits?
