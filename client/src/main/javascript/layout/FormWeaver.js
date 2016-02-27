@@ -5,7 +5,7 @@ import ValidatorFactory from './../validation/ValidatorFactory.js';
 
 export default class FormWeaver {
 
-    static weave(doc, apiHandler) {
+    static weave(doc, apiHandler, locale) {
         let forms = DOMHelper.findElementsWithAttribute(doc, "nf-entity-form");
         forms.forEach((form) => {
             let attribute = form.getAttribute("nf-entity-form");
@@ -17,7 +17,6 @@ export default class FormWeaver {
             let className = parts[0];
             let context = parts[1];
             let entityId = parts.length > 2 ? parts[2] : null;
-            let locale = "en_US"; // TODO: load locale from somewhere
 
             apiHandler.fetchMetadataFor(className, context, locale).then((results) => {
                 let metadata = results[0];

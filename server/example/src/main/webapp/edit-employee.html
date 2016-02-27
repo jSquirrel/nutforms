@@ -11,51 +11,13 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
 </head>
-<body style="padding: 20px auto">;
+<body style="padding: 20px auto" id="page">;
 
-<div class="container">
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                        aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">Nutforms example app</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bug <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/create-bug.html">Create</a></li>
-                            <li><a href="/list-bugs.html">List</a></li>
-                            <!--<li role="separator" class="divider"></li>-->
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Employee <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/create-employee.html">Create</a></li>
-                            <li><a href="/list-employees.html">List</a></li>
-                            <!--<li role="separator" class="divider"></li>-->
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/cs/index.html">CS</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
+<div nf-layout="menu/en"></div>
 
 <div class="container">
     <div class="col-md-6">
-        <div id="form"></div>
+        <div nf-layout="cz.cvut.fel.nutforms.example.model.Employee/list"></div>
     </div>
     <div class="col-md-6">
         <pre style="margin-top: 60px;"><code class="html">&lt;div id="form"&gt;&lt;/div&gt;
@@ -86,14 +48,7 @@ nutforms.bindForm(
 <script src="js/vendors.js"></script>
 <script src="js/bundle.js"></script>
 <script type="application/javascript">
-    var id = nutforms.getQueryParameter("id");
-    var element = document.getElementById("form");
-    if (id !== "Not found") {
-        nutforms.bindForm("cz.cvut.fel.nutforms.example.model.Employee", "edit", "en_US", id, element);
-    } else {
-        document.getElementById("form").innerHTML = "<h2 class=\"center\">Employee with given ID was not found.<h2>";
-    }
-
+    nutforms.bind(document.getElementById("page"), "en_US");
     hljs.initHighlighting();
 </script>
 </body>

@@ -11,63 +11,46 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
 </head>
-<body style="padding: 20px auto">;
+<body style="padding: 20px auto" id="page">;
 
-<div class="container">
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                        aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/cs/">Nutforms example app</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bug <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/cs/vytvorit-bug.html">Vytvořit</a></li>
-                            <li><a href="/cs/seznam-bugu.html">Seznam</a></li>
-                            <!--<li role="separator" class="divider"></li>-->
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Zaměstnanec <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/cs/vytvorit-zamestnance.html">Vytvořit</a></li>
-                            <li><a href="/cs/seznam-zamestnancu.html">Seznam</a></li>
-                            <!--<li role="separator" class="divider"></li>-->
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/index.html">EN</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
+<div nf-layout="menu/cs"></div>
 
 <div class="container">
     <div class="col-md-6">
-        <h1>Senzam bugů</h1>
-        <div id="list"></div>
+        <h1>Seznam bugů</h1>
+        <div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/list"></div>
     </div>
     <div class="col-md-6">
-        <pre style="margin-top: 60px;"><code class="html">&lt;div id="list"&gt;&lt;/div&gt;
+        <pre style="margin-top: 60px;"><code class="html">&lt;body id="page"&gt;
+&lt;div nf-layout="menu/cs"&gt;&lt;/div&gt;
+&lt;div class="container"&gt;
+    &lt;h1&gt;Seznam bugů&lt;/h1&gt;
+    &lt;div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/list"&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;script type="application/javascript"&gt;
-// Binds Bug list to element with id "list"
-nutforms.bindList("cz.cvut.fel.nutforms.example.model.Bug", {
-    id: {label: "ID", href: "/edit-bug.html?id=&lt;value&gt;"},
-    description: {label: "Popis"},
-    log: {label: "Log"}
-}, "list");
-&lt;/script&gt;</code></pre>
+    nutforms.bind(document.getElementById("page"), "cs_CZ");
+&lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        <p>HTML Page <span style="font-style: italic;">webapp/cs/index.html</span></p>
+        <pre style="margin-top: 60px;"><code class="html">&lt;div &gt;
+    &lt;table nf-entity-list="cz.cvut.fel.nutforms.example.model.Bug"&gt;
+        &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th nf-field-label="id"&gt;&lt;/th&gt;
+            &lt;th nf-field-label="description"&gt;&lt;/th&gt;
+            &lt;th nf-field-label="log"&gt;&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+        &lt;tr nf-entity-list-row="nf-entity-list-row"&gt;
+            &lt;td nf-field-widget="id"&gt;&lt;/td&gt;
+            &lt;td nf-field-widget="description"&gt;&lt;/td&gt;
+            &lt;td nf-field-widget="log"&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+        <p>Used layout <span style="font-style: italic;">resources/layout/cz.cvut.fel.nutforms.example.model.Bug/list.html</span></p>
     </div>
 </div>
 
@@ -75,13 +58,7 @@ nutforms.bindList("cz.cvut.fel.nutforms.example.model.Bug", {
 <script src="/js/vendors.js"></script>
 <script src="/js/bundle.js"></script>
 <script type="application/javascript">
-    // TODO: load this from entity metadata instead of defining the attributes ad-hoc
-    nutforms.bindList("cz.cvut.fel.nutforms.example.model.Bug", {
-        id: {label: "ID", href: "/edit-bug.html?id=<value>"},
-        description: {label: "Popis"},
-        log: {label: "Log"}
-    }, "list");
-
+    nutforms.bind(document.getElementById("page"), "cs_CZ");
     hljs.initHighlighting();
 </script>
 </body>

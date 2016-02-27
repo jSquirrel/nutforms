@@ -5,11 +5,10 @@ import ValidatorFactory from './../validation/ValidatorFactory.js';
 
 export default class ListWeaver {
 
-    static weave(doc, apiHandler) {
+    static weave(doc, apiHandler, locale) {
         let lists = DOMHelper.findElementsWithAttribute(doc, "nf-entity-list");
         lists.forEach((list) => {
             let className = list.getAttribute("nf-entity-list");
-            let locale = "en_US"; // TODO: load locale from somewhere
 
             apiHandler.fetchMetadataFor(className, "list", locale).then((results) => {
                 let metadata = results[0];
