@@ -2,8 +2,10 @@ export default class WidgetFactory {
 
     /**
      * WidgetFactory constructor.
+     * @param {ApiHandler} apiHandler
      */
-    constructor() {
+    constructor(apiHandler) {
+        this.apiHandler = apiHandler;
         this.model = {};
     }
 
@@ -22,32 +24,18 @@ export default class WidgetFactory {
      * Returns widget name for attribute.
      *
      * @param {Attribute} attribute
+     * @return {string}
      */
     loadFieldWidget(attribute) {
+        let widgetName = this._callWidgetMappingFunction(this.model, attribute);
+        let widgetString = this.apiHandler.fetchWidget(widgetName);
 
-        let disabledString = "";
-        if (attribute.isPrimary()) {
-            disabledString = " disabled=\"disabled\""
-        }
+        // TODO: use some domain language
+        widgetString = widgetString.replace("{attribute.name}", attribute.name);
+        widgetString = widgetString.replace("{attribute.formLabel}", attribute.getFormLabel());
+        widgetString = widgetString.replace("{attribute.value}", attribute.value);
 
-        switch (attribute.type) {
-            case "java.lang.String":
-                // TODO: replace with loaded widget
-                return "<div class=\"form-group\"><label nf-field-widget-label=\"" + attribute.name + "\" for=\"" + attribute.name + "\">"
-                    + "</label>"
-                    + "<input nf-field-widget-value=\"" + attribute.name + "\" class=\"form-control\" id=\""
-                    + attribute.name + "\" name=\"" + attribute.name + "\" type=\"text\""
-                    + disabledString + " /></div>";
-            //return "input-text";
-            case "java.lang.Long":
-                // TODO: replace with loaded widget
-                return "<div class=\"form-group\"><label nf-field-widget-label=\"" + attribute.name + "\" for=\"" + attribute.name + "\">"
-                    + "</label>"
-                    + "<input nf-field-widget-value=\"" + attribute.name + "\" class=\"form-control\" id=\""
-                    + attribute.name + "\" name=\"" + attribute.name + "\" type=\"number\""
-                    + disabledString + " /></div>";
-            //return "input-number";
-        }
+        return widgetString;
     }
 
     /**
@@ -61,6 +49,37 @@ export default class WidgetFactory {
             + this.model.getSubmitValue()
             + "\" /></div>";
         return string;
+    }
+
+
+    /**
+     * Calls widget mapping function.
+     *
+     * @param model
+     * @param attribute
+     * @private
+     */
+    _callWidgetMappingFunction(model, attribute) {
+        let mappingFunction = (model, attribute) => {
+            let widgetNamespace = "default";
+            if (attribute.isPrimary()) {
+                widgetNamespace = "disabled";
+            }
+
+            let widgetName = "";
+            switch (attribute.type) {
+                case "java.lang.String":
+                    widgetName = "text-input";
+                    break;
+                case "java.lang.Long":
+                    widgetName = "number-input";
+                    break;
+            }
+
+            return widgetNamespace + "/" + widgetName;
+        };
+
+        return mappingFunction(model, attribute);
     }
 
 }

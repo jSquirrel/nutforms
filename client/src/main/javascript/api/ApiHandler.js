@@ -19,6 +19,7 @@ export default class ApiHandler {
         this.LAYOUT_ENDPOINT = 'layout/';
         this.LOCALIZATION_ENDPOINT = 'localization/';
         this.CLASS_METADATA_ENDPOINT = 'meta/class/';
+        this.WIDGET_ENDPOINT = 'widget/';
 
         this.apiAddress = apiAddress;
         this.apiUser = apiUser;
@@ -103,6 +104,25 @@ export default class ApiHandler {
         return fetch(this._buildUrl(this.LAYOUT_ENDPOINT + className + '/' + context))
             .then(this._toText)
             .then(this._logResponse("Layout for context loaded from API"));
+    }
+
+    /**
+     * Fetches widget with given name.
+     *
+     * @param {string} name
+     * @returns {string}
+     */
+    fetchWidget(name) {
+        // TODO: make this asynchronous
+        var request = new XMLHttpRequest();
+        request.open('GET', this._buildUrl(this.WIDGET_ENDPOINT + name), false);  // `false` makes the request synchronous
+        request.send(null);
+        console.log("Widget " + name + "loaded from API", request.responseText);
+        return request.responseText;
+
+        //return fetch(this._buildUrl(this.WIDGET_ENDPOINT + name))
+        //    .then(this._toText)
+        //    .then(this._logResponse("Widget " + name + " loaded from API"));
     }
 
     /**

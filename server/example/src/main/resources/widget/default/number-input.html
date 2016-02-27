@@ -1,4 +1,5 @@
 <div class="form-group">
-    <label for="{field.name}">{field.label}</label>
-    <input id="{field.name}" type="number" class="form-control" name="{field.name}" value="{field.value}">
+    <label nf-field-widget-label="{attribute.name}" for="{attribute.name}">{attribute.formLabel}</label>
+    <input nf-field-widget-value="{attribute.name}" class="form-control" id="{attribute.name}" name="{attribute.name}"
+           type="number">
 </div>

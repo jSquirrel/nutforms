@@ -32,7 +32,7 @@ export default class ModelFactory {
             , localization["form.submit.succeeded_value"]
             , localization["form.submit.failed_value"]);
         let submit = new Submit(apiHandler);
-        let widgetFactory = new WidgetFactory();
+        let widgetFactory = new WidgetFactory(apiHandler);
 
         return new Model(
             className,
