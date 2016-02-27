@@ -20,6 +20,7 @@ export default class ApiHandler {
         this.LOCALIZATION_ENDPOINT = 'localization/';
         this.CLASS_METADATA_ENDPOINT = 'meta/class/';
         this.WIDGET_ENDPOINT = 'widget/';
+        this.WIDGET_MAPPING_ENDPOINT = 'widget-mapping/';
 
         this.apiAddress = apiAddress;
         this.apiUser = apiUser;
@@ -119,10 +120,15 @@ export default class ApiHandler {
         request.send(null);
         console.log("Widget " + name + "loaded from API", request.responseText);
         return request.responseText;
+    }
 
-        //return fetch(this._buildUrl(this.WIDGET_ENDPOINT + name))
-        //    .then(this._toText)
-        //    .then(this._logResponse("Widget " + name + " loaded from API"));
+    fetchWidgetMapping() {
+        // TODO: make this asynchronous
+        var request = new XMLHttpRequest();
+        request.open('GET', this._buildUrl(this.WIDGET_MAPPING_ENDPOINT), false);  // `false` makes the request synchronous
+        request.send(null);
+        console.log("Widget mapping function loaded from API", request.responseText);
+        return request.responseText;
     }
 
     /**

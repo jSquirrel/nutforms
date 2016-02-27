@@ -31,9 +31,10 @@ export default class WidgetFactory {
         let widgetString = this.apiHandler.fetchWidget(widgetName);
 
         // TODO: use some domain language
-        widgetString = widgetString.replace("{attribute.name}", attribute.name);
-        widgetString = widgetString.replace("{attribute.formLabel}", attribute.getFormLabel());
-        widgetString = widgetString.replace("{attribute.value}", attribute.value);
+
+        widgetString = widgetString.replace(new RegExp('{attribute.name}', 'g'), attribute.name);
+        widgetString = widgetString.replace(new RegExp('{attribute.formLabel}', 'g'), attribute.getFormLabel());
+        widgetString = widgetString.replace(new RegExp('{attribute.value}', 'g'), attribute.value);
 
         return widgetString;
     }
@@ -55,31 +56,15 @@ export default class WidgetFactory {
     /**
      * Calls widget mapping function.
      *
-     * @param model
-     * @param attribute
+     * @param {Model} model
+     * @param {Attribute} attribute
      * @private
      */
     _callWidgetMappingFunction(model, attribute) {
-        let mappingFunction = (model, attribute) => {
-            let widgetNamespace = "default";
-            if (attribute.isPrimary()) {
-                widgetNamespace = "disabled";
-            }
-
-            let widgetName = "";
-            switch (attribute.type) {
-                case "java.lang.String":
-                    widgetName = "text-input";
-                    break;
-                case "java.lang.Long":
-                    widgetName = "number-input";
-                    break;
-            }
-
-            return widgetNamespace + "/" + widgetName;
-        };
-
-        return mappingFunction(model, attribute);
+        let mappingFunctionString = this.apiHandler.fetchWidgetMapping();
+        let mappingFunction;
+        eval(mappingFunctionString);
+        return mappingFunction(model.className, model.context, attribute.name, attribute.type, attribute.isPrimary());
     }
 
 }

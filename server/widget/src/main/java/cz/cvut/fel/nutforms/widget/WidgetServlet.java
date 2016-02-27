@@ -23,7 +23,7 @@ public class WidgetServlet extends HttpServlet {
             }
             WidgetFinder widgetFinder = new WidgetFinder();
             resp.setHeader("Content-type", "text/html;charset=UTF-8");
-            resp.getOutputStream().print(widgetFinder.find(widgetName));
+            resp.getOutputStream().print(widgetFinder.findWidget(widgetName));
 
         } catch (WidgetNotFound e) {
             resp.setStatus(400);

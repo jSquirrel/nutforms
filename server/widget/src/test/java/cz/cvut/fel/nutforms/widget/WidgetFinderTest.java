@@ -12,13 +12,13 @@ public class WidgetFinderTest {
     @Test
     public void testFind() throws WidgetNotFound {
         WidgetFinder finder = new WidgetFinder();
-        Assert.assertEquals("Lorem ipsum", finder.find("default/text-input"));
+        Assert.assertEquals("Lorem ipsum", finder.findWidget("default/text-input"));
     }
 
     @Test(expectedExceptions = WidgetNotFound.class)
     public void testFindWithInvalidLayoutLame() throws WidgetNotFound {
         WidgetFinder finder = new WidgetFinder();
-        finder.find("invalid-widget-name");
+        finder.findWidget("invalid-widget-name");
     }
 
 }

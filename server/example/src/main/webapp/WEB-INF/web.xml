@@ -29,6 +29,10 @@
         <servlet-class>cz.cvut.fel.nutforms.widget.WidgetServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>WidgetMappingServlet</servlet-name>
+        <servlet-class>cz.cvut.fel.nutforms.widget.WidgetMappingServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AdaptiveApiServlet</servlet-name>
         <servlet-class>cz.cvut.fel.nutforms.example.AdaptiveApiServlet</servlet-class>
     </servlet>
@@ -52,6 +56,10 @@
     <servlet-mapping>
         <servlet-name>WidgetServlet</servlet-name>
         <url-pattern>/widget/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WidgetMappingServlet</servlet-name>
+        <url-pattern>/widget-mapping/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AdaptiveApiServlet</servlet-name>

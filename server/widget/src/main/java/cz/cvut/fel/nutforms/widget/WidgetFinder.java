@@ -9,7 +9,7 @@ import java.io.InputStream;
  */
 public class WidgetFinder {
 
-    public String find(String widgetName) throws WidgetNotFound {
+    public String findWidget(String widgetName) throws WidgetNotFound {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream("widget/" + widgetName + ".html");
         if (is == null) {
