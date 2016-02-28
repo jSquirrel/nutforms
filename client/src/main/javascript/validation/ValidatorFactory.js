@@ -73,7 +73,7 @@ export default class ValidatorFactory {
      */
     static getField(expression) {
         let fieldName = /[a-zA-Z]+/.exec(expression);
-        return fieldName === null && fieldName.length > 0 ? null : fieldName[0];
+        return fieldName !== null && fieldName.length > 0 ? fieldName[0] : null;
     }
 
     /**
