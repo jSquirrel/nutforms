@@ -19,7 +19,7 @@ export default class Attribute extends Observable {
         this.type = type;
         this.value = value;
         this.localization = localization;
-        this.validation = validation;
+        this.validation = validation.bind(this);
         this._isPrimary = isPrimary;
     }
 

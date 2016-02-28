@@ -26,7 +26,7 @@ export default class Model extends Observable {
         this.attributes = attributes;
         this.relations = relations;
         this.localization = localization;
-        this.validation = validation;
+        this.validation = validation.bind(this);
         this.submit = submit.bind(this);
         this.layout = new Layout().bind(this);
         this.widgetFactory = widgetFactory.bind(this);

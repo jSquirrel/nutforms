@@ -47,18 +47,16 @@ export default class ValidatorFactory {
                         declaration = declaration.replace(/"/g, ''); // do not replace null value with "null"
                     }
                     // cannot declare with 'let' keyword, otherwise the variable in anonymous function would evaluate as false
-                    console.log(declaration + that.rewriteCondition(rule.condition));
+                    //console.log(declaration + that.rewriteCondition(rule.condition));
                     var evalResult = eval(declaration + that.rewriteCondition(rule.condition));
                     let url = document.location.origin + '/';
                     let apiHandler = new ApiHandler(url, 'admin', '1234');
                     apiHandler.fetchLocalization(locale, `rule/${rule.pckg}`).then((data) => {
-                        console.log(data);
-                        attribute.trigger(AttributeActions.ATTRIBUTE_VALIDATED, {
-                            validation: {
-                                rule: rule.name,
-                                errors: evalResult ? null : data[rule.name],
-                                info: null
-                            }
+                        //console.log(data);
+                        attribute.validation.update({
+                            rule: rule.name,
+                            errors: evalResult ? null : data[rule.name],
+                            info: null
                         });
                     });
                     return evalResult;

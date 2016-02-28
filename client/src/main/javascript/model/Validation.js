@@ -11,6 +11,18 @@ export default class Validation {
     constructor() {
         this.errors = {};
         this.info = {};
+        this.attribute = {};
+    }
+
+    /**
+     * Binds the Validation trait to Attribute.
+     *
+     * @param {Attribute} attribute
+     * @returns {Validation}
+     */
+    bind (attribute) {
+        this.attribute = attribute;
+        return this;
     }
 
     /**
@@ -21,6 +33,7 @@ export default class Validation {
     update(feedback) {
         this.errors = Validation._updateValidationState(this.errors, feedback.errors, feedback.rule);
         this.info = Validation._updateValidationState(this.info, feedback.info, feedback.rule);
+        this.attribute.trigger(AttributeActions.ATTRIBUTE_VALIDATED, this.attribute);
     }
 
     /**
@@ -34,7 +47,7 @@ export default class Validation {
      */
     static _updateValidationState(oldState, newState, ruleName) {
         let updated = Object.assign({}, oldState);
-        updated[`${ruleName}`] = newState;
+        updated[ruleName] = newState;
         for (let attr in updated) {
             if (updated.hasOwnProperty(attr) && updated[attr] === null) {
                 delete updated[attr];

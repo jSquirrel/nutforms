@@ -135,10 +135,34 @@ export default class Renderer {
 
             // Adding model listeners
             attribute.listen(AttributeActions.ATTRIBUTE_VALIDATED, (attr) => {
-                console.log("AttributeActions.ATTRIBUTE_VALIDATED intercepted by value element", attr);
-                console.log("validation errors", attr.model.validation.errors);
-                console.log("validation info", attr.model.validation.info);
-                value.setAttribute("value", attr.value);
+
+                let infos = [];
+                for (let info in attr.validation.info) {
+                    if (attr.validation.info.hasOwnProperty(info)) {
+                        infos.push("<div class=\"validation-error\">" + attr.validation.info[info] + "</div>");
+                    }
+                }
+
+                let errors = [];
+                for (let error in attr.validation.errors) {
+                    if (attr.validation.errors.hasOwnProperty(error)) {
+                        infos.push("<div class=\"validation-error\">" + attr.validation.errors[error] + "</div>");
+                    }
+                }
+
+                let messages = infos.join("\n") + errors.join("\n");
+
+                let errorFields = DOMHelper.findElementsWithAttribute(value.parentElement, "nf-field-widget-errors");
+                if (errorFields.length > 0) {
+                    errorFields.forEach((field) => {
+                        // Add validation messages to each nf-field-widget-errors container
+                        field.innerHTML = messages;
+                    });
+                } else {
+                    // If there is no nf-field-widget-errors container, create one
+                    value.parentElement.insertAdjacentHTML("beforeend", "<div nf-field-widget-errors>"
+                        + messages + "</div>");
+                }
             });
         }
 
