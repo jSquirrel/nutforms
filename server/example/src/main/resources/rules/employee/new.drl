@@ -1,7 +1,18 @@
 package cz.cvut.fel.nutforms.example.model.Employee.new;
+
+import cz.cvut.fel.nutforms.example.model.Employee;
+
 dialect  "mvel"
 
-rule "new"
+rule "[Employee] Is name filled"
     when
+//        Employee(firstName != null && firstName.length > 0 || lastName != null && lastName.length > 0)
+        Employee(firstName != null && lastName != null)
     then
 end
+
+//rule "[Employee] Is name valid"
+//    when
+//        Employee(firstName matches "[a-zA-Z]" && lastName matches "[a-zA-Z]")
+//    then
+//end

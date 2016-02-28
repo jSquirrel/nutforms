@@ -13,67 +13,91 @@ export default class ValidatorFactory {
      */
     static addObservers(model, rules, locale) {
         rules.forEach(rule => {
-            let fieldName = this.getField(rule.condition);
-            if (fieldName == null) {
+            let fieldNames = this.getFields(rule.condition);
+            if (fieldNames.length === 0) {
                 return;
             }
-            let attribute = model.getAttribute(fieldName);
-            let validator = this.createFunction(attribute, rule, locale);
-            if (validator) {
-                // toDo: distinguish events
-                // toDo: also add validators to Relations
-                attribute.listen(AttributeActions.VALUE_CHANGED, validator);
-            }
+            fieldNames.forEach(fieldName => {
+                let attribute = model.getAttribute(fieldName);
+                let validator = this.createFunction(model, attribute, rule, locale);
+                if (validator) {
+                    // toDo: distinguish events
+                    // toDo: also add validators to Relations
+                    attribute.listen(AttributeActions.VALUE_CHANGED, validator);    // toDo: change event
+                }
+            });
         })
     }
 
     /**
      * Creates a validation function out of given object (rule as JSON)
      *
+     * @param {Model} model
      * @param {Attribute} attribute
      * @param {object} rule
      * @param {string} locale
      */
-    static createFunction(attribute, rule, locale) {
+    static createFunction(model, attribute, rule, locale) {
         if (rule.hasOwnProperty("condition")) {
-            // toDo: implement function creation for multiple constraints and multiple fields
+            // toDo: implement function creation for multiple fields
             // get the first word, i.e. sequence of letters separated by non-letter
-            let field = this.getField(rule.condition);
             var that = this;
-            if (field !== null) {
-                return function (args) {
-                    var declaration = 'var ' + field + '="' + args.value + '";';
-                    if (args.value === null) {  // null errors should be handled in the rule declaration
-                        declaration = declaration.replace(/"/g, ''); // do not replace null value with "null"
-                    }
-                    // cannot declare with 'let' keyword, otherwise the variable in anonymous function would evaluate as false
-                    //console.log(declaration + that.rewriteCondition(rule.condition));
-                    var evalResult = eval(declaration + that.rewriteCondition(rule.condition));
-                    let url = document.location.origin + '/';
-                    let apiHandler = new ApiHandler(url, 'admin', '1234');
-                    apiHandler.fetchLocalization(locale, `rule/${rule.pckg}`).then((data) => {
-                        //console.log(data);
-                        attribute.validation.update({
-                            rule: rule.name,
-                            errors: evalResult ? null : data[rule.name],
-                            info: null
-                        });
+            return function (args) {
+                var declaration = that.declareVariables(model);
+                // cannot declare with 'let' keyword, otherwise the variable in anonymous function would evaluate as false
+                console.log(declaration + that.rewriteCondition(rule.condition));
+                var evalResult = eval(declaration + that.rewriteCondition(rule.condition));
+                let url = document.location.origin + '/';
+                let apiHandler = new ApiHandler(url, 'admin', '1234');
+                apiHandler.fetchLocalization(locale, `rule/${rule.pckg}`).then((data) => {
+                    //console.log(data);
+                    attribute.validation.update({
+                        rule: rule.name,
+                        errors: evalResult ? null : data[rule.name],
+                        info: null
                     });
-                    return evalResult;
-                }
+                });
+                return evalResult;
             }
         }
     }
 
     /**
-     * Returns field name, to which the function should be bound
+     * Returns a string with variable declarations to be used in eval(). Creates declarations of all
+     * attributes of the model. ToDo: add relation support
+     *
+     * @param {Model} model
+     * @returns {string} variable declaration string
+     */
+    static declareVariables(model) {
+        var declaration = '';
+        Object.keys(model.attributes).forEach(attr => {
+            let attribute = model.getAttribute(attr);
+            var currentVariable = `var ${attribute.name}="${attribute.value}";`;
+            if (attribute.value === null) {  // null errors should be handled in the rule declaration
+                currentVariable = currentVariable.replace(/"/g, ''); // do not replace null value with "null"
+            }
+            declaration += currentVariable;
+        });
+        return declaration;
+    }
+
+    /**
+     * Returns field names, to which the function should be bound
      *
      * @param {string} expression
-     * @returns {?string} field name
+     * @returns {Array.<string>} field names
      */
-    static getField(expression) {
-        let fieldName = /[a-zA-Z]+/.exec(expression);
-        return fieldName !== null && fieldName.length > 0 ? fieldName[0] : null;
+    static getFields(expression) {
+        let fieldNames = [];
+        expression.split(/AND|OR/).forEach(part => {
+            let fieldName = /[a-zA-Z0-9]+/.exec(part);
+            if (fieldName !== null && fieldName.length > 0 && fieldNames.indexOf(fieldName[0]) === -1) {
+                fieldNames.push(fieldName[0]);
+            }
+        });
+        console.log('declared fields', fieldNames);
+        return fieldNames;
     }
 
     /**
@@ -97,7 +121,7 @@ export default class ValidatorFactory {
             while (regex.length > 1 && regex.charAt(regex.length - 1) !== '"') {    // fix regex containing spaces
                 regex += ' ' + split[++regexIndex];
             }
-            split.length = 3;
+            split.length = 3;   // toDo: fix for composite rules (and/or)
             split[matchesIndex + 1] = split[matchesIndex - 1] + ')';    // matches the opening bracket of 'test('
             split[matchesIndex - 1] = regex.replace(/"/g, '/');  // globally replace quotes by slashes (RegExp notation)
             split[matchesIndex] = '.test(';
