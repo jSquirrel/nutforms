@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import assert from 'assert';
 import ModelFactory from '../../../../src/main/javascript/model/ModelFactory.js';
 
-let className = "cz.cvut.fel.nutforms.example.model.Bug";
+let className = "cz.cvut.fel.nutforms.example.model.cz.cvut.fel.nutforms.example.model.Bug";
 let metadata = {
     "attributes": [
         {
@@ -47,13 +47,13 @@ describe('model.ModelFactory', function () {
 
         it('should return instance of Model with given className', function () {
             let modelFactory = new ModelFactory();
-            let model = modelFactory.create(className, null, {}, {}, {});
+            let model = modelFactory.create(className, "context", null, {}, {}, {});
             assert.equal(className, model.className);
         });
 
         it('should return instance of Model with correct attributes and relations', function () {
             let modelFactory = new ModelFactory();
-            let model = modelFactory.create(null, null, metadata, {}, {});
+            let model = modelFactory.create(null, "context", null, metadata, {}, {});
 
             assert.equal("java.lang.String", model.getAttribute("description").type);
             assert.equal("java.lang.String", model.getAttribute("log").type);
@@ -65,7 +65,7 @@ describe('model.ModelFactory', function () {
 
         it('should return instance of Model with correct values', function () {
             let modelFactory = new ModelFactory();
-            let model = modelFactory.create(null, null, metadata, {}, data);
+            let model = modelFactory.create(null, "context", null, metadata, {}, data);
 
             assert.equal(data.description, model.getAttribute("description").value);
             assert.equal(data.log, model.getAttribute("log").value);

@@ -1,62 +1,27 @@
-import fetch from 'node-fetch';
-import React from 'react';
-import Model from './model/Model.js';
 import ApiHandler from './api/ApiHandler.js';
-import EntityForm from './components/EntityForm.js';
-import EntityList from './components/EntityList.js';
-import ModelFactory from './model/ModelFactory.js';
-import ValidatorFactory from './validation/ValidatorFactory.js';
-
+import LayoutWeaver from './layout/LayoutWeaver.js';
+import FormWeaver from './layout/FormWeaver.js';
+import ListWeaver from './layout/ListWeaver.js';
 
 class Nutforms {
 
     /**
-     * Binds EntityForm to element with given id.
+     * Binds nutforms to given element/document.
      *
-     * @param {string} className Name of the entity class.
-     * @param {string} context Name of the context in which the form is displayed.
-     * @param {string} locale Locale of the form.
-     * @param {number|null} entityId Id of the entity, can be NULL.
-     * @param {string} bindElementId Id of the HTML element to bind the EntityForm to.
+     * @param {Element|HTMLDocument} doc
+     * @param {string} locale
      */
-    static bindForm(className, context, locale, entityId, bindElementId) {
+    bind(doc, locale) {
         let url = document.location.origin + '/';
-        let apiHandler = new ApiHandler(url, 'admin', '1234');
-        let modelFactory = new ModelFactory();
-        apiHandler.fetchMetadataFor(className, context, locale).then((results) => {
-            let metadata = results[0];
-            let localization = results[1];
-            let rules = results[2];
-
-            apiHandler.fetchDataFor(className, entityId).then((data) => {
-                let model = modelFactory.create(className, entityId, metadata, localization, data, apiHandler);
-                ValidatorFactory.addObservers(model, rules, locale);
-
-                React.render(
-                    <EntityForm model={model}/>,
-                    document.getElementById(bindElementId)
-                );
-            });
-        });
-    };
-
-    /**
-     * Binds EntityList to element with given id.
-     *
-     * @param {string} className Name of the entity class.
-     * @param {object} attributes Names of the attributes to display.
-     * @param {string} bindElementId Id of the HTML element to bind the EntityList to.
-     */
-    static bindList(className, attributes, bindElementId) {
-        let url = document.location.origin + '/';
-        let apiHandler = new ApiHandler(url, 'admin', '1234');
-        apiHandler.fetchList(className).then((results) => {
-            React.render(
-                <EntityList entities={results} attributes={attributes}/>,
-                document.getElementById(bindElementId)
-            );
-            console.log("Rendered");
-        });
+        let apiHandler = new ApiHandler(url, 'admin', '1234'); // TODO: this needs security, but that is not part of my thesis
+        LayoutWeaver.weave(doc, apiHandler)
+            .then(() => {
+                return FormWeaver.weave(doc, apiHandler, locale);
+            })
+            .then(() => {
+                return ListWeaver.weave(doc, apiHandler, locale);
+            })
+            .then(() => console.log("Nutforms bound."));
     }
 
     /**
@@ -65,7 +30,7 @@ class Nutforms {
      * @param {string} name
      * @returns {string}
      */
-    static getQueryParameter(name) {
+    getQueryParameter(name) {
         var result = "Not found",
             tmp = [];
         location.search
@@ -80,4 +45,4 @@ class Nutforms {
 
 }
 
-window.nutforms = Nutforms;
+window.nutforms = new Nutforms();

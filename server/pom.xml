@@ -17,6 +17,8 @@
         <module>localization</module>
         <module>rules</module>
         <module>example</module>
+        <module>widget</module>
+        <module>layout</module>
     </modules>
 
     <dependencies>

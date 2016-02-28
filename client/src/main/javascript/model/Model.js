@@ -1,4 +1,5 @@
 import Observable from './Observable.js';
+import Layout from './Layout.js';
 import * as ModelActions from './../constants/ModelActions.js';
 
 
@@ -10,12 +11,13 @@ export default class Model extends Observable {
      * @param {string} className
      * @param {string} context
      * @param {*} id
-     * @param {Attribute[]} attributes
-     * @param {Relation[]} relations
+     * @param {{}|Attribute[]} attributes
+     * @param {{}|Relation[]} relations
      * @param {ModelLocalization} localization
      * @param {Submit} submit
+     * @param {WidgetFactory} widgetFactory
      */
-    constructor(className, context, id, attributes, relations, localization, submit) {
+    constructor(className, context, id, attributes, relations, localization, submit, widgetFactory) {
         super();
         this.className = className;
         this.context = context;
@@ -24,6 +26,8 @@ export default class Model extends Observable {
         this.relations = relations;
         this.localization = localization;
         this.submit = submit.bind(this);
+        this.layout = new Layout().bind(this);
+        this.widgetFactory = widgetFactory.bind(this);
     }
 
     /**

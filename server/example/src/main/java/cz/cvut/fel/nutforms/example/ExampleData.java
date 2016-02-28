@@ -47,16 +47,16 @@ public class ExampleData {
         Task task2 = new Task(new Date(), "Task 2", project);
         entityManager.persist(task2);
 
-        Bug bug = new Bug(null, "Bug #1", project);
+        Bug bug = new Bug(null, "cz.cvut.fel.nutforms.example.model.Bug #1", project);
         entityManager.persist(bug);
 
         Task task3 = new Task(null, "Task 3", project2);
         entityManager.persist(task3);
 
-        Bug bug2 = new Bug("java.lang.NullPointerException: line 32", "Bug #2", project2);
+        Bug bug2 = new Bug("java.lang.NullPointerException: line 32", "cz.cvut.fel.nutforms.example.model.Bug #2", project2);
         entityManager.persist(bug2);
 
-        Bug bug3 = new Bug("java.lang.IndexOutOfBoundsException: line 123", "Bug #3", project2);
+        Bug bug3 = new Bug("java.lang.IndexOutOfBoundsException: line 123", "cz.cvut.fel.nutforms.example.model.Bug #3", project2);
         entityManager.persist(bug3);
 
         entityManager.merge(project);
