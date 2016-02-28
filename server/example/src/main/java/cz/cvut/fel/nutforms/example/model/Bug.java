@@ -17,7 +17,7 @@ public class Bug extends Issue {
     private Project project;
 
     public Bug() {
-        this(null, "New Bug", null);
+        this(null, "New cz.cvut.fel.nutforms.example.model.Bug", null);
     }
 
     public Bug(String log, String description, Project project) {

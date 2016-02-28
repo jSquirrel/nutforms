@@ -5,6 +5,7 @@ import Validation from './Validation.js';
 import AttributeLocalization from './AttributeLocalization.js';
 import ModelLocalization from './ModelLocalization.js';
 import Submit from './Submit.js';
+import WidgetFactory from './WidgetFactory.js';
 
 
 export default class ModelFactory {
@@ -13,15 +14,15 @@ export default class ModelFactory {
      * Creates model with given parameters.
      *
      * @param {string} className
+     * @param {string} context
      * @param {*} id
      * @param {object} entityMetadata
-     * @param {string} context
      * @param {object} localization
      * @param {object} values
      * @param {ApiHandler} apiHandler
      * @returns {Model}
      */
-    create(className, id, entityMetadata = {}, context, localization = {}, values = {}, apiHandler) {
+    create(className, context, id, entityMetadata = {}, localization = {}, values = {}, apiHandler) {
         let attributes = this.createAttributes(entityMetadata, localization, values);
         let relations = this.createRelations(entityMetadata, localization, values);
         let modelLocalization = new ModelLocalization(
@@ -30,6 +31,7 @@ export default class ModelFactory {
             , localization["form.submit.succeeded_value"]
             , localization["form.submit.failed_value"]);
         let submit = new Submit(apiHandler);
+        let widgetFactory = new WidgetFactory(apiHandler);
 
         return new Model(
             className,
@@ -39,7 +41,8 @@ export default class ModelFactory {
             relations,
             modelLocalization,
             new Validation,
-            submit
+            submit,
+            widgetFactory
         );
     }
 

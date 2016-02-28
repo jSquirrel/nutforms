@@ -10,7 +10,7 @@ public class LocalizationRouter {
 
     public static MessageQuery route(String pathInfo) throws BadRequest {
 
-        // (/localization) ... /cs_CZ/Bug/edit[/message]
+        // (/localization) ... /cs_CZ/cz.cvut.fel.nutforms.example.model.Bug/edit[/message]
 
         MessageQuery query = new MessageQuery();
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jSquirrel Nutforms Client</title>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
+</head>
+<body style="padding: 20px auto" id="page">;
+
+<div nf-layout="menu/en"></div>
+
+<div class="container">
+    <div class="col-md-6">
+        <div nf-layout="cz.cvut.fel.nutforms.example.model.Employee/list"></div>
+    </div>
+    <div class="col-md-6">
+        <pre style="margin-top: 60px;"><code class="html">&lt;div id="form"&gt;&lt;/div&gt;
+&lt;script type="application/javascript"&gt;
+// Retrieves the id from HTTP query parameter
+var id = nutforms.getQueryParameter("id")
+// Gets element with id "form"
+var element = document.getElementById("form");
+// Binds form to given element
+nutforms.bindForm(
+    "cz.cvut.fel.nutforms.example.model.Employee", // Entity class
+    "edit", // Context
+    "en_US", // Locale
+    id, // Id of the entity
+    element // Form will be binded to this element
+);
+&lt;/script&gt;</code></pre>
+        <p>Script on page <span style="font-style: italic;">webapp/edit-employee.html</span></p>
+        <pre style="margin-top: 60px;"><code class="html">&lt;form class="form" role="form" nf-entity-form="nf-entity-form"&gt;
+    &lt;h1&gt;Edit Employee&lt;/h1&gt;
+    &lt;!-- Other field widgets are generated automagically here --&gt;
+    &lt;!-- Submit button is automagically generated here --&gt;
+&lt;/form&gt;</code></pre>
+        <p>Layout file <span style="font-style: italic;">resources/layout/cz.cvut.fel.nutforms.model.Employee/edit.html</span></p>
+    </div>
+</div>
+
+<script src="js/vendors.js"></script>
+<script src="js/bundle.js"></script>
+<script type="application/javascript">
+    nutforms.bind(document.getElementById("page"), "en_US");
+    hljs.initHighlighting();
+</script>
+</body>
+</html>

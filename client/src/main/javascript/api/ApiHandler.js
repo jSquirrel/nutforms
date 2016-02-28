@@ -16,14 +16,25 @@ export default class ApiHandler {
     constructor(apiAddress, apiUser, apiPassword) {
         this.API_ENDPOINT = 'api/';
         this.RULES_ENDPOINT = 'rules/';
+        this.LAYOUT_ENDPOINT = 'layout/';
         this.LOCALIZATION_ENDPOINT = 'localization/';
         this.CLASS_METADATA_ENDPOINT = 'meta/class/';
+        this.WIDGET_ENDPOINT = 'widget/';
+        this.WIDGET_MAPPING_ENDPOINT = 'widget-mapping/';
 
         this.apiAddress = apiAddress;
         this.apiUser = apiUser;
         this.apiPassword = apiPassword;
 
-        this._toJson = response => response.json();
+        this._toText = response => response.text();
+        this._toJson = response => {
+            try {
+                return response.json();
+            } catch (err) {
+                console.log("Error while parsing JSON", response);
+                return null;
+            }
+        };
         this._logResponse = (message) => {
             return response => {
                 console.log(message, response);
@@ -43,9 +54,8 @@ export default class ApiHandler {
     fetchMetadataFor(className, context, locale) {
 
         let classMetadataPromise = this.fetchClassData(className);
-        let localizationPromise = this.fetchLocalization(locale, className + '/' + context)
+        let localizationPromise = this.fetchLocalization(locale, className + '/' + context);
         let rulesPromise = this.fetchRules(className, context);
-        // TODO: more metadata
 
         return Promise.all([classMetadataPromise, localizationPromise, rulesPromise]);
     }
@@ -58,8 +68,9 @@ export default class ApiHandler {
      */
     fetchClassData(className) {
         return fetch(this._buildUrl(this.CLASS_METADATA_ENDPOINT + className))
+            //.then(this._logResponse("Class metadata loaded from API"))
             .then(this._toJson)
-            .then(this._logResponse("Class metadata loaded from API"));
+            ;
     }
 
     /**
@@ -72,7 +83,8 @@ export default class ApiHandler {
     fetchLocalization(locale, translationKey) {
         return fetch(this._buildUrl(this.LOCALIZATION_ENDPOINT + locale + '/' + translationKey))
             .then(this._toJson)
-            .then(this._logResponse("Localization data loaded from API"));
+            //.then(this._logResponse("Localization data loaded from API"))
+            ;
     }
 
     /**
@@ -86,7 +98,48 @@ export default class ApiHandler {
     fetchRules(className, context, locale) {
         return fetch(this._buildUrl(this.RULES_ENDPOINT + className + '/' + context))
             .then(this._toJson)
-            .then(this._logResponse("Context rules loaded from API"));
+            //.then(this._logResponse("Context rules loaded from API"))
+            ;
+    }
+
+    /**
+     * Fetches layout with given name.
+     *
+     * @param {string} layoutName
+     * @returns {Promise.<string>}
+     */
+    fetchLayout(layoutName) {
+        return fetch(this._buildUrl(this.LAYOUT_ENDPOINT + layoutName))
+            //.then(this._logResponse("Layout \"" + layoutName + "\" loaded from API"))
+            .then(this._toText)
+            ;
+    }
+
+    /**
+     * Fetches widget with given name.
+     *
+     * @param {string} name
+     * @returns {string}
+     */
+    fetchWidget(name) {
+        // TODO: make this asynchronous
+        var request = new XMLHttpRequest();
+        request.open('GET', this._buildUrl(this.WIDGET_ENDPOINT + name), false);  // `false` makes the request synchronous
+        request.send(null);
+        return request.responseText;
+    }
+
+    /**
+     * Fetches widget mapping function.
+     *
+     * @returns {string}
+     */
+    fetchWidgetMapping() {
+        // TODO: make this asynchronous
+        var request = new XMLHttpRequest();
+        request.open('GET', this._buildUrl(this.WIDGET_MAPPING_ENDPOINT), false);  // `false` makes the request synchronous
+        request.send(null);
+        return request.responseText;
     }
 
     /**
@@ -110,7 +163,8 @@ export default class ApiHandler {
             }
         })
             .then(this._toJson)
-            .then(this._logResponse("Entity data loaded from API"));
+            //.then(this._logResponse("Entity data loaded from API"))
+            ;
     }
 
     /**
@@ -128,7 +182,8 @@ export default class ApiHandler {
             }
         })
             .then(this._toJson)
-            .then(this._logResponse("List data loaded from API"));
+            //.then(this._logResponse("List data loaded from API"))
+            ;
     }
 
     /**
@@ -153,7 +208,8 @@ export default class ApiHandler {
             },
             body: JSON.stringify(data)
         })
-            .then(this._logResponse(`Submitted data to API via ${method} method.`));
+            .then(this._logResponse(`Submitted data to API via ${method} method.`))
+            ;
     }
 
     /**

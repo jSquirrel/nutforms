@@ -20,6 +20,7 @@ export default class EntityFormActions {
      * @param {string} value
      */
     static fieldSaved(attribute, name, value) {
+        //console.log(`EntityFormActions.fieldSaved(${attribute}, ${name}, ${value})`);
         // TODO: this one could be used for e.g. email address validation
         attribute.setValue(value);
     }

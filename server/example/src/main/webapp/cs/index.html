@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>jSquirrel Nutforms Client</title>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
+</head>
+<body style="padding: 20px auto" id="page">;
+
+<div nf-layout="menu/cs"></div>
+
+<div class="container">
+    <div class="col-md-6">
+        <h1>Seznam bugů</h1>
+        <div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/list"></div>
+    </div>
+    <div class="col-md-6">
+        <pre style="margin-top: 60px;"><code class="html">&lt;body id="page"&gt;
+&lt;div nf-layout="menu/cs"&gt;&lt;/div&gt;
+&lt;div class="container"&gt;
+    &lt;h1&gt;Seznam bugů&lt;/h1&gt;
+    &lt;div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/list"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;script type="application/javascript"&gt;
+    nutforms.bind(document.getElementById("page"), "cs_CZ");
+&lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        <p>HTML Page <span style="font-style: italic;">webapp/cs/index.html</span></p>
+        <pre style="margin-top: 60px;"><code class="html">&lt;div &gt;
+    &lt;table nf-entity-list="cz.cvut.fel.nutforms.example.model.Bug"&gt;
+        &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th nf-field-label="id"&gt;&lt;/th&gt;
+            &lt;th nf-field-label="description"&gt;&lt;/th&gt;
+            &lt;th nf-field-label="log"&gt;&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+        &lt;tr nf-entity-list-row="nf-entity-list-row"&gt;
+            &lt;td nf-field-widget="id"&gt;&lt;/td&gt;
+            &lt;td nf-field-widget="description"&gt;&lt;/td&gt;
+            &lt;td nf-field-widget="log"&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+        <p>Used layout <span style="font-style: italic;">resources/layout/cz.cvut.fel.nutforms.example.model.Bug/list.html</span></p>
+    </div>
+</div>
+
+
+<script src="/js/vendors.js"></script>
+<script src="/js/bundle.js"></script>
+<script type="application/javascript">
+    nutforms.bind(document.getElementById("page"), "cs_CZ");
+    hljs.initHighlighting();
+</script>
+</body>
+</html>
