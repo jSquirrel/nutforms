@@ -1,6 +1,7 @@
 import Model from './Model.js';
 import Attribute from './Attribute.js';
 import Relation from './Relation.js';
+import Validation from './Validation.js';
 import AttributeLocalization from './AttributeLocalization.js';
 import ModelLocalization from './ModelLocalization.js';
 import Submit from './Submit.js';
@@ -39,6 +40,7 @@ export default class ModelFactory {
             attributes,
             relations,
             modelLocalization,
+            new Validation,
             submit,
             widgetFactory
         );
@@ -64,6 +66,7 @@ export default class ModelFactory {
                     attribute.type,
                     value,
                     attributeLocalization,
+                    new Validation(),
                     attribute.is_primary
                 );
             });
@@ -90,7 +93,8 @@ export default class ModelFactory {
                     relation.name,
                     relation.type,
                     value, relation["target_entity"],
-                    new AttributeLocalization(localization[`form.${relation.name}.label`])
+                    new AttributeLocalization(localization[`form.${relation.name}.label`]),
+                    new Validation()
                 );
             });
         }

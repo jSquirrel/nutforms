@@ -14,10 +14,11 @@ export default class Model extends Observable {
      * @param {{}|Attribute[]} attributes
      * @param {{}|Relation[]} relations
      * @param {ModelLocalization} localization
+     * @param {Validation} validation
      * @param {Submit} submit
      * @param {WidgetFactory} widgetFactory
      */
-    constructor(className, context, id, attributes, relations, localization, submit, widgetFactory) {
+    constructor(className, context, id, attributes, relations, localization, validation, submit, widgetFactory) {
         super();
         this.className = className;
         this.context = context;
@@ -25,6 +26,7 @@ export default class Model extends Observable {
         this.attributes = attributes;
         this.relations = relations;
         this.localization = localization;
+        this.validation = validation.bind(this);
         this.submit = submit.bind(this);
         this.layout = new Layout().bind(this);
         this.widgetFactory = widgetFactory.bind(this);
@@ -88,10 +90,9 @@ export default class Model extends Observable {
      */
     formSubmitted(values) {
         Object.keys(values).forEach((key) => {
-            this.getAttribute(key).setValue(values[key]);
+            this.getAttribute(key).setValue(values[key]);   // invokes field-changed
         });
         this.trigger(ModelActions.SUBMITTED, this);
-        // TODO: add validation
         // TODO: the line below should be done by Validation
         this.trigger(ModelActions.VALIDATED, this)
     }
@@ -99,14 +100,17 @@ export default class Model extends Observable {
     /**** Validation **************************************************************************************************/
 
     /**
-     * Returns true if the model has validation errors, false if there are none.
+     * Returns <code>true</code> if the model has validation errors, <code>false</code> if there are none. This
+     * includes all attributes, relations, as well as the model itself.
      *
      * @returns {boolean}
      */
     hasErrors() {
-        return false;
-        // TODO:
-        // return this.validation.hasErrors();
+        let errors = false;
+        Object.keys(this.attributes).forEach((attr) => errors |= this.getAttribute(attr).hasErrors());
+        Object.keys(this.relations).forEach((relation) => errors |= this.getRelation(relation).hasErrors());
+        errors |= this.validation.hasErrors();
+        return errors;
     }
 
     /**** Localization ************************************************************************************************/
