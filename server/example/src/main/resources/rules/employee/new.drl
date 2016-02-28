@@ -6,8 +6,7 @@ dialect  "mvel"
 
 rule "[Employee] Is name filled"
     when
-//        Employee(firstName != null && firstName.length > 0 || lastName != null && lastName.length > 0)
-        Employee(firstName != null && lastName != null)
+        Employee((firstName != null && firstName.length > 0) || (lastName != null && lastName.length > 0))
     then
 end
 

@@ -90,7 +90,7 @@ export default class ValidatorFactory {
      */
     static getFields(expression) {
         let fieldNames = [];
-        expression.split(/AND|OR/).forEach(part => {
+        expression.split(/AND|OR|&&|\|\|/).forEach(part => {
             let fieldName = /[a-zA-Z0-9]+/.exec(part);
             if (fieldName !== null && fieldName.length > 0 && fieldNames.indexOf(fieldName[0]) === -1) {
                 fieldNames.push(fieldName[0]);
