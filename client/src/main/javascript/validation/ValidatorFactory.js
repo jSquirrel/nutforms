@@ -42,14 +42,13 @@ export default class ValidatorFactory {
             var that = this;
             if (field !== null) {
                 return function (args) {
-                    console.log(args);
-                    // cannot declare with 'let' keyword, otherwise the variable in anonymous function would evaluate as false
                     var declaration = 'var ' + field + '="' + args.value + '";';
                     if (args.value === null) {  // null errors should be handled in the rule declaration
                         declaration = declaration.replace(/"/g, ''); // do not replace null value with "null"
                     }
-                    var evalResult = eval(declaration + that.rewriteCondition(rule.condition));
+                    // cannot declare with 'let' keyword, otherwise the variable in anonymous function would evaluate as false
                     console.log(declaration + that.rewriteCondition(rule.condition));
+                    var evalResult = eval(declaration + that.rewriteCondition(rule.condition));
                     let url = document.location.origin + '/';
                     let apiHandler = new ApiHandler(url, 'admin', '1234');
                     apiHandler.fetchLocalization(locale, `rule/${rule.pckg}`).then((data) => {
@@ -86,7 +85,11 @@ export default class ValidatorFactory {
      * @returns {string} rewritten condition that can be safely passed to <code>eval()</code> JS function
      */
     static rewriteCondition(condition) {
-        let rewritten = condition;
+        let rewritten = condition
+            .replace(/AND/g, '&&')
+            .replace(/OR/g, '||')
+            .replace(/==/g, '===')
+            .replace(/!=/g, '!==');
         // rewrite regex matching
         while (rewritten.split(' ').indexOf('~=') > -1) {  // matches gets rewritten to '~=' in Drools
             let split = rewritten.split(' ');
