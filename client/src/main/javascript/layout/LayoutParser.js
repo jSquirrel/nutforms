@@ -160,6 +160,13 @@ export default class Renderer {
 
                 EntityFormActions.formSubmitted(model, valuesObject);
             });
+            model.listen(ModelActions.SUBMIT_SUCCEEDED, (model, result) => {
+                submit.setAttribute("disabled", "disabled");
+                submit.setAttribute("value", model.getSubmitSucceededValue());
+            });
+            model.listen(ModelActions.SUBMIT_FAILED, (model, result) => {
+                submit.setAttribute("value", model.getSubmitFailedValue());
+            });
         }
     }
 
