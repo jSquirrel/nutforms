@@ -11,16 +11,17 @@ export default class Submit {
     }
 
     /**
-     * ModelActions.VALIDATED callback.
+     * ModelActions.VALIDATED callback. This event is only fired when the model has no errors (validation was
+     * successful).
      *
      * @param {string} event
      * @param {Model} model
      */
     update(event, model) {
         // The event is always ModelActions.VALIDATED
-        if (model.hasErrors()) {
-            return;
-        }
+        //if (model.hasErrors()) {    // toDo: should not be needed
+        //    return;
+        //}
         this.apiHandler.submit(model.className, this.asMap(model), this.getMethod(model), model.id)
             .then((result) => {
                 if (result.status >= 200 && result.status < 300) {

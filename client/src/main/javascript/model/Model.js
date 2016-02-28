@@ -93,8 +93,9 @@ export default class Model extends Observable {
             this.getAttribute(key).setValue(values[key]);   // invokes field-changed
         });
         this.trigger(ModelActions.SUBMITTED, this);
-        // TODO: the line below should be done by Validation
-        this.trigger(ModelActions.VALIDATED, this)
+        if (!this.hasErrors()) {
+            this.trigger(ModelActions.VALIDATED, this);
+        }
     }
 
     /**** Validation **************************************************************************************************/
@@ -111,6 +112,13 @@ export default class Model extends Observable {
         Object.keys(this.relations).forEach((relation) => errors |= this.getRelation(relation).hasErrors());
         errors |= this.validation.hasErrors();
         return errors;
+    }
+
+    /**
+     * Triggers the ModelActions.VALIDATED event
+     */
+    validated() {
+        this.trigger(ModelActions.VALIDATED, this);
     }
 
     /**** Localization ************************************************************************************************/

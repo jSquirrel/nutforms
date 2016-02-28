@@ -59,4 +59,11 @@ export default class Attribute extends Observable {
     hasErrors() {
         return this.validation.hasErrors();
     }
+
+    /**
+     * Triggers the AttributeActions.VALIDATED event
+     */
+    validated() {
+        this.trigger(AttributeActions.ATTRIBUTE_VALIDATED, this);
+    }
 }

@@ -33,7 +33,7 @@ export default class Validation {
     update(feedback) {
         this.errors = Validation._updateValidationState(this.errors, feedback.errors, feedback.rule);
         this.info = Validation._updateValidationState(this.info, feedback.info, feedback.rule);
-        this.observable.trigger(AttributeActions.ATTRIBUTE_VALIDATED, this.observable);
+        this.observable.validated();
     }
 
     /**
