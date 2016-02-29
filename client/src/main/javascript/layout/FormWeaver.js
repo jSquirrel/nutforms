@@ -1,6 +1,7 @@
 import DOMHelper from './../helper/DOMHelper.js';
 import ModelFactory from './../model/ModelFactory.js';
 import ValidatorFactory from './../validation/ValidatorFactory.js';
+import HTTPHelper from './../helper/HTTPHelper.js';
 
 
 export default class FormWeaver {
@@ -16,7 +17,8 @@ export default class FormWeaver {
             }
             let className = parts[0];
             let context = parts[1];
-            let entityId = parts.length > 2 ? parts[2] : null;
+            let entityId = HTTPHelper.getQueryParameter("id");
+            entityId = entityId !== "Not found" ? entityId : null;
 
             apiHandler.fetchMetadataFor(className, context, locale).then((results) => {
                 let metadata = results[0];
