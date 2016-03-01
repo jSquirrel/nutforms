@@ -17,15 +17,14 @@ export default class ValidatorFactory {
             if (fieldNames.length === 0) {
                 return;
             }
-            fieldNames.forEach(fieldName => {
-                let attribute = model.getAttribute(fieldName);
-                let validator = this.createFunction(model, attribute, rule, locale);
-                if (validator) {
-                    // toDo: distinguish events
-                    // toDo: also add validators to Relations
-                    attribute.listen(AttributeActions.VALUE_CHANGED, validator);    // toDo: change event
-                }
-            });
+            let attributes = [];
+            fieldNames.forEach(name => attributes.push(model.getAttribute(name)));
+            let validator = this.createFunction(model, attributes, rule, locale);
+            if (validator) {
+                // toDo: distinguish events
+                // toDo: also add validators to Relations
+                attributes.forEach(attribute => attribute.listen(AttributeActions.VALUE_CHANGED, validator));   // toDo: change event
+            }
         })
     }
 
@@ -33,13 +32,12 @@ export default class ValidatorFactory {
      * Creates a validation function out of given object (rule as JSON)
      *
      * @param {Model} model
-     * @param {Attribute} attribute
+     * @param {Array.<Observable>} observables
      * @param {object} rule
      * @param {string} locale
      */
-    static createFunction(model, attribute, rule, locale) {
+    static createFunction(model, observables, rule, locale) {
         if (rule.hasOwnProperty("condition")) {
-            // toDo: implement function creation for multiple fields
             // get the first word, i.e. sequence of letters separated by non-letter
             var that = this;
             return function (args) {
@@ -50,12 +48,11 @@ export default class ValidatorFactory {
                 let url = document.location.origin + '/';
                 let apiHandler = new ApiHandler(url, 'admin', '1234');
                 apiHandler.fetchLocalization(locale, `rule/${rule.pckg}`).then((data) => {
-                    //console.log(data);
-                    attribute.validation.update({
+                    observables.forEach(observable => observable.validation.update({
                         rule: rule.name,
                         errors: evalResult ? null : data[rule.name],
                         info: null
-                    });
+                    }));
                 });
                 return evalResult;
             }

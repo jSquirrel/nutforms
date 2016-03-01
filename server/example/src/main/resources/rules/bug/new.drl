@@ -22,3 +22,10 @@ rule "[Bug] Is alphanumeric"
         Bug(description matches "^[a-zA-Z0-9 ]*$")
     then
 end
+
+// number test
+//rule "Test"
+//    when
+//        Bug(log matches "^[0-9]*$" && log > 5 && log < 10)
+//    then
+//end
