@@ -93,7 +93,6 @@ export default class ValidatorFactory {
                 fieldNames.push(fieldName[0]);
             }
         });
-        console.log('declared fields', fieldNames);
         return fieldNames;
     }
 
@@ -115,10 +114,13 @@ export default class ValidatorFactory {
             let matchesIndex = split.indexOf('~=');
             let regex = split[matchesIndex + 1];
             var regexIndex = matchesIndex + 1;
-            while (regex.length > 1 && regex.charAt(regex.length - 1) !== '"') {    // fix regex containing spaces
+            let skip = 0;
+            for (; regex.length > 1 && regex.charAt(regex.length - 1) !== '"'; ++skip) {    // fix regex containing spaces
                 regex += ' ' + split[++regexIndex];
             }
-            split.length = 3;   // toDo: fix for composite rules (and/or)
+            let rest = split.slice(3 + skip, split.length);
+            Array.prototype.splice.apply(split, [3, split.length].concat(rest));    // split.length is used to ensure that the array is filled whole (and can be shortened after this)
+            //split.length = 3;   // toDo: fix for composite rules (and/or)
             split[matchesIndex + 1] = split[matchesIndex - 1] + ')';    // matches the opening bracket of 'test('
             split[matchesIndex - 1] = regex.replace(/"/g, '/');  // globally replace quotes by slashes (RegExp notation)
             split[matchesIndex] = '.test(';

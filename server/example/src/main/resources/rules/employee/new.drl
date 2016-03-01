@@ -10,8 +10,8 @@ rule "[Employee] Is name filled"
     then
 end
 
-//rule "[Employee] Is name valid"
-//    when
-//        Employee(firstName matches "[a-zA-Z]" && lastName matches "[a-zA-Z]")
-//    then
-//end
+rule "[Employee] Is name valid"
+    when
+        Employee(firstName matches "^[a-zA-Z]*$" && lastName matches "^[a-zA-Z]*$")
+    then
+end
