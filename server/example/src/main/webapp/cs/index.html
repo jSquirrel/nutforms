@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>jSquirrel Nutforms Client</title>
+    <title>Vítejte | jSquirrel Nutforms Client</title>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css">
@@ -11,54 +11,171 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
 </head>
-<body style="padding: 20px auto" id="page">;
+<body style="padding-top: 20px;" id="page">
 
 <div nf-layout="menu/cs"></div>
 
 <div class="container">
-    <div class="col-md-6">
-        <h1>Seznam bugů</h1>
-        <div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/list"></div>
+    <div class="col-md-12" style="margin-bottom: 30px;">
+        <h1>Vítejte v ukázkové aplikaci jSquirrel Nutforms!</h1>
+        <p class="lead">Nutforms je distribuovaná aspektově orientovaná knihovna pro generování context-aware formulářů
+            pro vaše entity definované pomocí Java Persistence. Formuláře jsou generovány automaticky a jsou tvořeny
+            nastavitelnými layouty a widgety. Díky tomu můžete psát méně kódu a soustředit se na to, na čem opravdu
+            záleží.</p>
     </div>
-    <div class="col-md-6">
-        <pre style="margin-top: 60px;"><code class="html">&lt;body id="page"&gt;
-&lt;div nf-layout="menu/cs"&gt;&lt;/div&gt;
-&lt;div class="container"&gt;
-    &lt;h1&gt;Seznam bugů&lt;/h1&gt;
-    &lt;div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/list"&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;script type="application/javascript"&gt;
-    nutforms.bind(document.getElementById("page"), "cs_CZ");
-&lt;/script&gt;
-&lt;/body&gt;</code></pre>
-        <p>HTML Page <span style="font-style: italic;">webapp/cs/index.html</span></p>
-        <pre style="margin-top: 60px;"><code class="html">&lt;div &gt;
-    &lt;table nf-entity-list="cz.cvut.fel.nutforms.example.model.Bug"&gt;
-        &lt;thead&gt;
-        &lt;tr&gt;
-            &lt;th nf-field-label="id"&gt;&lt;/th&gt;
-            &lt;th nf-field-label="description"&gt;&lt;/th&gt;
-            &lt;th nf-field-label="log"&gt;&lt;/th&gt;
-        &lt;/tr&gt;
-        &lt;/thead&gt;
-        &lt;tbody&gt;
-        &lt;tr nf-entity-list-row="nf-entity-list-row"&gt;
-            &lt;td nf-field-widget="id"&gt;&lt;/td&gt;
-            &lt;td nf-field-widget="description"&gt;&lt;/td&gt;
-            &lt;td nf-field-widget="log"&gt;&lt;/td&gt;
-        &lt;/tr&gt;
-        &lt;/tbody&gt;
-    &lt;/table&gt;
+
+    <div class="col-md-9" style="margin-bottom: 60px;">
+        <h2>Použití layoutů</h2>
+        <p>Definujte si layouty a použijte je ve svých HTML stránkách.</p>
+        <pre style="margin-top: 20px;"><code class="html">&lt;form nf-entity-form="cz.cvut.fel.nutforms.example.model.Bug:new"&gt;
+    &lt;h1 nf-form-label="nf-form-label"&gt;&lt;/h1&gt;
+    &lt;div nf-field-widget="id"&gt;&lt;/div&gt;
+    &lt;div nf-field-widget="description"&gt;&lt;/div&gt;
+    &lt;div nf-field-widget="log"&gt;&lt;/div&gt;
+&lt;/form&gt;</code></pre>
+        <p>Layout "cz.cvut.fel.nutforms.example.model.Bug/new"</p>
+
+        <pre style="margin-top: 20px;"><code class="html">&lt;div class="container"&gt;
+    &lt;div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/new"&gt;&lt;/div&gt;
 &lt;/div&gt;</code></pre>
-        <p>Used layout <span style="font-style: italic;">resources/layout/cz.cvut.fel.nutforms.example.model.Bug/list.html</span></p>
+        <p>Použití layoutu ve vaší HTML stránce</p>
+
+
+
+        <h2 style="margin-top: 80px">Použití widgetů</h2>
+        <p>Definujte si vlastní widgety a způsob jakým se mapují na pole formulářů.</p>
+        <pre style="margin-top: 20px;"><code class="html">&lt;div class="form-group"&gt;
+    &lt;label nf-field-widget-label="{attribute.name}" for="{attribute.name}"&gt;
+        {attribute.formLabel}
+    &lt;/label&gt;
+    &lt;input nf-field-widget-value="{attribute.name}" class="form-control"
+            id="{attribute.name}" name="{attribute.name}" type="text"&gt;
+&lt;/div&gt;</code></pre>
+        <p>Widget "default/text-input.html"</p>
+
+        <pre style="margin-top: 20px;"><code class="javascript">/*
+ * Variables:
+ *  - mappingFunction - set your function as value of this variable
+ *  - model {string} - Name of the class
+ *  - context {string} - Name of the context
+ *  - attributeName {string} - Name of the attribute
+ *  - attributeType {string} - Type of the attribute
+ *  - isAttributePrimary {boolean} - Is the attribute primary?
+ */
+
+mappingFunction = function (className, context, attributeName, attributeType, isAttributePrimary) {
+    var widgetNamespace = "default";
+
+    if (context === "list") {
+        widgetNamespace = "list";
+    } else if (context === "delete" || isAttributePrimary) {
+        widgetNamespace = "disabled";
+    }
+
+    var widgetName = "";
+    switch (attributeType) {
+        case "java.lang.String":
+            widgetName = "text-input";
+            break;
+        case "java.lang.Long":
+            widgetName = "number-input";
+            break;
+    }
+
+    return widgetNamespace + "/" + widgetName;
+};
+        </code></pre>
+        <p>Mapovací funkce "mapping/function.js"</p>
+
+
+
+        <h2 style="margin-top: 80px">Aspekt lokalizace</h2>
+        <p>Nutforms formuláře jsou plně lokalizované. Stačí pouze definovat překlady.</p>
+        <pre style="margin-top: 20px;"><code>cz.cvut.fel.nutforms.example.model.Bug.new.form.label = Vytvořit Bug
+cz.cvut.fel.nutforms.example.model.Bug.new.form.id.label = ID
+cz.cvut.fel.nutforms.example.model.Bug.new.form.description.label = Popis
+cz.cvut.fel.nutforms.example.model.Bug.new.form.log.label = Log
+cz.cvut.fel.nutforms.example.model.Bug.new.form.submit.value = Vytvořit
+cz.cvut.fel.nutforms.example.model.Bug.new.form.submit.succeeded_value = Úspěšně vytvořeno
+cz.cvut.fel.nutforms.example.model.Bug.new.form.submit.failed_value = Vytváření selhalo</code></pre>
+<p>Lokalizace pro formulář entity "cz.cvut.fel.nutforms.example.model.Bug" v kontextu "new"</p>
+
+
+
+        <h2 style="margin-top: 80px">Aspekt validace</h2>
+        <p>Nutforms formuláře jsou živě validovány pomocí pravidel, která si definujete ve vaší Java aplikaci.
+        Pravidla jsou definována jednou, ale spouštěna dvakrát, jak na klientovi, tak na serveru.</p>
+        <pre style="margin-top: 20px;"><code class="java">package cz.cvut.fel.nutforms.example.model.Bug.new;
+
+import cz.cvut.fel.nutforms.example.model.Bug;
+
+dialect  "mvel"
+
+rule "[Bug] Is description properly long"
+    when
+        Bug(description != null && description.length > 14 && description.length < 31)
+    then
+end
+
+rule "[Bug] Is log filled in"
+    when
+        Bug(log != null && log.length > 0)
+    then
+end
+
+rule "[Bug] Is alphanumeric"
+    when
+        Bug(description matches "^[a-zA-Z0-9 ]*$")
+    then
+end</code></pre>
+<p>Drools pravidla pro "cz.cvut.fel.nutforms.example.model.Bug" v kontextu "new"</p>
+
+
+
+        <h2 style="margin-top: 80px">Zapnutí Nutforms</h2>
+        <p>Nakonec Nutforms zapnete přímo na vaší stránce. Předáte pouze element, a který se mají formuláře navázat
+            a nastavíte jazyk.</p>
+        <pre style="margin-top: 20px;"><code class="html">&lt;script type="application/javascript"&gt;
+    nutforms.bind(document.getElementById("page"), "en_US");
+&lt;/script&gt;</code></pre>
+    </div>
+
+
+    <div class="col-md-3">
+        <div class="sidebar-module">
+            <h4>Bug</h4>
+            <ul class="list-unstyled">
+                <li><a href="vytvorit-bug.html">Vytvořit Bug</a></li>
+                <li><a href="upravit-bug.html?id=1">Upravit Bug #1</a></li>
+                <li><a href="upravit-bug.html?id=2">Upravit Bug #2</a></li>
+                <li><a href="upravit-bug.html?id=3">Upravit Bug #3</a></li>
+                <li><a href="smazat-bug.html?id=1">Smazat Bug #1</a></li>
+                <li><a href="smazat-bug.html?id=2">Smazat Bug #2</a></li>
+                <li><a href="smazat-bug.html?id=3">Smazat Bug #3</a></li>
+                <li><a href="seznam-bugu.html">Seznam Bugů</a></li>
+            </ul>
+        </div>
+        <div class="sidebar-module">
+            <h4>Zaměstnanec</h4>
+            <ul class="list-unstyled">
+                <li><a href="vytvorit-zamestnance.html">Vytvořit Zaměstnance</a></li>
+                <li><a href="upravit-zamestnance.html?id=1">Upravit Zaměstnance #1</a></li>
+                <li><a href="upravit-zamestnance.html?id=2">Upravit Zaměstnance #2</a></li>
+                <li><a href="upravit-zamestnance.html?id=3">Upravit Zaměstnance #3</a></li>
+                <li><a href="upravit-zamestnance.html?id=4">Upravit Zaměstnance #4</a></li>
+                <li><a href="smazat-zamestnance.html?id=1">Smazat Zaměstnance #1</a></li>
+                <li><a href="smazat-zamestnance.html?id=2">Smazat Zaměstnance #2</a></li>
+                <li><a href="smazat-zamestnance.html?id=3">Smazat Zaměstnance #3</a></li>
+                <li><a href="smazat-zamestnance.html?id=4">Smazat Zaměstnance #4</a></li>
+                <li><a href="seznam-zamestnancu.html">Seznam Zaměstnanců</a></li>
+            </ul>
+        </div>
     </div>
 </div>
-
-
 <script src="/js/vendors.js"></script>
 <script src="/js/bundle.js"></script>
-<script type="application/javascript">
-    nutforms.bind(document.getElementById("page"), "cs_CZ");
+<script>
+    nutforms.bind(document.getElementById("page"), "cz_CS");
     hljs.initHighlighting();
 </script>
 </body>

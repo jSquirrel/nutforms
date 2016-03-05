@@ -27,9 +27,5 @@ mappingFunction = function (className, context, attributeName, attributeType, is
             break;
     }
 
-    if (context === "list" && isAttributePrimary) {
-        widgetName = "primary";
-    }
-
     return widgetNamespace + "/" + widgetName;
 };

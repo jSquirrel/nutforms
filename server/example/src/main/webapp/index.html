@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>jSquirrel Nutforms Client</title>
+    <title>Welcome | jSquirrel Nutforms Client</title>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css">
@@ -11,46 +11,164 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
 </head>
-<body style="padding: 20px auto;" id="page">
+<body style="padding-top: 20px;" id="page">
 
 <div nf-layout="menu/en"></div>
 
 <div class="container">
-    <div class="col-md-6">
-        <h1>Bug list</h1>
-        <div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/list"></div>
+    <div class="col-md-12" style="margin-bottom: 30px;">
+        <h1>Welcome to jSquirrel Nutforms Example Application!</h1>
+        <p class="lead">Nutforms is an distributed unobtrusive aspect-oriented library for generating context-aware
+            entity forms. The forms are automatically generated from your Java Persistence entities and are made up of
+            customizable widgets and layouts. This way, you can write less code and focus on what really matters.</p>
     </div>
-    <div class="col-md-6">
-        <pre style="margin-top: 60px;"><code class="html">&lt;body id="page"&gt;
-&lt;div nf-layout="menu/en"&gt;&lt;/div&gt;
-&lt;div class="container"&gt;
-    &lt;h1&gt;Seznam bugů&lt;/h1&gt;
-    &lt;div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/list"&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;script type="application/javascript"&gt;
-    nutforms.bind(document.getElementById("page"), "en_US");
-&lt;/script&gt;
-&lt;/body&gt;</code></pre>
-        <p>HTML Page <span style="font-style: italic;">webapp/index.html</span></p>
-        <pre style="margin-top: 60px;"><code class="html">&lt;div&gt;
-    &lt;table nf-entity-list="cz.cvut.fel.nutforms.example.model.Bug"&gt;
-        &lt;thead&gt;
-        &lt;tr&gt;
-            &lt;th nf-field-label="id"&gt;&lt;/th&gt;
-            &lt;th nf-field-label="description"&gt;&lt;/th&gt;
-            &lt;th nf-field-label="log"&gt;&lt;/th&gt;
-        &lt;/tr&gt;
-        &lt;/thead&gt;
-        &lt;tbody&gt;
-        &lt;tr nf-entity-list-row="nf-entity-list-row"&gt;
-            &lt;td nf-field-widget="id"&gt;&lt;/td&gt;
-            &lt;td nf-field-widget="description"&gt;&lt;/td&gt;
-            &lt;td nf-field-widget="log"&gt;&lt;/td&gt;
-        &lt;/tr&gt;
-        &lt;/tbody&gt;
-    &lt;/table&gt;
+
+    <div class="col-md-9" style="margin-bottom: 60px;">
+        <h2>Layouts usage</h2>
+        <p>Define your layouts and use them in your HTML pages.</p>
+        <pre style="margin-top: 20px;"><code class="html">&lt;form nf-entity-form="cz.cvut.fel.nutforms.example.model.Bug:new"&gt;
+    &lt;h1 nf-form-label="nf-form-label"&gt;&lt;/h1&gt;
+    &lt;div nf-field-widget="id"&gt;&lt;/div&gt;
+    &lt;div nf-field-widget="description"&gt;&lt;/div&gt;
+    &lt;div nf-field-widget="log"&gt;&lt;/div&gt;
+&lt;/form&gt;</code></pre>
+        <p>Layout "cz.cvut.fel.nutforms.example.model.Bug/new"</p>
+
+        <pre style="margin-top: 20px;"><code class="html">&lt;div class="container"&gt;
+    &lt;div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/new"&gt;&lt;/div&gt;
 &lt;/div&gt;</code></pre>
-        <p>Used layout <span style="font-style: italic;">resources/layout/cz.cvut.fel.nutforms.example.model.Bug/list.html</span></p>
+        <p>Usage of layout in your HTML page</p>
+
+
+
+        <h2 style="margin-top: 80px">Widgets usage</h2>
+        <p>Define your set of widgets and how they should be mapped to form fields.</p>
+        <pre style="margin-top: 20px;"><code class="html">&lt;div class="form-group"&gt;
+    &lt;label nf-field-widget-label="{attribute.name}" for="{attribute.name}"&gt;
+        {attribute.formLabel}
+    &lt;/label&gt;
+    &lt;input nf-field-widget-value="{attribute.name}" class="form-control"
+            id="{attribute.name}" name="{attribute.name}" type="text"&gt;
+&lt;/div&gt;</code></pre>
+        <p>Widget "default/text-input.html"</p>
+
+        <pre style="margin-top: 20px;"><code class="javascript">/*
+ * Variables:
+ *  - mappingFunction - set your function as value of this variable
+ *  - model {string} - Name of the class
+ *  - context {string} - Name of the context
+ *  - attributeName {string} - Name of the attribute
+ *  - attributeType {string} - Type of the attribute
+ *  - isAttributePrimary {boolean} - Is the attribute primary?
+ */
+
+mappingFunction = function (className, context, attributeName, attributeType, isAttributePrimary) {
+    var widgetNamespace = "default";
+
+    if (context === "list") {
+        widgetNamespace = "list";
+    } else if (context === "delete" || isAttributePrimary) {
+        widgetNamespace = "disabled";
+    }
+
+    var widgetName = "";
+    switch (attributeType) {
+        case "java.lang.String":
+        widgetName = "text-input";
+        break;
+        case "java.lang.Long":
+        widgetName = "number-input";
+        break;
+    }
+
+    return widgetNamespace + "/" + widgetName;
+};
+</code></pre>
+        <p>Widget mapping function in "mapping/function.js"</p>
+
+
+
+        <h2 style="margin-top: 80px">Localization aspect</h2>
+        <p>Nutforms forms are fully localized. Just set up resources bundle and that's it.</p>
+        <pre style="margin-top: 20px;"><code>cz.cvut.fel.nutforms.example.model.Bug.new.form.label = Create Bug
+cz.cvut.fel.nutforms.example.model.Bug.new.form.id.label = ID
+cz.cvut.fel.nutforms.example.model.Bug.new.form.description.label = Description
+cz.cvut.fel.nutforms.example.model.Bug.new.form.log.label = Log
+cz.cvut.fel.nutforms.example.model.Bug.new.form.submit.value = Create
+cz.cvut.fel.nutforms.example.model.Bug.new.form.submit.succeeded_value = Created successfully
+cz.cvut.fel.nutforms.example.model.Bug.new.form.submit.failed_value = Create failed</code></pre>
+        <p>This is example localization of class "cz.cvut.fel.nutforms.example.model.Bug" in context "new"</p>
+
+
+
+        <h2 style="margin-top: 80px">Validation aspect</h2>
+        <p>Nutforms are live-validated with rules you defined in your Java application. The validation is defined once
+            but run twice, both on client and on backend for maximal security.</p>
+        <pre style="margin-top: 20px;"><code class="java">package cz.cvut.fel.nutforms.example.model.Bug.new;
+
+import cz.cvut.fel.nutforms.example.model.Bug;
+
+dialect  "mvel"
+
+rule "[Bug] Is description properly long"
+    when
+        Bug(description != null && description.length > 14 && description.length < 31)
+    then
+    end
+
+rule "[Bug] Is log filled in"
+    when
+        Bug(log != null && log.length > 0)
+    then
+end
+
+rule "[Bug] Is alphanumeric"
+    when
+        Bug(description matches "^[a-zA-Z0-9 ]*$")
+    then
+end</code></pre>
+        <p>Drools rules for "cz.cvut.fel.nutforms.example.model.Bug" in context "new"</p>
+
+
+
+        <h2 style="margin-top: 80px">Start nutforms</h2>
+        <p>At last, you just let Nutforms do their work by binding them to your page. Just provide an element
+            you wish Nutforms to be bound to and set the locale.</p>
+        <pre style="margin-top: 20px;"><code class="html">&lt;script type="application/javascript"&gt;
+nutforms.bind(document.getElementById("page"), "en_US");
+&lt;/script&gt;</code></pre>
+    </div>
+
+
+    <div class="col-md-3">
+        <div class="sidebar-module">
+            <h4>Bug</h4>
+            <ul class="list-unstyled">
+                <li><a href="create-bug.html">Create Bug</a></li>
+                <li><a href="edit-bug.html?id=1">Edit Bug #1</a></li>
+                <li><a href="edit-bug.html?id=2">Edit Bug #2</a></li>
+                <li><a href="edit-bug.html?id=3">Edit Bug #3</a></li>
+                <li><a href="delete-bug.html?id=1">Delete Bug #1</a></li>
+                <li><a href="delete-bug.html?id=2">Delete Bug #2</a></li>
+                <li><a href="delete-bug.html?id=3">Delete Bug #3</a></li>
+                <li><a href="list-bugs.html">List Bugs</a></li>
+            </ul>
+        </div>
+        <div class="sidebar-module">
+            <h4>Employee</h4>
+            <ul class="list-unstyled">
+                <li><a href="create-employee.html">Create Employee</a></li>
+                <li><a href="edit-employee.html?id=1">Edit Employee #1</a></li>
+                <li><a href="edit-employee.html?id=2">Edit Employee #2</a></li>
+                <li><a href="edit-employee.html?id=3">Edit Employee #3</a></li>
+                <li><a href="edit-employee.html?id=4">Edit Employee #4</a></li>
+                <li><a href="delete-employee.html?id=1">Delete Employee #1</a></li>
+                <li><a href="delete-employee.html?id=2">Delete Employee #2</a></li>
+                <li><a href="delete-employee.html?id=3">Delete Employee #3</a></li>
+                <li><a href="delete-employee.html?id=4">Delete Employee #4</a></li>
+                <li><a href="list-employees.html">List Employees</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 <script src="js/vendors.js"></script>
