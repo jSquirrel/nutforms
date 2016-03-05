@@ -64,10 +64,17 @@ export default class Submit {
      * @param {Model} model
      */
     getMethod(model) {
-        if (model.id !== null) {
-            return "PUT";
+        // TODO: this should be defined by user, not by the framework. This way we are forcing context names and
+        // TODO: restricting PUT/DELETE to only one context
+        switch (model.context) {
+            case "edit":
+                return "PUT";
+            case "delete":
+                return "DELETE";
+            case "create":
+            default:
+                return "POST";
         }
-        return "POST";
     }
 
     /**

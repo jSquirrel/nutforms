@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Nutforms overhaul</title>
+    <title>jSquirrel Nutforms Client</title>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css">
@@ -10,14 +11,15 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
 </head>
-<body style="padding: 20px auto" id="page">
+<body style="padding: 20px auto;" id="page">
+
 <div nf-layout="menu/en"></div>
+
 <div class="container">
-    <div class="container">
-        <div class="col-md-6">
-            <h1>Bug list</h1>
-            <div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/list"></div>
-        </div>
+    <div class="col-md-6">
+        <h1>Bug list</h1>
+        <div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/list"></div>
+    </div>
     <div class="col-md-6">
         <pre style="margin-top: 60px;"><code class="html">&lt;body id="page"&gt;
 &lt;div nf-layout="menu/en"&gt;&lt;/div&gt;
@@ -49,7 +51,6 @@
     &lt;/table&gt;
 &lt;/div&gt;</code></pre>
         <p>Used layout <span style="font-style: italic;">resources/layout/cz.cvut.fel.nutforms.example.model.Bug/list.html</span></p>
-    </div>
     </div>
 </div>
 <script src="js/vendors.js"></script>

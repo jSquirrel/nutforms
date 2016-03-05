@@ -1,0 +1,10 @@
+package cz.cvut.fel.nutforms.example.model.Bug.delete;
+
+import cz.cvut.fel.nutforms.example.model.Bug;
+
+dialect  "mvel"
+
+rule "edit"
+    when
+    then
+end

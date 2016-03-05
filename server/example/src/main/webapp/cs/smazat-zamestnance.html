@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <title>Create Employee | jSquirrel Nutforms Client</title>
+    <title>Smazat Zaměstnance | jSquirrel Nutforms Client</title>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css">
@@ -13,34 +13,34 @@
 </head>
 <body style="padding: 20px auto" id="page">;
 
-<div nf-layout="menu/en"></div>
+<div nf-layout="menu/cs"></div>
 
 <div class="container">
     <div class="col-md-6">
-        <div nf-layout="cz.cvut.fel.nutforms.example.model.Employee/new"></div>
+        <div nf-layout="cz.cvut.fel.nutforms.example.model.Employee/delete"></div>
     </div>
     <div class="col-md-6">
         <pre style="margin-top: 60px;"><code class="html">&lt;body id="page"&gt;
 &lt;div nf-layout="menu/cs"&gt;&lt;/div&gt;
 &lt;div class="container"&gt;
-    &lt;div nf-layout="cz.cvut.fel.nutforms.example.model.Employee/edit"&gt;&lt;/div&gt;
+    &lt;div nf-layout="cz.cvut.fel.nutforms.example.model.Employee/delete"&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;script type="application/javascript"&gt;
     nutforms.bind(document.getElementById("page"), "en_US");
 &lt;/script&gt;
 &lt;/body&gt;</code></pre>
-        <p>HTML Page <span style="font-style: italic;">webapp/create-employee.html</span></p>
-        <pre style="margin-top: 60px;"><code class="html">&lt;form nf-entity-form="cz.cvut.fel.nutforms.example.model.Employee:new"&gt;
+        <p>HTML stránka <span style="font-style: italic;">webapp/delete-employee.html</span></p>
+        <pre style="margin-top: 60px;"><code class="html">&lt;form nf-entity-form="cz.cvut.fel.nutforms.example.model.Employee:delete"&gt;
     &lt;h1 nf-form-label="nf-form-label"&gt;&lt;/h1&gt;
 &lt;/form&gt;</code></pre>
-        <p>Used layout <span style="font-style: italic;">resources/layout/cz.cvut.fel.nutforms.example.model.Employee/new.html</span></p>
+        <p>Použitý layout <span style="font-style: italic;">resources/layout/cz.cvut.fel.nutforms.example.model.Employee/delete.html</span></p>
     </div>
 </div>
 
-<script src="js/vendors.js"></script>
-<script src="js/bundle.js"></script>
+<script src="/js/vendors.js"></script>
+<script src="/js/bundle.js"></script>
 <script type="application/javascript">
-    nutforms.bind(document.getElementById("page"), "en_US");
+    nutforms.bind(document.getElementById("page"), "cs_CZ");
     hljs.initHighlighting();
 </script>
 </body>

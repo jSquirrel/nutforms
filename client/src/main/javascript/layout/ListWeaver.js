@@ -24,7 +24,6 @@ export default class ListWeaver {
                         entities.forEach((data) => {
                             let row = originalRow.cloneNode(true);
                             let model = modelFactory.create(className, "list", data.id, metadata, localization, data, apiHandler);
-                            let owidgets = DOMHelper.findElementsWithAttribute(originalRow, "nf-field-widget");
                             let widgets = DOMHelper.findElementsWithAttribute(row, "nf-field-widget");
                             widgets.forEach((widget) => {
                                 let attribute = model.getAttribute(widget.getAttribute("nf-field-widget"));

@@ -88,7 +88,8 @@ export default class Renderer {
         for (var k = 0, o = values.length; k < o; k++) {
             let value = values[k];
             let attributeName = value.getAttribute("nf-field-widget-value");
-            let attributeValue = this.model.getAttribute(attributeName).value;
+            let attribute = this.model.getAttribute(attributeName);
+            let attributeValue = attribute.value;
             if (attributeValue != null) {
                 value.setAttribute("value", attributeValue);
             }
@@ -107,6 +108,24 @@ export default class Renderer {
         formLabels.forEach((formLabel) => {
             formLabel.innerHTML = this.model.getFormLabel();
         });
+
+        // Bind hrefs
+        //let hrefs = DOMHelper.findElementsWithAttribute(doc, "nf-href");
+        //console.log("doc", doc);
+        //console.log("hrefs", hrefs);
+        //if (hrefs.length > 0) {
+        //    hrefs.forEach((href) => {
+        //        let nfHrefValue = href.getAttribute("nf-href");
+        //        let innerHrefs = DOMHelper.findElementsWithAttribute(href, "href");
+        //        console.log("inner hrefs", innerHrefs);
+        //        innerHrefs.forEach((innerHref) => {
+        //            let hrefValue = innerHref.getAttribute("href");
+        //            hrefValue = hrefValue.replace(new RegExp('{href}', 'g'), nfHrefValue);
+        //            console.log("hrefValue", hrefValue);
+        //            innerHref.setAttribute("href", hrefValue);
+        //        });
+        //    });
+        //}
     }
 
     /**

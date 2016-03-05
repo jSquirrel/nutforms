@@ -13,7 +13,7 @@ mappingFunction = function (className, context, attributeName, attributeType, is
 
     if (context === "list") {
         widgetNamespace = "list";
-    } else if (isAttributePrimary) {
+    } else if (context === "delete" || isAttributePrimary) {
         widgetNamespace = "disabled";
     }
 
@@ -25,6 +25,10 @@ mappingFunction = function (className, context, attributeName, attributeType, is
         case "java.lang.Long":
             widgetName = "number-input";
             break;
+    }
+
+    if (context === "list" && isAttributePrimary) {
+        widgetName = "primary";
     }
 
     return widgetNamespace + "/" + widgetName;

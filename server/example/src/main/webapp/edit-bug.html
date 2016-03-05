@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>jSquirrel Nutforms Client</title>
+    <title>Edit Bug | jSquirrel Nutforms Client</title>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css">
@@ -20,21 +20,16 @@
         <div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/edit"></div>>
     </div>
     <div class="col-md-6">
-        <pre style="margin-top: 60px;"><code class="html">&lt;div id="form"&gt;&lt;/div&gt;
+        <pre style="margin-top: 60px;"><code class="html">&lt;body id="page"&gt;
+&lt;div nf-layout="menu/cs"&gt;&lt;/div&gt;
+&lt;div class="container"&gt;
+    &lt;div nf-layout="cz.cvut.fel.nutforms.example.model.Bug/edit"&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;script type="application/javascript"&gt;
-// Retrieves the id from HTTP query parameter
-var id = nutforms.getQueryParameter("id")
-// Gets element with id "form"
-var element = document.getElementById("form");
-// Binds form to given element
-nutforms.bindForm(
-    "cz.cvut.fel.nutforms.example.model.Bug", // Entity class
-    "edit", // Context
-    "en_US", // Locale
-    id, // Id of the entity
-    element // Form will be binded to this element
-);
-&lt;/script&gt;</code></pre>
+    nutforms.bind(document.getElementById("page"), "en_US");
+&lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        <p>HTML Page <span style="font-style: italic;">webapp/create-bug.html</span></p>
         <p>Script on page <span style="font-style: italic;">webapp/edit-bug.html</span></p>
         <pre style="margin-top: 60px;"><code class="html">&lt;form class="form" role="form" nf-entity-form="nf-entity-form"&gt;
     &lt;h1&gt;Create a Bug&lt;/h1&gt;
