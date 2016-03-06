@@ -30,7 +30,7 @@ export default class ListInjector {
                             widgets.forEach((widget) => {
                                 let attribute = model.getAttribute(widget.getAttribute("nf-field-widget"));
                                 widget.innerHTML = model.widgetFactory.loadFieldWidget(attribute);
-                                model.render._injectValues(widget);
+                                model.render.injectValues(widget);
                             });
                             originalRow.parentElement.appendChild(row);
                         });

@@ -29,26 +29,20 @@
     nutforms.bind(document.getElementById("page"), "cs_CZ");
 &lt;/script&gt;
 &lt;/body&gt;</code></pre>
-        <p>HTML Page <span style="font-style: italic;">webapp/cs/seznam-zamestnancu.html</span></p>
-        <pre style="margin-top: 60px;"><code class="html">&lt;div &gt;
-    &lt;table nf-entity-list="cz.cvut.fel.nutforms.example.model.Employee"&gt;
-        &lt;thead&gt;
-        &lt;tr&gt;
-            &lt;th nf-field-label="id"&gt;&lt;/th&gt;
-            &lt;th nf-field-label="firstName"&gt;&lt;/th&gt;
-            &lt;th nf-field-label="lastName"&gt;&lt;/th&gt;
-        &lt;/tr&gt;
-        &lt;/thead&gt;
-        &lt;tbody&gt;
-        &lt;tr nf-entity-list-row="nf-entity-list-row"&gt;
-            &lt;td nf-field-widget="id"&gt;&lt;/td&gt;
-            &lt;td nf-field-widget="firstName"&gt;&lt;/td&gt;
-            &lt;td nf-field-widget="lastName"&gt;&lt;/td&gt;
-        &lt;/tr&gt;
-        &lt;/tbody&gt;
-    &lt;/table&gt;
-&lt;/div&gt;</code></pre>
-        <p>Used layout <span style="font-style: italic;">resources/layout/cz.cvut.fel.nutforms.example.model.Bug/edit.html</span></p>
+        <p>HTML stránka <span style="font-style: italic;">webapp/cs/seznam-zamestnancu.html</span></p>
+        <pre style="margin-top: 60px;"><code class="html">&lt;form class="form" role="form" nf-entity-form="nf-entity-form"&gt;
+    &lt;h1 nf-form-label="nf-form-label"&gt;&lt;/h1&gt;
+    &lt;div nf-field-iterator="2" class="col-md-6"&gt;
+        &lt;h4&gt;Editable fields:&lt;/h4&gt;
+        &lt;!-- 2 fields are rendered here --&gt;
+    &lt;/div&gt;
+    &lt;div nf-field-iterator="2" class="col-md-6"&gt;
+        &lt;h4&gt;Disabled fields:&lt;/h4&gt;
+        &lt;!-- another 2 fields are rendered here --&gt;
+    &lt;/div&gt;
+    &lt;hr&gt;
+&lt;/form&gt;</code></pre>
+        <p>Použitý layout <span style="font-style: italic;">resources/layout/cz.cvut.fel.nutforms.example.model.Bug/edit.html</span></p>
         <pre style="margin-top: 60px;"><code class="html">&lt;div class="form-group"&gt;
     &lt;label nf-field-widget-label="{attribute.name}" for="{attribute.name}"&gt;{attribute.formLabel}&lt;/label&gt;
     &lt;input nf-field-widget-value="{attribute.name}" class="form-control" id="{attribute.name}" name="{attribute.name}"

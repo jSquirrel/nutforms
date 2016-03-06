@@ -36,8 +36,8 @@ export default class FormInjector {
                     ValidatorFactory.addObservers(model, rules, locale);
 
                     form.innerHTML = model.render.generateHtml(form.parentElement.innerHTML);
-                    model.render._injectValues(form);
-                    model.render._bindListeners(form);
+                    model.render.injectValues(form);
+                    model.render.bindListeners(form);
                 }));
 
                 return Promise.all(promises);

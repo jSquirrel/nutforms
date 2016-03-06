@@ -37,8 +37,8 @@ export default class Render {
      *
      * @param {HTMLDocument} element
      */
-    bindValues(element) {
-        this.renderer._injectValues(element);
+    injectValues(element) {
+        this.renderer.injectValues(element);
     }
 
     /**
@@ -47,7 +47,7 @@ export default class Render {
      * @param {HTMLDocument} element
      */
     bindListeners(element) {
-        this.renderer._bindListeners(element);
+        this.renderer.bindListeners(element);
     }
 
 }

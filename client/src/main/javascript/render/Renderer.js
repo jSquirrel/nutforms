@@ -29,6 +29,20 @@ export default class Renderer {
     }
 
     /**
+     * Weaves Widgets into the layout document.
+     *
+     * @param {HTMLDocument} doc
+     * @private
+     */
+    _injectWidgets(doc) {
+        let entityForm = DOMHelper.findElementsWithAttribute(doc, "nf-entity-form").shift();
+        let usedAttributes = this._addExplicitWidgets(entityForm);
+        usedAttributes = this._addIteratorWidgets(usedAttributes, entityForm);
+        this._addRemainingWidgets(usedAttributes, entityForm);
+        entityForm.insertAdjacentHTML('beforeend', this.model.widgetFactory.loadSubmitWidget());
+    }
+
+    /**
      * Adds explicit widgets to the HTMLDocument.
      *
      * @param {Element} entityForm
@@ -37,13 +51,34 @@ export default class Renderer {
      */
     _addExplicitWidgets(entityForm) {
         let usedAttributes = [];
-        let explicitWidgets = DOMHelper.findElementsWithAttribute(entityForm, "nf-field-widget");
-        explicitWidgets.forEach((widget) => {
+        DOMHelper.findElementsWithAttribute(entityForm, "nf-field-widget").forEach((widget) => {
             let attribute = this.model.getAttribute(widget.getAttribute("nf-field-widget"));
             widget.innerHTML = this.model.widgetFactory.loadFieldWidget(attribute);
             usedAttributes.push(attribute.name);
-
         });
+        return usedAttributes;
+    }
+
+    _addIteratorWidgets(usedAttributes, entityForm) {
+        console.log("addIteratorWidgets() called");
+        DOMHelper.findElementsWithAttribute(entityForm, "nf-field-iterator").forEach((iterator) => {
+            let numberOfIterations = iterator.getAttribute("nf-field-iterator");
+            console.log("numberOfIterations", numberOfIterations);
+            let i = 0;
+            for (var attributeName in this.model.attributes) {
+                if (i >= numberOfIterations) {
+                    break;
+                }
+                let attribute = this.model.attributes[attributeName];
+                if (usedAttributes.find(x => x == attributeName) !== undefined) {
+                    continue;
+                }
+                iterator.insertAdjacentHTML('beforeend', this.model.widgetFactory.loadFieldWidget(attribute));
+                usedAttributes.push(attributeName);
+                i++;
+            }
+        });
+
         return usedAttributes;
     }
 
@@ -66,26 +101,11 @@ export default class Renderer {
     }
 
     /**
-     * Weaves Widgets into the layout document.
-     *
-     * @param {HTMLDocument} doc
-     * @private
-     */
-    _injectWidgets(doc) {
-        let entityForms = DOMHelper.findElementsWithAttribute(doc, "nf-entity-form");
-        let entityForm = entityForms.shift();
-        var usedAttributes = this._addExplicitWidgets(entityForm);
-        this._addRemainingWidgets(usedAttributes, entityForm);
-        entityForm.insertAdjacentHTML('beforeend', this.model.widgetFactory.loadSubmitWidget());
-    }
-
-    /**
      * Injects model values & labels to the inputs.
      *
      * @param {HTMLDocument} doc
-     * @private
      */
-    _injectValues(doc) {
+    injectValues(doc) {
 
         // Inject values
         DOMHelper.findElementsWithAttribute(doc, "nf-field-widget-value").forEach((value) => {
@@ -113,9 +133,8 @@ export default class Renderer {
      * Binds model listeners to the inputs.
      *
      * @param {HTMLDocument} doc
-     * @private
      */
-    _bindListeners(doc) {
+    bindListeners(doc) {
         // Bind values listeners
         DOMHelper.findElementsWithAttribute(doc, "nf-field-widget-value").forEach((value) => {
             let attributeName = value.getAttribute("nf-field-widget-value");
