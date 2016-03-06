@@ -25,7 +25,40 @@
     </div>
 
     <div class="col-md-9" style="margin-bottom: 60px;">
-        <h2>Použití layoutů</h2>
+
+        <h2>Definice modelu</h2>
+        <p>Definujte svůj Java Persistence model na jednom místě.</p>
+        <pre style="margin-top: 20px;"><code class="java">
+package cz.cvut.fel.nutforms.example.model;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+
+
+@Entity
+public class Bug {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column
+    private String description;
+
+    @Column
+    private String log;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Project project;
+
+    // Constructor, getters, setters ...
+
+}</code></pre>
+
+
+        <h2 style="margin-top: 80px;">Použití layoutů</h2>
         <p>Definujte si layouty a použijte je ve svých HTML stránkách.</p>
         <pre style="margin-top: 20px;"><code class="html">&lt;form nf-entity-form="cz.cvut.fel.nutforms.example.model.Bug:new"&gt;
     &lt;h1 nf-form-label="nf-form-label"&gt;&lt;/h1&gt;
