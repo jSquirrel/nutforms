@@ -30,7 +30,7 @@ export default class WidgetFactory {
         let widgetName = this._callWidgetMappingFunction(this.model, attribute);
         let widgetString = this.apiHandler.fetchWidget(widgetName);
 
-        // TODO: use some domain language
+        // TODO: Improvement: use some domain language
 
         widgetString = widgetString.replace(new RegExp('{attribute.name}', 'g'), attribute.name);
         widgetString = widgetString.replace(new RegExp('{attribute.formLabel}', 'g'), attribute.getFormLabel());

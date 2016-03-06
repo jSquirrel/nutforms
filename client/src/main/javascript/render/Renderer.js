@@ -151,7 +151,8 @@ export default class Renderer {
                 EntityFormActions.fieldSaved(attribute, attributeName, value.value);
             }, false);
 
-            // Adding model listeners TODO: move to standalone class which will be readable for @ondrakrat
+            // Adding model listeners
+            // TODO: Improvement: move to standalone class which will be readable for @ondrakrat
             attribute.listen(AttributeActions.ATTRIBUTE_VALIDATED, (attr) => {
 
                 let infos = [];
@@ -187,7 +188,7 @@ export default class Renderer {
         let submits = DOMHelper.findElementsWithAttribute(doc, "nf-submit");
         let model = this.model;
         if (submits.length > 0) {
-            let submit = submits.shift(); // TODO: what about other submits?
+            let submit = submits.shift(); // TODO: Improvement: what about other submits?
             submit.addEventListener("click", (e) => {
                 e.preventDefault();
 

@@ -122,7 +122,7 @@ export default class ApiHandler {
      * @returns {string}
      */
     fetchWidget(name) {
-        // TODO: make this asynchronous
+        // TODO: Improvement: make this asynchronous
         var request = new XMLHttpRequest();
         request.open('GET', this._buildUrl(this.WIDGET_ENDPOINT + name), false);  // `false` makes the request synchronous
         request.send(null);
@@ -135,7 +135,7 @@ export default class ApiHandler {
      * @returns {string}
      */
     fetchWidgetMapping() {
-        // TODO: make this asynchronous
+        // TODO: Improvement: make this asynchronous
         var request = new XMLHttpRequest();
         request.open('GET', this._buildUrl(this.WIDGET_MAPPING_ENDPOINT), false);  // `false` makes the request synchronous
         request.send(null);
