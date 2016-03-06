@@ -1,24 +1,24 @@
-import LayoutParser from './../layout/LayoutParser.js'
+import Renderer from './../render/Renderer.js'
 
-export default class Renderable {
+export default class Render {
 
     /**
      * Layout constructor.
      */
     constructor() {
         this.model = {};
-        this.layoutParser = {};
+        this.renderer = {};
     }
 
     /**
      * Binds model to the Layout.
      *
      * @param {Model} model
-     * @return {Renderable} this
+     * @return {Render} this
      */
     bind(model) {
         this.model = model;
-        this.layoutParser = new LayoutParser(model);
+        this.renderer = new Renderer(model);
         return this;
     }
 
@@ -28,7 +28,7 @@ export default class Renderable {
      * @returns {string}
      */
     generateHtml(layoutString) {
-        let dom = this.layoutParser.parse(layoutString);
+        let dom = this.renderer.parse(layoutString);
         return new XMLSerializer().serializeToString(dom);
     }
 
@@ -38,7 +38,7 @@ export default class Renderable {
      * @param {HTMLDocument} element
      */
     bindValues(element) {
-        this.layoutParser.bindValues(element);
+        this.renderer._injectValues(element);
     }
 
     /**
@@ -47,7 +47,7 @@ export default class Renderable {
      * @param {HTMLDocument} element
      */
     bindListeners(element) {
-        this.layoutParser.bindListeners(element);
+        this.renderer._bindListeners(element);
     }
 
 }

@@ -3,9 +3,11 @@ import ModelFactory from './../model/ModelFactory.js';
 import ValidatorFactory from './../validation/ValidatorFactory.js';
 
 
-export default class ListWeaver {
+export default class ListInjector {
 
-    static weave(doc, apiHandler, locale) {
+
+    static inject(doc, apiHandler, locale) {
+        let promises = [];
         let lists = DOMHelper.findElementsWithAttribute(doc, "nf-entity-list");
         lists.forEach((list) => {
             let className = list.getAttribute("nf-entity-list");
@@ -15,9 +17,9 @@ export default class ListWeaver {
                 let localization = results[1];
                 let modelFactory = new ModelFactory();
 
-                apiHandler.fetchList(className).then((entities) => {
+                promises.push(apiHandler.fetchList(className).then((entities) => {
                     let model = modelFactory.create(className, "list", null, metadata, localization, {}, apiHandler);
-                    ListWeaver._weaveLabels(list, model);
+                    ListInjector._injectLabels(list, model);
 
                     let rows = DOMHelper.findElementsWithAttribute(list, "nf-entity-list-row");
                     rows.forEach((originalRow) => {
@@ -28,18 +30,27 @@ export default class ListWeaver {
                             widgets.forEach((widget) => {
                                 let attribute = model.getAttribute(widget.getAttribute("nf-field-widget"));
                                 widget.innerHTML = model.widgetFactory.loadFieldWidget(attribute);
-                                model.layout.bindValues(widget);
+                                model.render._injectValues(widget);
                             });
                             originalRow.parentElement.appendChild(row);
                         });
                         originalRow.parentElement.removeChild(originalRow); // Removes itself when not needed
                     });
-                });
+                }));
             });
         });
+
+        return Promise.all(promises);
     }
 
-    static _weaveLabels(list, model) {
+    /**
+     * Injects labels into the list header.
+     *
+     * @param list
+     * @param model
+     * @private
+     */
+    static _injectLabels(list, model) {
         let fieldLabels = DOMHelper.findElementsWithAttribute(list, "nf-field-label");
         fieldLabels.forEach((fieldLabel) => {
             let attributeName = fieldLabel.getAttribute("nf-field-label");

@@ -1,5 +1,5 @@
 import Observable from './Observable.js';
-import Layout from './Layout.js';
+import Render from './Render.js';
 import * as ModelActions from './../constants/ModelActions.js';
 
 
@@ -28,7 +28,7 @@ export default class Model extends Observable {
         this.localization = localization;
         this.validation = validation.bind(this);
         this.submit = submit.bind(this);
-        this.layout = new Layout().bind(this);
+        this.render = new Render().bind(this);
         this.widgetFactory = widgetFactory.bind(this);
     }
 

@@ -24,7 +24,7 @@ export default class Renderer {
     parse(layoutString) {
         let parser = new DOMParser();
         let doc = parser.parseFromString(layoutString, "text/html");
-        this.weaveWidgets(doc);
+        this._injectWidgets(doc);
         return doc;
     }
 
@@ -33,16 +33,17 @@ export default class Renderer {
      *
      * @param {Element} entityForm
      * @returns {Array}
+     * @private
      */
     _addExplicitWidgets(entityForm) {
         let usedAttributes = [];
         let explicitWidgets = DOMHelper.findElementsWithAttribute(entityForm, "nf-field-widget");
-        for (var i = 0, n = explicitWidgets.length; i < n; i++) {
-            let widget = explicitWidgets[i];
+        explicitWidgets.forEach((widget) => {
             let attribute = this.model.getAttribute(widget.getAttribute("nf-field-widget"));
             widget.innerHTML = this.model.widgetFactory.loadFieldWidget(attribute);
             usedAttributes.push(attribute.name);
-        }
+
+        });
         return usedAttributes;
     }
 
@@ -51,6 +52,7 @@ export default class Renderer {
      *
      * @param {string[]} usedAttributes
      * @param {Element} entityForm
+     * @private
      */
     _addRemainingWidgets(usedAttributes, entityForm) {
         // Add remaining/implicit widgets
@@ -67,8 +69,9 @@ export default class Renderer {
      * Weaves Widgets into the layout document.
      *
      * @param {HTMLDocument} doc
+     * @private
      */
-    weaveWidgets(doc) {
+    _injectWidgets(doc) {
         let entityForms = DOMHelper.findElementsWithAttribute(doc, "nf-entity-form");
         let entityForm = entityForms.shift();
         var usedAttributes = this._addExplicitWidgets(entityForm);
@@ -77,67 +80,44 @@ export default class Renderer {
     }
 
     /**
-     * Binds model values & labels to the inputs.
+     * Injects model values & labels to the inputs.
      *
      * @param {HTMLDocument} doc
+     * @private
      */
-    bindValues(doc) {
+    _injectValues(doc) {
 
-        // Bind values
-        let values = DOMHelper.findElementsWithAttribute(doc, "nf-field-widget-value");
-        for (var k = 0, o = values.length; k < o; k++) {
-            let value = values[k];
+        // Inject values
+        DOMHelper.findElementsWithAttribute(doc, "nf-field-widget-value").forEach((value) => {
             let attributeName = value.getAttribute("nf-field-widget-value");
             let attribute = this.model.getAttribute(attributeName);
             let attributeValue = attribute.value;
             if (attributeValue != null) {
                 value.setAttribute("value", attributeValue);
             }
-        }
-
-        // Bind labels
-        let labels = DOMHelper.findElementsWithAttribute(doc, "nf-field-widget-label");
-        for (var i = 0, n = labels.length; i < n; i++) {
-            let label = labels[i];
-            let attributeName = label.getAttribute("nf-field-widget-label");
-            label.innerHTML = this.model.getAttribute(attributeName).getFormLabel();
-        }
-
-        // Bind form labels
-        let formLabels = DOMHelper.findElementsWithAttribute(doc, "nf-form-label");
-        formLabels.forEach((formLabel) => {
-            formLabel.innerHTML = this.model.getFormLabel();
         });
 
-        // Bind hrefs
-        //let hrefs = DOMHelper.findElementsWithAttribute(doc, "nf-href");
-        //console.log("doc", doc);
-        //console.log("hrefs", hrefs);
-        //if (hrefs.length > 0) {
-        //    hrefs.forEach((href) => {
-        //        let nfHrefValue = href.getAttribute("nf-href");
-        //        let innerHrefs = DOMHelper.findElementsWithAttribute(href, "href");
-        //        console.log("inner hrefs", innerHrefs);
-        //        innerHrefs.forEach((innerHref) => {
-        //            let hrefValue = innerHref.getAttribute("href");
-        //            hrefValue = hrefValue.replace(new RegExp('{href}', 'g'), nfHrefValue);
-        //            console.log("hrefValue", hrefValue);
-        //            innerHref.setAttribute("href", hrefValue);
-        //        });
-        //    });
-        //}
+        // Inject labels
+        DOMHelper.findElementsWithAttribute(doc, "nf-field-widget-label").forEach((label) => {
+            let attributeName = label.getAttribute("nf-field-widget-label");
+            label.innerHTML = this.model.getAttribute(attributeName).getFormLabel();
+        });
+
+        // Inject form labels
+        DOMHelper.findElementsWithAttribute(doc, "nf-form-label").forEach((formLabel) => {
+            formLabel.innerHTML = this.model.getFormLabel();
+        });
     }
 
     /**
      * Binds model listeners to the inputs.
      *
      * @param {HTMLDocument} doc
+     * @private
      */
-    bindListeners(doc) {
+    _bindListeners(doc) {
         // Bind values listeners
-        let values = DOMHelper.findElementsWithAttribute(doc, "nf-field-widget-value");
-        for (var k = 0, o = values.length; k < o; k++) {
-            let value = values[k];
+        DOMHelper.findElementsWithAttribute(doc, "nf-field-widget-value").forEach((value) => {
             let attributeName = value.getAttribute("nf-field-widget-value");
             let attribute = this.model.getAttribute(attributeName);
 
@@ -152,7 +132,7 @@ export default class Renderer {
                 EntityFormActions.fieldSaved(attribute, attributeName, value.value);
             }, false);
 
-            // Adding model listeners
+            // Adding model listeners TODO: move to standalone class which will be readable for @ondrakrat
             attribute.listen(AttributeActions.ATTRIBUTE_VALIDATED, (attr) => {
 
                 let infos = [];
@@ -183,7 +163,7 @@ export default class Renderer {
                         + messages + "</div>");
                 }
             });
-        }
+        });
 
         let submits = DOMHelper.findElementsWithAttribute(doc, "nf-submit");
         let model = this.model;
