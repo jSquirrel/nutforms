@@ -13,17 +13,24 @@ export default class ValidatorFactory {
      */
     static addObservers(model, rules, locale) {
         rules.forEach(rule => {
-            let fieldNames = this.getFields(rule.condition);
-            if (fieldNames.length === 0) {
-                return;
-            }
-            let attributes = [];
-            fieldNames.forEach(name => attributes.push(model.getAttribute(name)));
-            let validator = this.createFunction(model, attributes, rule, locale);
-            if (validator) {
-                // toDo: distinguish events
-                // toDo: also add validators to Relations
-                attributes.forEach(attribute => attribute.listen(AttributeActions.VALUE_CHANGED, validator));   // toDo: change event
+            if (rule.hasOwnProperty("condition")) {
+                let fieldNames = this.getFields(rule.condition);
+                if (fieldNames.length === 0) {
+                    return;
+                }
+                let isModelRelated = this.isModelRelated(rule.condition);
+                let attributes = [];
+                fieldNames.forEach(name => attributes.push(model.getAttribute(name)));
+                let validator = this.createFunction(model, isModelRelated ? [model] : attributes, rule, locale);
+                if (validator) {
+                    // toDo: distinguish events
+                    // toDo: also add validators to Relations
+                    if (isModelRelated) {
+                        model.listen(ModelActions.SUBMITTED, validator);
+                    } else {
+                        attributes.forEach(attribute => attribute.listen(AttributeActions.VALUE_CHANGED, validator));
+                    }
+                }
             }
         })
     }
@@ -37,25 +44,23 @@ export default class ValidatorFactory {
      * @param {string} locale
      */
     static createFunction(model, observables, rule, locale) {
-        if (rule.hasOwnProperty("condition")) {
-            // get the first word, i.e. sequence of letters separated by non-letter
-            var that = this;
-            return function (args) {
-                var declaration = that.declareVariables(model);
-                // cannot declare with 'let' keyword, otherwise the variable in anonymous function would evaluate as false
-                console.log(declaration + that.rewriteCondition(rule.condition));
-                var evalResult = eval(declaration + that.rewriteCondition(rule.condition));
-                let url = document.location.origin + '/';
-                let apiHandler = new ApiHandler(url, 'admin', '1234');
-                apiHandler.fetchLocalization(locale, `rule/${rule.pckg}`).then((data) => {
-                    observables.forEach(observable => observable.validation.update({
-                        rule: rule.name,
-                        errors: evalResult ? null : data[rule.name],
-                        info: null
-                    }));
-                });
-                return evalResult;
-            }
+        // get the first word, i.e. sequence of letters separated by non-letter
+        var that = this;
+        return function (args) {
+            var declaration = that.declareVariables(model);
+            // cannot declare with 'let' keyword, otherwise the variable in anonymous function would evaluate as false
+            console.log(declaration + that.rewriteCondition(rule.condition));
+            var evalResult = eval(declaration + that.rewriteCondition(rule.condition));
+            let url = document.location.origin + '/';
+            let apiHandler = new ApiHandler(url, 'admin', '1234');
+            apiHandler.fetchLocalization(locale, `rule/${rule.pckg}`).then((data) => {
+                observables.forEach(observable => observable.validation.update({
+                    rule: rule.name,
+                    errors: evalResult ? null : data[rule.name],
+                    info: null
+                }));
+            });
+            return evalResult;
         }
     }
 
@@ -120,12 +125,22 @@ export default class ValidatorFactory {
             }
             let rest = split.slice(3 + skip, split.length);
             Array.prototype.splice.apply(split, [3, split.length].concat(rest));    // split.length is used to ensure that the array is filled whole (and can be shortened after this)
-            //split.length = 3;   // toDo: fix for composite rules (and/or)
             split[matchesIndex + 1] = split[matchesIndex - 1] + ')';    // matches the opening bracket of 'test('
             split[matchesIndex - 1] = regex.replace(/"/g, '/');  // globally replace quotes by slashes (RegExp notation)
             split[matchesIndex] = '.test(';
             rewritten = split.join(' ');
         }
         return rewritten;
+    }
+
+    /**
+     * Returns <code>true</code> if the rule with given condition should be treated as a model-related rule, instead
+     * of being bound to individual fields
+     *
+     * @param {string} condition condition of the rule
+     * @returns {boolean} true if the rule is model-related
+     */
+    static isModelRelated(condition) {
+        return condition.indexOf('||') > -1 || condition.indexOf('OR') > -1;
     }
 }

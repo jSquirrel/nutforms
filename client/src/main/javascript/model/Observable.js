@@ -66,4 +66,13 @@ export default class Observable {
         });
     }
 
+    /**
+     * Checks, whether this object has any observers registered for given event
+     *
+     * @param {string} eventName the name of the event
+     * @returns {boolean} eventName <code>true</code> if this object has one or more observers for given event
+     */
+    hasObserver(eventName) {
+        return this._observers.hasOwnProperty(eventName) && this._observers[eventName].length > 0;
+    }
 };

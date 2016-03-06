@@ -12,7 +12,7 @@ end
 
 rule "[Bug] Is log filled in"
     when
-        Bug(log != null && log.length > 0)
+        Bug(log != null && log.trim().length > 0)   // trim() should be valid in Drools
     then
 end
 

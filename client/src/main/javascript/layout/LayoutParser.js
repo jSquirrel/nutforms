@@ -135,22 +135,7 @@ export default class Renderer {
 
             // Adding model listeners
             attribute.listen(AttributeActions.ATTRIBUTE_VALIDATED, (attr) => {
-
-                let infos = [];
-                for (let info in attr.validation.info) {
-                    if (attr.validation.info.hasOwnProperty(info)) {
-                        infos.push("<div class=\"validation-error\">" + attr.validation.info[info] + "</div>");
-                    }
-                }
-
-                let errors = [];
-                for (let error in attr.validation.errors) {
-                    if (attr.validation.errors.hasOwnProperty(error)) {
-                        infos.push("<div class=\"validation-error\">" + attr.validation.errors[error] + "</div>");
-                    }
-                }
-
-                let messages = infos.join("\n") + errors.join("\n");
+                let messages = this.createErrors(attr);
 
                 let errorFields = DOMHelper.findElementsWithAttribute(value.parentElement, "nf-field-widget-errors");
                 if (errorFields.length > 0) {
@@ -191,7 +176,47 @@ export default class Renderer {
             model.listen(ModelActions.SUBMIT_FAILED, (model, result) => {
                 submit.setAttribute("value", model.getSubmitFailedValue());
             });
+            model.listen(ModelActions.VALIDATED, (model) => {
+                let formLabel = DOMHelper.findElementsWithAttribute(doc, 'nf-form-label')[0];
+                let messages = this.createErrors(model);
+
+                let errorFields = DOMHelper.findElementsWithAttribute(formLabel.parentElement, "nf-model-widget-errors");
+                if (errorFields.length > 0) {
+                    errorFields.forEach((field) => {
+                        // Add validation messages to each nf-field-widget-errors container
+                        field.innerHTML = messages;
+                    });
+                } else {
+                    // If there is no nf-field-widget-errors container, create one
+                    formLabel.insertAdjacentHTML("afterend", "<div nf-model-widget-errors>"
+                        + messages + "</div>");
+                }
+            })
         }
+    }
+
+    /**
+     * Creates HTML elements containing error messages to the given Observable object.
+     *
+     * @param {Observable} observable object to which the messages will be related (Model/Attribute)
+     * @returns {string} list of HTML elements with errors
+     */
+    createErrors(observable) {
+        let infos = [];
+        for (let info in observable.validation.info) {
+            if (observable.validation.info.hasOwnProperty(info)) {
+                infos.push("<div class=\"validation-error\">" + observable.validation.info[info] + "</div>");
+            }
+        }
+
+        let errors = [];
+        for (let error in observable.validation.errors) {
+            if (observable.validation.errors.hasOwnProperty(error)) {
+                infos.push("<div class=\"validation-error\">" + observable.validation.errors[error] + "</div>");
+            }
+        }
+
+        return infos.join("\n") + errors.join("\n");
     }
 
 }
