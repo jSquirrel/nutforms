@@ -1,6 +1,8 @@
 import * as AttributeActions from './../constants/AttributeActions.js';
 import * as ModelActions from './../constants/ModelActions.js';
+import * as AttributeState from './AttributeState.js';
 import ApiHandler from '../api/ApiHandler.js';
+import CollectionHelper from './../helper/CollectionHelper.js';
 
 export default class ValidatorFactory {
 
@@ -51,6 +53,7 @@ export default class ValidatorFactory {
             // cannot declare with 'let' keyword, otherwise the variable in anonymous function would evaluate as false
             console.log(declaration + that.rewriteCondition(rule.condition));
             var evalResult = eval(declaration + that.rewriteCondition(rule.condition));
+            that.updateAttributeStatus(args, observables, !!evalResult);
             let url = document.location.origin + '/';
             let apiHandler = new ApiHandler(url, 'admin', '1234');
             apiHandler.fetchLocalization(locale, `rule/${rule.pckg}`).then((data) => {
@@ -142,5 +145,42 @@ export default class ValidatorFactory {
      */
     static isModelRelated(condition) {
         return condition.indexOf('||') > -1 || condition.indexOf('OR') > -1;
+    }
+
+    /**
+     * Updates the AttributeState of given attributes according to the result of validation function
+     *
+     * @param {Observable} observable component on which the function was triggered
+     * @param {Array.<Attribute>} attributes all attributes related to current rule
+     * @param {boolean} valid <code>true</code> if the rule was evaluated as true with current form values
+     */
+    static updateAttributeStatus(observable, attributes, valid) {
+        // is state attribute defined - filters out Model related rules, all fields are
+        if (attributes.length === 1 && !!attributes[0].state) {
+            console.log(`${attributes[0].name} state changing from ${attributes[0].state}...`);
+            if (attributes[0].state !== AttributeState.INVALID) {   // if it's invalid, keep it that way (every change should set state to PENDING)
+                attributes[0].state = valid ? AttributeState.VALID : AttributeState.INVALID;
+            }
+            console.log(`...to ${attributes[0].state}`)
+        } else if (attributes.length > 1) { // multi-field rule
+            // untouched attributes
+            let indexes = CollectionHelper.findWithAttribute(attributes, 'state', AttributeState.UNTOUCHED);
+            // are there no untouched fields, or the only untouched is current attribute (trigger of this event)
+            let isAloneUntouched = indexes.length === 0 || (indexes.length === 1 && indexes[0] === (attributes.indexOf(observable)));
+            attributes.forEach(attr => {
+                // if the rule is triggered on Model, name is undefined -> always false
+                // Model rules are triggered only on submit, thus attributes should not have status BLOCKED after this
+                if (isAloneUntouched) { // set valid/invalid to all fields...
+                    console.log(`${attr.name} state changing from ${attr.state}...`);
+                    if (attr.state !== AttributeState.INVALID) {
+                        attr.state = valid ? AttributeState.VALID : AttributeState.INVALID;
+                    }
+                    console.log(`...to ${attr.state}`);
+                } else if (attr.name === observable.name) { // ...or set current to blocked
+                    console.log(`${attr.name} state changed from ${attr.state} to BLOCKED`);
+                    attr.state = AttributeState.BLOCKED;
+                }
+            })
+        }
     }
 }

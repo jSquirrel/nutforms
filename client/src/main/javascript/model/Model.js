@@ -93,9 +93,7 @@ export default class Model extends Observable {
         Object.keys(values).forEach((key) => {
             this.getAttribute(key).setValue(values[key]);   // invokes field-changed
         });
-        console.log('values set');
         this.trigger(ModelActions.SUBMITTED, this);
-        console.log('SUBMITTED event triggered');
         // toDo: if the model has SUBMITTED observers that od not trigger VALIDATED, the form wont be submitted
         // toDo: also, multiple model-related rules might not be evaluated correctly (fist passes/second does not)
         if (!this.hasObserver(ModelActions.SUBMITTED)) {    // if there are no model observers, fire the event manually
@@ -114,8 +112,8 @@ export default class Model extends Observable {
     hasErrors() {
         let errors = false;
         Object.keys(this.attributes).forEach((attr) => errors |= this.getAttribute(attr).hasErrors());
-        Object.keys(this.relations).forEach((relation) => errors |= this.getRelation(relation).hasErrors());
-        errors |= this.validation.hasErrors();
+        //Object.keys(this.relations).forEach((relation) => errors |= this.getRelation(relation).hasErrors());
+        errors |= this.validation.hasErrors();  // toDo: probably also add state
         return errors;
     }
 
@@ -124,14 +122,12 @@ export default class Model extends Observable {
      */
     validated() {
         this.trigger(ModelActions.VALIDATED, this);
-        console.log('VALIDATED event triggered');
     }
 
     /**
      * Checks, if the model is valid and if so, triggers ModelActions.VALID event
      */
     update() {
-        console.log('Model.update triggered');
         if (!this.hasErrors()) {
             this.trigger(ModelActions.VALID, this);
         }

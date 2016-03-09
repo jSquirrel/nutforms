@@ -31,7 +31,6 @@ export default class Validation {
      * @param {object} feedback response object received after validation
      */
     update(feedback) {
-        console.log('Validation.update triggered');
         this.errors = Validation._updateValidationState(this.errors, feedback.errors, feedback.rule);
         this.info = Validation._updateValidationState(this.info, feedback.info, feedback.rule);
         this.observable.validated();

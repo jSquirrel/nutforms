@@ -202,7 +202,7 @@ export default class Renderer {
      * @returns {string} list of HTML elements with errors
      */
     createErrors(observable) {
-        let infos = [];
+        let infos = [];  // "<div class=\"validation-error\">" + observable.state + "</div>"
         for (let info in observable.validation.info) {
             if (observable.validation.info.hasOwnProperty(info)) {
                 infos.push("<div class=\"validation-error\">" + observable.validation.info[info] + "</div>");

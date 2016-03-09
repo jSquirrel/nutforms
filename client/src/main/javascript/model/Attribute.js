@@ -1,5 +1,6 @@
 import Observable from './Observable.js';
 import * as AttributeActions from './../constants/AttributeActions.js';
+import * as AttributeState from './../validation/AttributeState.js';
 
 export default class Attribute extends Observable {
 
@@ -21,6 +22,7 @@ export default class Attribute extends Observable {
         this.localization = localization;
         this.validation = validation.bind(this);
         this._isPrimary = isPrimary;
+        this.state = AttributeState.UNTOUCHED;
     }
 
     /**
@@ -30,7 +32,11 @@ export default class Attribute extends Observable {
      */
     setValue(value) {
         this.value = value;
+        this.state = AttributeState.PENDING;
         this.trigger(AttributeActions.VALUE_CHANGED, this);
+        if (!this.hasObserver(AttributeActions.VALUE_CHANGED)) {
+            this.state = AttributeState.VALID;
+        }
     }
 
     /**
@@ -57,7 +63,8 @@ export default class Attribute extends Observable {
      * @returns {boolean}
      */
     hasErrors() {
-        return this.validation.hasErrors();
+        //return this.validation.hasErrors();
+        return this.state !== AttributeState.VALID;
     }
 
     /**
