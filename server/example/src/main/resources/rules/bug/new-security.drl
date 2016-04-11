@@ -1,0 +1,14 @@
+package cz.cvut.fel.nutforms.example.model.Bug.new;
+
+import cz.cvut.fel.nutforms.example.model.Bug;
+
+dialect  "mvel"
+
+// field access test
+rule "[Security][Bug] Is editable"
+    when
+        Bug($description : description)
+        Bug($log : log)
+        eval(true)
+    then
+end

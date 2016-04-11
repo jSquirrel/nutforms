@@ -4,13 +4,16 @@ import * as AttributeState from './AttributeState.js';
 import ApiHandler from '../api/ApiHandler.js';
 import CollectionHelper from './../helper/CollectionHelper.js';
 
+// toDo: rename to RuleFactory
 export default class ValidatorFactory {
+
+    // toDo: move some methods to ValidationHelper
 
     /**
      * Adds validation observers to suitable field events of the model
      *
      * @param {Model} model
-     * @param {object} rules
+     * @param {Array.<object>} rules
      * @param {string} locale
      */
     static addObservers(model, rules, locale) {
@@ -65,6 +68,28 @@ export default class ValidatorFactory {
             });
             return evalResult;
         }
+    }
+
+    /**
+     * Evaluates given security rules and disables appropriate fields for violated conditions
+     *
+     * @param {Array.<object>} securityRules security rules for current context
+     * @param {object} dom
+     */
+    static disableFields(securityRules, dom) {
+        securityRules.forEach(rule => {
+            let declarations = [];
+            Object.keys(rule.declarations).forEach(declaration => declarations.push(rule.declarations[declaration].field));
+            if (!eval(rule.condition)) {
+                declarations.forEach(declaration => {
+                    let elements = dom.getElementsByName(declaration);
+                    for (let i = 0; i < elements.length; ++i) {
+                        elements[i].disabled = true;
+                    }
+                });
+            }
+        });
+        return dom;
     }
 
     /**

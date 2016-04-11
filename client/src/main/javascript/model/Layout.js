@@ -25,10 +25,18 @@ export default class Renderable {
     /**
      * Generates HTML of the layout and binds the listeners.
      *
-     * @returns {string}
+     * @returns {object}
      */
     generateHtml(layoutString) {
-        let dom = this.layoutParser.parse(layoutString);
+        return this.layoutParser.parse(layoutString);
+    }
+
+    /**
+     * Serializes given DOM into a string
+     * @param dom dom structure
+     * @returns {string} dom structure serialized into a string
+     */
+    serializeHtml(dom) {
         return new XMLSerializer().serializeToString(dom);
     }
 

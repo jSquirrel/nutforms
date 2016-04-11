@@ -1,6 +1,7 @@
 import DOMHelper from './../helper/DOMHelper.js';
 import ModelFactory from './../model/ModelFactory.js';
 import ValidatorFactory from './../validation/ValidatorFactory.js';
+import ContextRules from './../validation/ContextRules.js';
 
 
 export default class FormWeaver {
@@ -21,14 +22,15 @@ export default class FormWeaver {
             apiHandler.fetchMetadataFor(className, context, locale).then((results) => {
                 let metadata = results[0];
                 let localization = results[1];
-                let rules = results[2];
+                let rules = new ContextRules(results[2], context);
 
                 apiHandler.fetchDataFor(className, entityId).then((data) => {
                     let modelFactory = new ModelFactory();
                     let model = modelFactory.create(className, context, entityId, metadata, localization, data, apiHandler);
-                    ValidatorFactory.addObservers(model, rules, locale);
+                    ValidatorFactory.addObservers(model, rules.validationRules(), locale);
 
-                    form.innerHTML = model.layout.generateHtml(form.parentElement.innerHTML);
+                    let dom = model.layout.generateHtml(form.parentElement.innerHTML);
+                    form.innerHTML = model.layout.serializeHtml(ValidatorFactory.disableFields(rules.securityRules(), dom));
                     model.layout.bindValues(form);
                     model.layout.bindListeners(form);
                 });
