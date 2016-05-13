@@ -4,7 +4,7 @@ import * as AttributeState from './AttributeState.js';
 import ApiHandler from '../api/ApiHandler.js';
 import CollectionHelper from './../helper/CollectionHelper.js';
 
-// toDo: rename to RuleFactory
+// toDo: rename to RuleFactory/RuleWeaver
 export default class ValidatorFactory {
 
     // toDo: move some methods to ValidationHelper

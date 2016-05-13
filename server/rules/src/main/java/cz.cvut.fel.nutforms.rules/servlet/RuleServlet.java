@@ -5,6 +5,7 @@ import cz.cvut.fel.nutforms.rules.inspection.Inspector;
 import cz.cvut.fel.nutforms.rules.metamodel.Rule;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
+import org.kie.api.definition.KiePackage;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.StatelessKieSession;
 
@@ -23,25 +24,29 @@ import java.util.Set;
  */
 public class RuleServlet extends HttpServlet {
 
-    private final Map<String, Set<Rule>> rules;
+    private final Inspector inspector;
+    private final Map<String, KiePackage> contexts;
 
     public RuleServlet() {
-        Inspector inspector = new Inspector();
+        inspector = new Inspector();
         KieServices kieServices = KieServices.Factory.get();
         // returns default session
         StatelessKieSession kieSession = kieServices.getKieClasspathContainer().newStatelessKieSession();
         KieBase kieBase = kieSession.getKieBase();
-        this.rules = inspector.inspectBase(kieBase);
+        this.contexts = inspector.getPackages(kieBase);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // toDo: set HTTP statuses
         String context = req.getPathInfo();
         if (context == null || context.isEmpty()) {
             resp.getWriter().write("Please specify a package/context.");
+        } else if (!contexts.containsKey(context.substring(1).replaceAll("/", "."))) {
+            resp.getWriter().write("No such context is available.");
         } else {
-            Set<Rule> requestedRules = rules.get(context.substring(1).replaceAll("/", "."));
-            resp.getWriter().write(requestedRules == null ?
+            Set<Rule> requestedRules = inspector.inspectPackage(contexts.get(context.substring(1).replaceAll("/", ".")));
+            resp.getWriter().write(requestedRules == null || requestedRules.isEmpty() ?
                     String.format("No rules found in package %s", context) : new Gson().toJson(requestedRules));
         }
     }

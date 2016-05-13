@@ -16,6 +16,7 @@ import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.definition.KiePackage;
 import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -143,8 +144,8 @@ public class Inspector {
      * Inspects packages in given {@link KieBase} and returns a map, where key is package name and
      * value is a set of {@link Rule}s from that package.
      *
-     * @param kieBase
-     * @return
+     * @param kieBase KieBase to be inspected
+     * @return map of rule sets identified by name of the context
      */
     public Map<String, Set<Rule>> inspectBase(KieBase kieBase) {
         Map<String, Set<Rule>> rulesMap = new HashMap<>();
@@ -154,6 +155,22 @@ public class Inspector {
                 if (rules.size() > 0) {
                     rulesMap.put(kiePackage.getName(), rules);
                 }
+            }
+        }
+        return rulesMap;
+    }
+
+    /**
+     * Identifies available contexts and returns a map of them for further inspection.
+     *
+     * @param kieBase KieBase to be inspected
+     * @return map of packages identified by name of the context
+     */
+    public Map<String, KiePackage> getPackages(KieBase kieBase) {
+        Map<String, KiePackage> rulesMap = new HashMap<>();
+        if (kieBase.getKiePackages().size() > 0) {
+            for (KiePackage kiePackage : kieBase.getKiePackages()) {
+                rulesMap.put(kiePackage.getName(), kiePackage);
             }
         }
         return rulesMap;

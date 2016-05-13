@@ -40,7 +40,7 @@ export default class ModelFactory {
             attributes,
             relations,
             modelLocalization,
-            new Validation,
+            new Validation(),
             submit,
             widgetFactory
         );
